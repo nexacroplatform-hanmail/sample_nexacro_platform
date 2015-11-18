@@ -75,14 +75,6 @@ this.btn_reset_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 	
 	this.killTimer(0);
 	
-}
-
-
-/* 샘플 리스트로 이동 */
-this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
-{	
-	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
-	
 }]]></Script>
   </Form>
 </FDL>
