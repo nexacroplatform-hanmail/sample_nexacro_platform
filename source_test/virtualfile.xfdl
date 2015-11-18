@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="vf" classname="vf" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Button id="Button00" taborder="0" text="Button00" left="5.57%" top="64" right="83.59%" height="107" onclick="Button00_onclick"/>
+        <TextArea id="TextArea00" taborder="1" left="29.3%" top="56" right="28.32%" height="406"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <VirtualFile id="VirtualFile00" onsuccess="VirtualFile00_onsuccess" onerror="VirtualFile00_onerror"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	// Create Object
+    var fopendlg = this.objects["fopendlg"];
+    if (fopendlg == null){
+		// Create Object
+		var fopendlg = new FileDialog();
+		fopendlg.addEventHandler("onclose", this.fileDialogRead_onclose, this);
+    }
+	fopendlg.set_filter("All(*.*)|*.*|Text File(*.txt)|*.txt|Dat File(*.dat)|*.dat|");
+	fopendlg.set_filterindex(1);
+	//fopendlg.addEventHandler("onclose", this.fileDialog_onclose, this);
+
+	//폴더를 선택 
+	/*
+	FileDialog.LOAD : 하나의 파일을 읽기 위해서 가져옵니다.
+	FileDialog.SAVE : 하나의 파일을 쓰기 위해서 가져옵니다.
+	FileDialog.MULTILOAD : 하나 이상의 파일을 읽기 위해서 가져옵니다.
+	FileDialog.SELFOLDER : 폴더를 선택합니다.
+	*/
+	var rtn = fopendlg.open("FileOpen", FileDialog.LOAD);
+	trace("rtn->" + rtn);
+}
+
+this.fileDialogRead_onclose = function(obj:FileDialog, e:nexacro.FileDialogEventInfo)
+{
+	trace("fileDialogRead_onclose");
+	trace("e.virtualfiles[0].fullpath : "+e.virtualfiles[0].fullpath);
+	this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead);	
+	//this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead|nexacro.VirtualFile.openText);
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();			
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+	var sLine = this.VirtualFile00.readLine();	
+	trace("sLine "+sLine);	
+
+}
+
+this.VirtualFile00_onerror = function(obj:VirtualFile,e:nexacro.VirtualFileErrorEventInfo)
+{
+	trace(e.errormsg);
+}
+
+
+this.VirtualFile00_onsuccess = function(obj:VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	trace(">>>>>>>>>>>>>>>>"+e.filesize);
+	trace("@@@@@@ AsyncVFile onsuccess : " + e.reason);
+	
+	switch (e.reason){
+		case 1 :	// open
+			trace("@@@@@@ open");
+			//this.VirtualFile00.read();
+			break;
+		case 2 :	// close
+			trace("@@@@@@ close");
+			break;
+		case 3 :	// read
+			trace("@@@@@@ read");
+			trace("textdata : "+e.textdata);
+			this.TextArea00.set_value(this.gfn_isNull(this.TextArea00.value)?e.textdata:this.TextArea00.value+"\r\n"+ e.textdata);
+			obj.getFileSize();
+			this.VirtualFile00.close();
+			break;
+		case 4 :	// readLine
+			trace("@@@@@@ readLine");
+			//단순히 읽어와 Textarea 에 추가
+			trace("textdata : "+e.textdata);
+			this.TextArea00.set_value(this.gfn_isNull(this.TextArea00.value)?e.textdata:this.TextArea00.value+"\r\n"+ e.textdata);
+			break;
+		case 5 :	// seek
+			trace("@@@@@@ seek");
+			break;
+		case 6 :	// write
+			trace("@@@@@@ write");
+			this.VirtualFile00.close();
+			break;
+		case 7 :	// remove
+			trace("@@@@@@ remove");
+			break;
+		case 8 :	// getFileList
+			trace("@@@@@@ getFileList");
+			trace(e.binarydata);
+			break;
+		case 9 :	// getFileSize
+			trace("@@@@@@ getFileSize");
+			trace("e.filesize : " + e.filesize);
+			//this.Dataset00.setColumn(0, "fileSize", e.filesize);
+			break;
+		case 10 :	// isExist
+			trace("@@@@@@ isExist");
+			if (e.fileisexist){
+				trace("File is exist.");
+			} else {
+				trace("File is not exist.");
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+
+
+this.gfn_isNull = function (Val)
+{
+	if (new String(Val).valueOf() == "undefined") 
+	{
+		return true;
+	}
+	if (Val == null) 
+	{
+		return true;
+	}
+	if (("x" + Val == "xNaN") && (new String(Val.length).valueOf() == "undefined")) 
+	{
+		return true;
+	}
+	if (Val.length == 0) 
+	{
+		return true;
+	}
+
+	return false;
+}]]></Script>
+  </Form>
+</FDL>

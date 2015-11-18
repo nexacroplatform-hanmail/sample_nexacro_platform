@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_step_nexacro" classname="sample_step_nexacro" left="0" top="0" width="1024" height="768" titletext="Step">
+    <Layouts>
+      <Layout stepcount="3">
+        <Static id="Static00" taborder="0" text="step1" left="0.78%" top="8" right="90.82%" height="60"/>
+        <Static id="Static01" taborder="1" text="step2" left="0.59%" top="8" right="91.11%" height="60" positionstep="1"/>
+        <Static id="Static02" taborder="2" text="step3" left="0.59%" top="8" right="91.11%" height="60" positionstep="2"/>
+        <Div id="Div00" taborder="3" text="Div00" left="0.78%" top="48" right="36.72%" height="480" url="Base::sample_dataset_sort_nexacro.xfdl">
+          <Layouts/>
+        </Div>
+        <Div id="Div01" taborder="4" text="Div01" left="0.78%" top="56" right="36.72%" height="480" positionstep="1" url="Base::sample_fileupload_filedownload_nexacro.xfdl"/>
+        <Div id="Div02" taborder="5" text="Div02" positionstep="2" left="0.78%" top="56" right="36.72%" height="480" url="Base::sample_progressbar_nexacro.xfdl"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

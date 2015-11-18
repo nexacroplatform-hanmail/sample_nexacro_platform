@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="euc-kr">
+<style type="text/css">
+#ctn{width:800px;}
+#header{background-color:gray;}
+#header h1{margin-bottom:0;}
+#menu{background-color:#DDDDDD;height:435px;width:100px;float:left;}
+#tab{background-color:#EFEFEF;height:30px;width:700px;float:left;}
+#content{background-color:#EFEFEF;height:400px;width:700px;float:left;}
+#footer{background-color:gray;clear:both;text-alien:center;}
+/* UI Object */
+  .tab2{position:relative;height:29px;margin-top:5px;background:url(http://static.naver.com/groupware/common/tab_menu.gif) repeat-x 0 100%;font-family:'돋움',dotum;font-size:12px}
+  .tab2 ul,.tab2 ul li{margin:0;padding:0}
+  .tab2 ul li{list-style:none}
+  .tab2 ul li,.tab2 ul li a{background:url(http://static.naver.com/groupware/2010/bg_tab2_off.gif) no-repeat}
+  .tab2 ul li{float:left;margin-right:-1px;line-height:26px}
+  .tab2 ul li a{display:inline-block;padding:2px 16px 1px;_padding:3px 16px 0;background-position: 100% 0;font-weight:bold;color:#666;text-decoration:none !important}
+  .tab2 ul li a:hover{color:#000}
+  .tab2 ul li.on,.tab2 ul li.on a{background-image:url(http://static.naver.com/groupware/2010/bg_tab2_on.gif)}
+  .tab2 ul li.on a{color:#3376b8}
+/* //UI Object */
+
+</style>
+<script>
+function checkBrowser()
+{
+	var userAgent = window.navigator.userAgent.toLowerCase();
+	if(userAgent.indexOf('msie 9.0') != -1)
+	{
+		return("msie 9.0");
+	}
+	else if(userAgent.indexOf('msie 8.0') != -1)
+	{
+		return("msie 8.0");
+	}
+	else if(userAgent.indexOf('msie 7.0') != -1)
+	{
+		return("msie 7.0");
+	} 
+	else if (userAgent.indexOf('firefox') != -1) 
+	{
+		return ('firefox');
+	} 
+	else if (userAgent.indexOf('chrome') != -1) 
+	{
+		return( 'chrome');
+	} 
+	else if (userAgent.indexOf('opera') != -1) 
+	{
+		return('opera');
+	}
+	else  if (userAgent.indexOf('msie 10.0') != -1) 
+	{
+		return('msie 10.0');
+	}
+	else
+	{
+		return("");
+	}
+}
+
+function notified(obj, e) 
+	{
+		alert("notified, Msg=[]");
+		if( e.userdata == "logout"){
+			//window.location = "http://www.naver.com";	
+		}
+	}
+var ifwindow;
+function initialize() {
+	ifwindow = document.getElementById("view");
+	ifwindow.src = "http://127.0.0.1:8080/nexacro/projects/sample_nexacro_platform/TEST/WebIFN/index.html";
+    var loopCnt=0;
+
+	//var userAgent = window.navigator.userAgent.toLowerCase();	
+	var userAgent = checkBrowser();
+
+    //if (navigator.userAgent > -1) 
+	if (userAgent.indexOf('msie')> -1) 
+	{
+		console.log("browser is "+userAgent);
+		ifwindow.onreadystatechange  = function()
+		{
+			if (this.readyState == 'complete' ) 
+			{
+	    		// ifwindow.contentWindow.application.onusernotify.addHandler(notified);
+				// 수정 부분 
+				var interval = setInterval(fn = function() 
+				{
+			
+					vParent = ifwindow.contentWindow.application;
+					//for(var i = 0; i >
+					if (loopCnt > 200 || vParent) 
+					{
+				
+						if (vParent) 
+						{
+							console.log(vParent);
+							//parent.addEventHandler("onusernotify", notified, this); 
+							//ifwindow.contentWindow.application.onusernotify.addHandler(notified); //IE9에서만 됨. 
+							switch (userAgent){
+								case "msie 10.0":
+								//	vParent.addEventListener("onusernotify", notified, this);
+									ifwindow.attachEvent ("onusernotify", notified, this); 
+									console.log("msie 10.0");									
+									break;
+								case "msie 9.0":
+									vParent.addEventHandler("onusernotify", notified, this);
+									console.log("msie 9.0");									
+									break;
+								case "msie 8.0":
+									console.log("msie 8.0");
+									vParent._addEventHandler("onusernotify", notified, this); 
+									break;
+								case "msie 7.0":
+									vParent._addEventHandler("onusernotify", notified, this); 	
+									console.log("msie 7.0");
+									break;
+								default :
+									console.log("unkown");
+									break;
+								}
+							
+						} 
+						loopCnt++;
+					}			
+					clearInterval(interval);
+				},50);
+			}	
+		}		
+	}
+	else
+	{
+		console.log("browser is "+userAgent);
+		ifwindow.addEventListener("onusernotify", notified, this); 
+	}
+}	
+		
+function callScript(sMenuUrl, sMenuId, sMenuNm, iWidth, iHeight) 
+{
+	var ifw = document.getElementById("view");
+	ifw.contentWindow.application.callscript("AdlScript('"+sMenuUrl+"', '"+sMenuId+"','"+sMenuNm+"','"+iWidth+"','"+iHeight+"')");
+}
+</script>
+</head>
+
+<body onload="initialize();">
+<div id="ctn">
+    <div id="header">
+     <h1>심플한 레이 아웃</h1>
+    </div>
+    <div id="menu">
+     <form id="frm1" name="frm1">
+      	<input id="btn1" type="button" value=" 화면 : test1 " onclick="callScript('Base::test1.xfdl', '0001', 'XP_TEST01',600,500)"><br>
+      	<input id="btn2" type="button" value=" 화면 : test2 " onclick="callScript('Base::test2.xfdl', '0002', 'XP_TEST02',600,300)"><br>
+       </form>
+    </div>
+    <div id="tab" class="tab2">
+     <ul>
+     </ul>
+    </div>
+    <div id="content">
+     <iframe width='100%' height='100%' frameborder='yes' scrolling='auto'  name='view' id='view'></iframe>
+    </div>
+    <div id="footer">
+     copy all right reserved by ME.
+    </div>
+</div>
+</body>
+</html>

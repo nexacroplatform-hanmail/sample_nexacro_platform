@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="test2" classname="test2" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Tab id="Tab00" taborder="0" left="48" top="136" width="584" height="328" tabindex="0" scrollbars="autoboth">
+          <Tabpages>
+            <Tabpage id="tabpage1" text="tabpage1"/>
+            <Tabpage id="tabpage2" text="tabpage2"/>
+          </Tabpages>
+        </Tab>
+        <Static id="Static00" taborder="1" text="Base:: test2.xfdl" left="109" top="10" width="410" height="169"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

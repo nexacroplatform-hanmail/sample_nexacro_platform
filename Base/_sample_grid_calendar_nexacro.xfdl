@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_calendar_nexacro" classname="sample_calendar_nexacro" left="0" top="0" width="1024" height="768" titletext="sample calendar">
+    <Layouts>
+      <Layout>
+        <Grid id="Grid_calendar" taborder="0" binddataset="ds_calendar" useinputpanel="false" autofittype="col" onheadclick="Grid_calendar_onheadclick" left="0.78%" top="8" right="47.56%" height="395">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="40"/>
+                <Column size="40"/>
+                <Column size="40"/>
+                <Column size="40"/>
+                <Column size="40"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="48"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="button" style="color:black;cursor:hand;" text="&lt;"/>
+                <Cell col="1" colspan="5"/>
+                <Cell col="6" displaytype="button" style="color:black;cursor:hand;" text="&gt;"/>
+                <Cell row="1" displaytype="button" style="cursor:hand;" text="&lt;"/>
+                <Cell row="1" col="1" colspan="5"/>
+                <Cell row="1" col="6" displaytype="button" style="cursor:hand;" text="&gt;"/>
+                <Cell row="2" style="color:red;" text="일"/>
+                <Cell row="2" col="1" style="color:black;" text="월"/>
+                <Cell row="2" col="2" style="color:black;" text="화"/>
+                <Cell row="2" col="3" style="color:black;" text="수"/>
+                <Cell row="2" col="4" style="color:black;" text="목"/>
+                <Cell row="2" col="5" style="color:black;" text="금"/>
+                <Cell row="2" col="6" style="color:blue;" text="토"/>
+              </Band>
+              <Band id="body">
+                <Cell style="color:red;" text="bind:COL_D0"/>
+                <Cell col="1" text="bind:COL_D1"/>
+                <Cell col="2" text="bind:COL_D2"/>
+                <Cell col="3" text="bind:COL_D3"/>
+                <Cell col="4" text="bind:COL_D4"/>
+                <Cell col="5" text="bind:COL_D5"/>
+                <Cell col="6" style="color:blue;" text="bind:COL_D6"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_color" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <ConstColumn id="ConstColumn0" type="STRING" size="30" value=""/>
+          <Column id="FONTCOLOR0" type="STRING" size="256"/>
+          <Column id="FONTCOLOR1" type="STRING" size="256"/>
+          <Column id="FONTCOLOR2" type="STRING" size="256"/>
+          <Column id="FONTCOLOR3" type="STRING" size="256"/>
+          <Column id="FONTCOLOR4" type="STRING" size="256"/>
+          <Column id="FONTCOLOR5" type="STRING" size="256"/>
+          <Column id="FONTCOLOR6" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_calendar" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="COL_D0" type="STRING" size="256"/>
+          <Column id="COL_D1" type="STRING" size="256"/>
+          <Column id="COL_D2" type="STRING" size="256"/>
+          <Column id="COL_D3" type="STRING" size="256"/>
+          <Column id="COL_D4" type="STRING" size="256"/>
+          <Column id="COL_D5" type="STRING" size="256"/>
+          <Column id="COL_D6" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[////////////////////////////////////////////////////////////////////////////////
+//Global variables
+////////////////////////////////////////////////////////////////////////////////
+var strCurrentDate = null;
+
+var enumActionStatus =
+{
+	"NEXT":0,
+	"PREV":1
+};
+
+var enumDateStatus = 
+{
+	"YEAR":0,
+	"MONTH":1,
+	"DAY":2
+};
+
+var enumDay = 
+{
+	"SUNDAY":0,
+	"MONDAY":1,
+	"TUESDAY":2,
+	"WEDNESDAY":3,
+	"THURSDAY":4,
+	"FRIDAY":5,
+	"SATURDAY":6
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+//Event handlers
+////////////////////////////////////////////////////////////////////////////////
+this.grid_calendar_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//trace("grid_calendar_onload()");
+
+	var strTodayDate = this.fn_getToday();
+	
+	this.fn_setCurrentDate(strTodayDate);
+	
+	this.fn_drawCalendar(strTodayDate);
+}
+
+
+this.Grid_calendar_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	//trace("Grid_calendar_onheadclick()");
+	
+	if(e.cell === 0)
+	{		
+		this.fn_changeCurrentDate(enumActionStatus.PREV, enumDateStatus.YEAR);
+	}
+	else if(e.cell === 2)
+	{		
+		this.fn_changeCurrentDate(enumActionStatus.NEXT, enumDateStatus.YEAR);
+	}
+	else if(e.cell === 3)
+	{		
+		this.fn_changeCurrentDate(enumActionStatus.PREV, enumDateStatus.MONTH);
+	}
+	else if(e.cell === 5)
+	{		
+		this.fn_changeCurrentDate(enumActionStatus.NEXT, enumDateStatus.MONTH);
+	}
+	
+	this.fn_drawCalendar(this.fn_getCurrentDate());
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//Calendar functions
+////////////////////////////////////////////////////////////////////////////////
+this.fn_getToday = function()
+{
+	//trace("fn_getToday()");
+	
+	var objDate = new Date();
+	
+	var strNowYear = objDate.getYear().toString();
+	var strNowMonth = (objDate.getMonth()+1).toString().padLeft(2, "0");
+	var strNowDay = objDate.getDate().toString().padLeft(2, "0");
+	
+	return strNowYear + strNowMonth + strNowDay;
+}
+
+
+this.fn_drawCalendar = function(strDrawDate)
+{
+	//trace("fn_drawCalendar()");
+	
+	var strCurYear, strCurMonth, strCurDay;
+	
+	strCurYear = strDrawDate.substr(0, 4);
+	strCurMonth = strDrawDate.substr(4, 2);
+	strCurDay = strDrawDate.substr(6, 2);
+			
+	//setting the head cell
+	this.Grid_calendar.setCellProperty("Head", 1, "text", strCurYear + " 년");
+	this.Grid_calendar.setCellProperty("Head", 4, "text", strCurMonth + " 월");	
+
+	
+	//setting the body cell
+	var lastDate = this.fn_getLastDate(strDrawDate);
+	var firstDay = this.fn_getFirstDay(strDrawDate);
+
+	this.ds_calendar.clearData();
+
+	var nRow = this.ds_calendar.addRow();
+	
+	for(var i=0; i<lastDate; i++)
+	{
+		//trace("nRow: " + nRow + ", i+1: " + i+1);
+		this.ds_calendar.setColumn(nRow, "COL_D"+firstDay, i+1);
+		
+		firstDay = (firstDay+1)%7;
+		if (firstDay == 0 && i != lastDate)
+		{
+			nRow = this.ds_calendar.addRow();
+		}
+	
+	}
+
+	/*
+	var arrDisplayMonth = new Array(6);
+
+	for(var i=0; i<arrDisplayMonth.length; i++)
+		arrDisplayMonth[i] = new Array(7);	
+
+	var boolFirstCheck = false;
+	var cntDay = 1;
+	
+	for(var i=0; i<arrDisplayMonth.length; i++)
+	{
+		for(var j=0; j<arrDisplayMonth[i].length; j++)
+		{			
+			if(i===0 && boolFirstCheck === false)
+			{			
+				j = firstDay;
+				boolFirstCheck = true;
+			}
+			
+			if(cntDay <= lastDate)
+				arrDisplayMonth[i][j] = cntDay++;
+		}
+	}
+	*/	
+	
+}
+
+
+this.fn_changeCurrentDate = function(enumActionStatus, enumDateStatus)
+{
+	//trace("fn_changeCurrentDate(" + enumActionStatus + ", " + curSetDate + ")");
+	
+	var strCurYear, strCurMonth, strCurDay;
+	var curSetDate = this.fn_getCurrentDate();
+	
+	if(!curSetDate)
+		curSetDate = this.fn_getToday();
+	
+	strCurYear = curSetDate.substr(0, 4);
+	strCurMonth = curSetDate.substr(4, 2);
+	strCurDay = curSetDate.substr(6, 2);
+
+	//YEAR
+	if(!enumDateStatus)
+	{
+		if(!enumActionStatus)	//NEXT
+		{
+			strCurYear = parseInt(strCurYear, 10) + 1;			
+		}
+		else	//PREV				
+		{
+			strCurYear = parseInt(strCurYear, 10) - 1;
+		}
+	}
+	//MONTH
+	else
+	{		
+		if(!enumActionStatus)	//NEXT
+		{
+			strCurMonth = parseInt(strCurMonth, 10) + 1;
+			
+			if(strCurMonth > 12)
+			{
+				strCurYear = parseInt(strCurYear, 10) + 1;
+				strCurMonth = 1;			
+			}	
+		}
+		else	//PREV				
+		{
+			strCurMonth = parseInt(strCurMonth, 10) - 1;
+
+			if(strCurMonth < 1)
+			{
+				strCurYear = parseInt(strCurYear, 10) - 1;
+				strCurMonth = 12;			
+			}
+		}
+	}
+	
+	strCurMonth = strCurMonth.toString().padLeft(2, "0");
+
+	this.fn_setCurrentDate(strCurYear+strCurMonth+strCurDay);	
+	
+}
+
+
+this.fn_getFirstDay = function(sDate)
+{
+	if (this.fn_isNull(sDate))
+		return -1;
+
+	//next month the 1st of entered date
+	var dDate = new Date( parseInt(sDate.substr(0,4)), parseInt(sDate.substr(4,2))-1, 1 );
+		
+	return new Date(dDate).getDay();
+}
+
+
+this.fn_getLastDate = function(sDate)
+{
+	if (this.fn_isNull(sDate))
+		return -1;
+
+	//next month the 1st of entered date
+	//왜 달에 + 1을 안했는데 다음달이지?
+	var dDate = new Date( parseInt(sDate.substr(0,4)), parseInt(sDate.substr(4,2)), 1 );
+	dDate = dDate.addDate(-1);	
+		
+	return new Date(dDate).getDate();
+}
+
+
+this.fn_setCurrentDate = function(strDate)
+{
+	this.strCurrentDate = strDate;
+}
+
+
+this.fn_getCurrentDate = function()
+{
+	return this.strCurrentDate;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//Other functions
+////////////////////////////////////////////////////////////////////////////////
+this.fn_isNull = function(sValue)
+{
+	if (String(sValue).valueOf() == "undefined")
+	{
+		return true;
+	}
+	if (sValue == null)
+	{
+		return true;
+	}
+	if (("x"+sValue == "xNaN") && (new String(sValue.length).valueOf() == "undefined"))
+	{
+		return true;
+	}
+	if (sValue.length == 0)
+	{
+		return true;
+	}
+	
+	return false;
+	
+}]]></Script>
+  </Form>
+</FDL>

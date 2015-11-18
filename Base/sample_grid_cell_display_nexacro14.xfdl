@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_grid_cell_display_nexacro14" classname="sample_grid_display_nexacro" left="0" top="0" width="1024" height="768" titletext="Grid &gt; Cell &gt; displaytype" onload="sample_grid_cell_display_nexacro14_onload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_apply_property" taborder="0" text="Applying&#13;&#10;displaytype" left="16" top="253" height="32" onclick="btn_apply_property_onclick" width="120" style="font:9 Arial;"/>
+        <Grid id="Grid00" taborder="3" binddataset="ds_displaytype" useinputpanel="false" left="16" top="96" height="149" autofittype="col" autosizingtype="none" cellsizingtype="col" width="960" treeusecheckbox="false" treeuseexpandkey="true" locale="en_US">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="105"/>
+                <Column size="140"/>
+                <Column size="150"/>
+                <Column size="120"/>
+                <Column size="110"/>
+                <Column size="95"/>
+                <Column size="180"/>
+                <Column size="120"/>
+                <Column size="100"/>
+                <Column size="110"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="number"/>
+                <Cell col="1" text="text"/>
+                <Cell col="2" text="date"/>
+                <Cell col="3" text="date:mask"/>
+                <Cell col="4" text="currency"/>
+                <Cell col="5" text="checkbox"/>
+                <Cell col="6" text="combo"/>
+                <Cell col="7" text="image"/>
+                <Cell col="8" text="bar"/>
+                <Cell col="9" text="button"/>
+                <Cell col="10" text="exponent"/>
+                <Cell col="11" text="treeview"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="number" text="bind:number"/>
+                <Cell col="1" displaytype="text" text="bind:text"/>
+                <Cell col="2" displaytype="date" text="bind:date"/>
+                <Cell col="3" displaytype="date" text="bind:date" mask="yyyy/MM/dd"/>
+                <Cell col="4" displaytype="currency" text="bind:currency"/>
+                <Cell col="5" displaytype="checkbox" text="bind:check"/>
+                <Cell col="6" displaytype="combo" text="bind:combo" combodataset="ds_combo" combocodecol="CODE" combodatacol="VALUE"/>
+                <Cell col="7" displaytype="image" text="bind:image"/>
+                <Cell col="8" displaytype="bar" text="bind:bar"/>
+                <Cell col="9" displaytype="button" style="color2:black;" text="bind:button"/>
+                <Cell col="10" displaytype="exponent" text="bind:exponent"/>
+                <Cell col="11" displaytype="tree" edittype="tree" text="bind:text" treelevel="bind:level" treecheck="bind:check" treestate="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_reset" taborder="1" text="Reset" left="148" top="253" height="32" onclick="btn_reset_onclick" width="120" style="font:9 Arial;"/>
+        <Div id="Div00" taborder="2" text="Div00" left="7" top="7" right="0.78%" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" left="8" top="5" height="35" width="140" image="URL('Image::img_imgviewer_N.png')" stretch="fit" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="4" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;" expr="expr:&quot;Version: &quot; + application.gvVersion"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_combo" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="CODE"/>
+          <Column type="STRING" size="255" id="VALUE"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">M</Col>
+            <Col id="VALUE">Male</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">W</Col>
+            <Col id="VALUE">Female</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_null" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="ds_displaytype" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="check"/>
+          <Column type="STRING" size="255" id="combo"/>
+          <Column size="256" id="currency" type="STRING"/>
+          <Column type="STRING" size="255" id="cnull"/>
+          <Column type="STRING" size="255" id="number"/>
+          <Column type="STRING" size="255" id="text"/>
+          <Column type="STRING" size="256" id="date"/>
+          <Column type="STRING" size="256" id="image"/>
+          <Column type="STRING" size="256" id="bar"/>
+          <Column type="STRING" size="256" id="button"/>
+          <Column id="exponent" type="STRING" size="256"/>
+          <Column id="level" type="STRING" size="256"/>
+          <Column id="chk" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="check">1</Col>
+            <Col id="combo">M</Col>
+            <Col id="currency">1323</Col>
+            <Col id="cnull">a</Col>
+            <Col id="number">12345</Col>
+            <Col id="text">James</Col>
+            <Col id="date">20050101</Col>
+            <Col id="image">Image::tree0.png</Col>
+            <Col id="bar">20</Col>
+            <Col id="button">button1</Col>
+            <Col id="exponent">5</Col>
+            <Col id="level">0</Col>
+            <Col id="chk">0</Col>
+          </Row>
+          <Row>
+            <Col id="check">0</Col>
+            <Col id="combo">W</Col>
+            <Col id="currency">10504</Col>
+            <Col id="cnull"/>
+            <Col id="number">567890</Col>
+            <Col id="text">gil-dong</Col>
+            <Col id="date">20050202</Col>
+            <Col id="image">Image::tree1.png</Col>
+            <Col id="bar">80</Col>
+            <Col id="button">button2</Col>
+            <Col id="exponent">21.890</Col>
+            <Col id="level">1</Col>
+            <Col id="chk">1</Col>
+          </Row>
+          <Row>
+            <Col id="check">0</Col>
+            <Col id="combo">M</Col>
+            <Col id="currency">98240</Col>
+            <Col id="cnull">b</Col>
+            <Col id="number">0</Col>
+            <Col id="text">Mers</Col>
+            <Col id="date">20050303</Col>
+            <Col id="image">Image::tree2.png</Col>
+            <Col id="bar">100</Col>
+            <Col id="button">button3</Col>
+            <Col id="exponent">0.345</Col>
+            <Col id="level">2</Col>
+            <Col id="chk">1</Col>
+          </Row>
+          <Row>
+            <Col id="level">0</Col>
+            <Col id="chk">0</Col>
+            <Col id="check">0</Col>
+            <Col id="combo">M</Col>
+            <Col id="currency">20000</Col>
+            <Col id="number">20000</Col>
+            <Col id="text">Java</Col>
+            <Col id="date">20150731</Col>
+            <Col id="image">Image::tree0.png</Col>
+            <Col id="bar">60</Col>
+            <Col id="button">button4</Col>
+            <Col id="exponent">0.0001</Col>
+          </Row>
+          <Row>
+            <Col id="level">1</Col>
+            <Col id="chk">1</Col>
+            <Col id="check">1</Col>
+            <Col id="combo">W</Col>
+            <Col id="currency">1892</Col>
+            <Col id="number">1892</Col>
+            <Col id="text">nexacro</Col>
+            <Col id="date">20150615</Col>
+            <Col id="image">Image::tree2.png</Col>
+            <Col id="bar">50</Col>
+            <Col id="button">button5</Col>
+            <Col id="exponent">99.999</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Grid: 
+
+The contents within a grid cell can be expressed in various formats by setting this property.
+*/
+
+
+this.btn_apply_property_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	/*
+	The displaytype property of a specified cell in the body band
+	can be set using the setCellProperty method.
+	*/
+	
+	/* number type */
+	this.Grid00.setCellProperty("body", 0, "displaytype", "number");
+	
+	/* text type */
+	this.Grid00.setCellProperty("body", 1, "displaytype", "text");
+	
+	/* date type */
+	this.Grid00.setCellProperty("body", 2, "displaytype", "date");
+		
+	/* date type(with mask property) */
+	this.Grid00.setCellProperty("body", 3, "displaytype", "date");
+	this.Grid00.setCellProperty("body", 3, "mask", "yyyy/MM/dd");
+
+	/* currency type */
+	this.Grid00.setCellProperty("body", 4, "displaytype", "currency");
+	
+	/* checkbox type */
+	this.Grid00.setCellProperty("body", 5, "displaytype", "checkbox");
+	
+	/* combo type */
+	this.Grid00.setCellProperty("body", 6, "displaytype", "combo");
+	
+	/* image type */
+	this.Grid00.setCellProperty("body", 7, "displaytype", "image");
+	
+	/* bar type */
+	this.Grid00.setCellProperty("body", 8, "displaytype", "bar");
+	
+	/* button type */
+	this.Grid00.setCellProperty("body", 9, "displaytype", "button");
+	
+	/* exponent type */
+	this.Grid00.setCellProperty("body", 10, "displaytype", "exponent");
+	
+	/* tree type */
+	this.Grid00.setCellProperty("body", 11, "displaytype", "tree");
+
+
+	this.btn_apply_property.style.set_font("9 Arial bold");
+	this.btn_reset.style.set_font("9 Arial");	
+
+	/* Counting the number of cells belonging to a certain band */
+	/*
+	trace("head cell: " + this.Grid00.getCellCount("head"));
+	trace("body cell: " + this.Grid00.getCellCount("body"));
+	trace("summay cell: " + this.Grid00.getCellCount("summary"));	
+	*/
+	
+}
+
+this.btn_reset_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	/* Setting the displaytype property to "normal" (default value) */
+	this.Grid00.setCellProperty("body", 0, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 1, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 2, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 3, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 3, "mask", "");
+	this.Grid00.setCellProperty("body", 4, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 5, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 6, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 7, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 8, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 9, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 10, "displaytype", "normal");
+	this.Grid00.setCellProperty("body", 11, "displaytype", "normal");	
+	
+	this.btn_apply_property.style.set_font("9 Arial");
+	this.btn_reset.style.set_font("9 Arial bold");
+
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_file_upload_download_nexacro" classname="FileUpload" inheritanceid="" position="absolute" left="0" top="0" width="760" height="728" onload="sample_file_upload_download_nexacro_onload" titletext="FileUpload, FileDownload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_upload" taborder="1" text="Upload" position="absolute" onclick="btn_upload_onclick" left="342" top="226" width="120" height="32"/>
+        <FileDownload id="FileDownload00" taborder="2" text="FileDownload00" position="absolute" left="32" top="401" width="299" height="30" onsuccess="FileDownload_onsuccess"/>
+        <FileDownload id="FileDownload01" taborder="3" retry="0" text="FileDownload01" position="absolute" left="32" top="441" width="299" height="30" onsuccess="FileDownload_onsuccess"/>
+        <FileDownload id="FileDownload02" taborder="4" retry="0" text="FileDownload02" position="absolute" left="32" top="481" width="299" height="30" onsuccess="FileDownload_onsuccess"/>
+        <Button id="btn_download00" taborder="5" text="Download" position="absolute" left="341" width="120" top="400" height="32" onclick="btn_download00_onclick"/>
+        <Button id="btn_append_file" taborder="6" text="Append file" left="30" top="97" width="120" height="32" onclick="btn_append_file_onclick"/>
+        <FileUpload id="FileUpload00" taborder="7" retry="0" index="0" left="32" top="136" width="402" height="80" onsuccess="FileUpload00_onsuccess" style="buttontext:select;" onerror="FileUpload00_onerror"/>
+        <Button id="btn_delete_file" taborder="8" text="Delete file" left="152" top="97" width="120" height="32" onclick="btn_delete_file_onclick"/>
+        <Grid id="Grid00" taborder="9" useinputpanel="false" left="32" top="226" width="300" height="94" binddataset="ds_data" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="File Name"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COL0"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static02" taborder="13" text="FileUpload" usedecorate="true" cssclass="_SS_Title3" left="16" top="64" width="325" height="25" style="font:bold 9 dotum;"/>
+        <Static id="Static00" taborder="30" text="FileDownload" usedecorate="true" cssclass="_SS_Title3" left="16" top="367" width="325" height="25" style="font:bold 9 dotum;"/>
+        <Button id="btn_download01" taborder="32" text="Download" left="341" top="441" height="32" onclick="btn_download01_onclick" width="120"/>
+        <Button id="btn_download02" taborder="33" text="Download" left="341" top="481" height="32" onclick="btn_download02_onclick" width="120"/>
+        <Div id="Div00" taborder="34" text="Div00" left="6" top="7" right="0.79%" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <Combo id="cb_list" taborder="0" displaynulltext="More Sample" innerdataset="@ds_sample_url" codecolumn="URL" datacolumn="CATEGORY" onitemchanged="Div00_cb_list_onitemchanged" left="7" top="7" width="240" height="32"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="35" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="5" width="120" height="32" style="font:9 dotum;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_data" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="COL0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+FileUpload, FileDownload: 서버로의 파일 업로드와 다운로드
+*/
+
+
+/* 폼 onload 이벤트 핸들러 */
+this.sample_file_upload_download_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	trace("\n[onload]");
+	trace("this.FileUpload00.index: " + this.FileUpload00.index);
+	trace("this.FileUpload00.getItemCount(false): " + this.FileUpload00.getItemCount(false));		
+}
+
+/* 파일 업로드 아이템의 추가 */
+this.btn_append_file_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.FileUpload00.getItemCount(false) < 3)
+	{
+		this.FileUpload00.appendItem();
+		
+		trace("\n[appendItem]");
+		trace("this.FileUpload00.index: " + this.FileUpload00.index);
+		trace("this.FileUpload00.getItemCount(false): " + this.FileUpload00.getItemCount(false));
+	}
+
+}
+
+/* 파일 업로드 아이템의 삭제 */
+this.btn_delete_file_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if( this.FileUpload00.getItemCount(false) > 0 )
+	{
+		this.FileUpload00.deleteItem(this.FileUpload00.getItemCount(false)-1);
+
+		trace("\n[deleteItem]");
+		trace("this.FileUpload00.index: " + this.FileUpload00.index);
+		trace("this.FileUpload00.getItemCount(false): " + this.FileUpload00.getItemCount(false));
+	}
+
+}
+
+/* 선택한 파일을 서버로 업로드 */
+this.btn_upload_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+    var nArow = -1;
+	for (var i = 0; i < this.FileUpload00.getItemCount(false); i++)
+	{
+		if (this.FileUpload00.hasValue(i))
+		{
+			nArow = this.ds_data.addRow();
+			this.ds_data.setColumn(nArow , "COL0", this.FileUpload00.getValue(i));        		
+		}
+	}
+
+	//var sUrl  = "SvcJsp::fileUpload.jsp?PATH=upload";
+	var sUrl  = "http://127.0.0.1:8080/Service/nexacroSelfStudy_JSP/fileUpload.jsp?PATH=upload";
+	var bSucc = this.FileUpload00.upload(sUrl);
+	
+}
+
+/* 파일 업로드 성공 이벤트 핸들러 */
+this.FileUpload00_onsuccess = function(obj:FileUpload,  e:nexacro.FileUploadEventInfo)
+{
+    var sUrl = "";
+    var sFileName = "";
+	
+	/* FileDownload 컴포넌트를 클릭하면 업로드한 파일을 다운로드하도록 설정 */
+    for (var i = 0; i < e.datasets[0].rowcount; i++)
+    {
+        sUrl = "SvcJsp::fileDownload.jsp?file=" + encodeURI(e.datasets[0].getColumn(i,"FILENAME"));
+        sFileName = e.datasets[0].getColumn(i,"FILENAME");
+        
+        this.components["FileDownload0" + i].set_text(sFileName);
+        this.components["FileDownload0" + i].set_downloadurl(sUrl);
+        this.components["FileDownload0" + i].set_downloadfilename(sFileName);
+        
+        trace("FileDownload0" + i + ": " + sUrl + " upload complete.");
+    }
+    
+}
+
+/* 파일 업로드 실패 이벤트 핸들러 */
+this.FileUpload00_onerror = function(obj:FileUpload,  e:nexacro.FileUploadErrorEventInfo)
+{
+	trace("FileUpload00_onerror: " + e.errormsg);
+}
+
+
+/* 파일 다운로드 성공 이벤트 핸들러 */
+this.FileDownload_onsuccess = function(obj:FileDownload,  e:nexacro.FileDownloadEventInfo)
+{
+	trace(e.url + " download complete.");
+	
+}
+
+/* 버튼의 onclick 이벤트를 이용한 파일 다운로드 */
+this.btn_download00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.FileDownload00.downloadurl)
+	{
+		trace("btn_download00: " +this.FileDownload00.downloadurl + " downloading");
+		
+		this.FileDownload00.download();	
+	}
+}
+
+this.btn_download01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.FileDownload01.downloadurl)
+	{
+		trace("btn_download01: " +this.FileDownload01.downloadurl + " downloading");
+	
+		this.FileDownload01.download();
+	}
+}
+
+this.btn_download02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.FileDownload02.downloadurl)
+	{
+		trace("btn_download02: " +this.FileDownload02.downloadurl + " downloading");
+		
+		this.FileDownload02.download();	
+	}
+}
+
+
+/* 샘플 리스트로 이동 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}
+
+]]></Script>
+  </Form>
+</FDL>

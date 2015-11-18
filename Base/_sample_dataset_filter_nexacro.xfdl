@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_dataset_filter_nexacro" classname="sample_dataset_filter_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form" oninit="sample_dataset_filter_nexacro_oninit" onload="sample_dataset_filter_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Button id="Button01" taborder="1" text="2.filterstr setting" onclick="Button01_onclick" cssclass="_SS_Title4" left="1.56%" top="234" right="84.77%" height="25"/>
+        <Button id="Button04" taborder="4" text="4. filter distinct" onclick="Button04_onclick" cssclass="_SS_Title4" left="1.56%" top="290" right="84.77%" height="25"/>
+        <Grid id="Grid00" taborder="5" autoenter="select" useinputpanel="false" autofittype="col" left="1.56%" top="98" right="70.21%" height="98">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="COL1"/>
+                <Cell col="1" text="COL2"/>
+                <Cell col="2" text="COL3"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="normal" text="bind:COL1"/>
+                <Cell col="1" edittype="normal" text="bind:COL2"/>
+                <Cell col="2" edittype="normal" text="bind:COL3"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="7" text="1.dataset binding" left="1.56%" top="204" right="84.77%" height="25" onclick="Button00_onclick" style="align:center middle;"/>
+        <Button id="Button03" taborder="8" text="5.filter initializing" left="1.56%" top="318" right="84.77%" height="25" onclick="Button03_onclick"/>
+        <Button id="Button02" taborder="9" text="3.filter execution" left="1.56%" top="262" right="84.77%" height="25" onclick="Button02_onclick"/>
+        <Static id="Static00" taborder="10" left="1.56%" top="59" right="38.57%" height="29"/>
+        <Button id="btn_home" taborder="11" text="Home" onclick="btn_home_onclick" left="1.17%" top="16" right="92.97%" height="30" style="image:URL('Img::btn_MDI_HomeN.png');"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" id="ds">
+        <ColumnInfo>
+          <Column size="256" id="COL1" type="INT"/>
+          <Column type="STRING" size="256" id="COL2"/>
+          <Column type="STRING" size="256" id="COL3"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">2</Col>
+            <Col id="COL3">3</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">4</Col>
+            <Col id="COL2">5</Col>
+            <Col id="COL3">6</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">7</Col>
+            <Col id="COL2">8</Col>
+            <Col id="COL3">9</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">6</Col>
+            <Col id="COL3">7</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">5</Col>
+            <Col id="COL3">8</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">4</Col>
+            <Col id="COL2">1</Col>
+            <Col id="COL3">2</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">3</Col>
+            <Col id="COL3">4</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Dataset: 필터링
+
+그리드에 바인딩한 데이터셋의 데이터를
+filter 메소드나 filterstr 속성을 사용하여 필터링한다.
+데이터셋의 loadfiltermode 속성 값의 설정에 따라
+현재 설정되어 있는 filterstr 속성 값을 사용할지
+초기에 설정한 filterstr 속성 값으로 복원할지 결정된다.
+*/
+
+this.getRowTypeName = function(rowType)
+{
+	var rowTypeName;
+	
+	trace("rowType: " + rowType);
+	
+	switch(rowType)
+	{
+		case 0:
+			rowTypeName = "ROWTYPE_EMPTY";
+			break;
+		case 1:
+			rowTypeName = "ROWTYPE_NORMAL";
+			break;		
+		case 2:
+			rowTypeName = "ROWTYPE_INSERT";
+			break;		
+		case 4:
+			rowTypeName = "ROWTYPE_UPDATE";
+			break;		
+		case 8:
+			rowTypeName = "ROWTYPE_DELETE";
+			break;		
+		case 16:
+			rowTypeName = "ROWTYPE_GROUP";
+			break;		
+		default:
+			rowTypeName = "UNKNOWN";
+			
+	}
+	
+	return rowTypeName;
+
+}
+
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//binding dataset
+	this.Grid00.setBindDataset(this.ds);	
+		
+	this.Static00.set_text("setBindDataset(this.ds)");
+	trace("dataset binding > loadfiltermode: " + this.ds.loadfiltermode);
+}
+
+
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//set the filter mode to the value of reset
+	this.ds.set_loadfiltermode("reset");
+
+	//filtering dataset using the set conditional expression of filterstr property
+	this.ds.set_filterstr("COL1 > '1'");
+	
+	this.Static00.set_text("set_filterstr(\"COL1 > '1'\")");
+	trace("setting filterstr property: " + this.ds.filterstr);
+}
+
+
+this.Button02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//set the filter mode to the value of keep(default)
+	this.ds.set_loadfiltermode("keep");
+	
+	//filtering dataset using the set conditional expression of filter method
+	this.ds.filter("COL1 < '4'");
+	
+	this.Static00.set_text("filter(\"COL1 < '4'\")");
+	trace("run filter method: " + this.ds.filterstr);
+}
+
+
+this.Button03_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Grid00.set_binddataset("");
+	
+	//initializing filter
+	this.ds.set_filterstr("");
+	
+	this.Static00.set_text("set_filterstr(\"\")");
+	trace("initializing filter: " + this.ds.filterstr);
+	trace("loadfiltermode: " + this.ds.loadfiltermode);	
+}
+
+//데이터셋에서 COL1을 기준으로 중복된 데이터를 제거(distinct)
+this.Button04_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//distinct processing using the filter method
+	//findRowExpr method returns the index of the first row that satisfies the specified conditional expression 	
+ 	this.ds.filter("rowidx == dataset.findRowExpr(\"COL1=='\" + COL1 + \"'\")");
+ 	//this.ds_distinct.filter("rowidx == dataset.findRowExpr(\"COL1=='\" + COL1 + \"'\")");
+ 	
+ 	this.Static00.set_text("filter(\"rowidx == dataset.findRowExpr(\"COL1=='\" + COL1 + \"'\")\")");
+ 	trace("the distinct processing the dataset");
+}
+
+
+this.Button05_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//initializing filter
+	this.ds_distinct.set_filterstr("");
+}
+
+
+this.btn_home_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.go(application.gvHome);
+}
+]]></Script>
+  </Form>
+</FDL>

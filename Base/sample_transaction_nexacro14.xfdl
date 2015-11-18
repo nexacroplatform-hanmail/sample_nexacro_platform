@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_transaction_nexacro" classname="sample_transaction_nexacro" left="0" top="0" width="1024" height="768" titletext="Transaction">
+    <Layouts>
+      <Layout>
+        <Static id="Static05" taborder="14" cssclass="sta_WFSA_BG" left="16" top="87" height="40" class="" style="background:@gradation;border:1 solid gray ;bordertype:round 4 4 ;gradation:linear 0,50 #ffffffff 0,100 #f0f0f0ff;" right="18"/>
+        <Static id="Static02" taborder="6" text="Communication Type:" left="352" top="96" width="123" height="20" style="font:9 Arial;"/>
+        <Grid id="Grid00" taborder="0" useinputpanel="false" left="16" top="161" binddataset="ds_data" right="18" bottom="10" cellsizingtype="col" autosizingtype="none" autofittype="col" style="font:9 Arial;">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="248"/>
+                <Column size="153"/>
+                <Column size="151"/>
+                <Column size="174"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="Seq"/>
+                <Cell col="1" text="Address"/>
+                <Cell col="2" text="Company Name"/>
+                <Cell col="3" text="HomePage"/>
+                <Cell col="4" text="Technical Support HomePage"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SEQ"/>
+                <Cell col="1" text="bind:ADDRESS"/>
+                <Cell col="2" text="bind:NAME"/>
+                <Cell col="3" text="bind:HOMEPAGE"/>
+                <Cell col="4" text="bind:TECHHOMEPAGE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_inquiry" taborder="1" text="Inquiry" top="91" width="120" height="32" onclick="btn_inquiry_onclick" right="24"/>
+        <Static id="Static01" taborder="4" text="The number of queries:" left="408" top="135" width="152" height="22" style="font:9 Verdana;"/>
+        <Combo id="comType" taborder="5" left="477" top="96" width="117" height="20" codecolumn="codecolumn" datacolumn="datacolumn" index="-1" onitemchanged="comType_onitemchanged" style="font:9 Arial;">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">XML</Col>
+                <Col id="datacolumn">XML</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">SSV</Col>
+                <Col id="datacolumn">SSV</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Static id="Static03" taborder="8" text="Required Time (Seconds) :" left="185" top="135" width="178" height="22" style="font:9 Verdana;"/>
+        <Radio id="rdCount" taborder="10" columncount="3" index="0" codecolumn="codecolumn" datacolumn="datacolumn" value="30000" left="131" top="96" width="192" height="20" style="font:9 Arial;">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">30000</Col>
+                <Col id="datacolumn">30,000</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">50000</Col>
+                <Col id="datacolumn">50,000</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">100000</Col>
+                <Col id="datacolumn">100,000</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+        <Static id="Static00" taborder="11" text="Number of query :" left="25" top="96" width="107" height="20" style="font:9 Arial;"/>
+        <Static id="Static07" taborder="17" text="Data Inquiry" left="16" top="61" width="164" height="20" style="font:9 Verdana;" cssclass="sta_WF_subtitP"/>
+        <MaskEdit id="mk_cnt" taborder="18" left="549" top="135" width="82" height="22" style="background:transparent;border:0 none #808080ff ;color:#cc5200ff;align:left middle;font:bold antialias 9 arial; :disabled {color:#cc5200ff;}" value="0" mask="#,###" enable="false"/>
+        <MaskEdit id="mk_time" taborder="21" value="0" enable="false" left="346" top="135" width="82" height="22" style="background:transparent;border:0 none #808080ff ;color:#cc5200ff;align:left middle;font:bold antialias 9 arial; :disabled {color:#cc5200ff;}"/>
+        <CheckBox id="ckCompress" taborder="22" text="Compressed" left="605" top="96" width="120" height="20" enableevent="false" style="font:9 Arial;"/>
+        <Div id="Div00" taborder="23" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="24" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_data" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="SEQ" type="STRING" size="256"/>
+          <Column id="ADDRESS" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="HOMEPAGE" type="STRING" size="256"/>
+          <Column id="TECHHOMEPAGE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Transaction: 트랜잭션 수행
+
+transaction 메소드를 수행하여 서비스(Svc::Service_Default.jsp)를 요청하고,
+서비스의 결과를 데이터셋으로 받은 후 콜백(fn_callback) 함수를 호출하여
+서비스를 처리하는데 소요된 시간을 보여준다.
+*/
+
+
+var sStartTime;
+
+/* transaction 메소드가 호출할 서비스 URL */
+var serviceURL = "Svc::Service_Default.jsp";
+
+/* 트랜잭션 수행 */
+this.btn_inquiry_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_data.clearData();
+	
+	var objDate = new Date();  
+	sStartTime = objDate.getTime();
+	
+	this.mk_time.set_value(0);
+	this.mk_cnt.set_value(0);
+	
+	/* transaction 메소드 호출을 위한 인수(argument) 설정 */
+	var arg = "row_cnt=" + this.rdCount.value + " type=" + this.comType.value +  " compress=" + this.ckCompress.value;
+
+	/* transaction 메소드 호출 */
+	this.transaction("select", serviceURL, "", "ds_data=output", arg, "fn_callback"); 
+	
+}
+
+/* 트랜잭션이 끝난 후 호출되는 콜백함수 */
+this.fn_callback = function(serviceID, errCD, errMSG)
+{ 
+	if(errCD < 0)  
+	{   
+		this.alert(serviceID + "==" + errCD + "==" + errMSG);
+   
+	}else{          
+		var objDate = new Date();
+		
+		/* transaction 메소드 호출 결과에 대한 수행 시간 및 행의 개수 설정 */
+		this.mk_time.set_value(Math.floor((objDate.getTime()-sStartTime)/1000,1) );
+		this.mk_cnt.set_value(this.ds_data.rowcount);
+	}
+	
+}   
+
+/*
+transaction 메소드 호출을 위한 초기값 설정
+XML 형식 사용, 압축 옵션 비활성화
+*/
+this.form01_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.comType.set_value("XML");
+	this.ckCompress.set_enable(false);
+
+}
+
+/* 데이터 형식을 SSV로 선택했을 경우 압축 옵션 활성화 */
+this.comType_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(e.postvalue == 'SSV')
+	{
+		this.ckCompress.set_enable(true);
+	}
+	else
+	{
+		this.ckCompress.set_enable(false);    
+	}
+	
+}
+
+
+/* 샘플 리스트 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}]]></Script>
+  </Form>
+</FDL>

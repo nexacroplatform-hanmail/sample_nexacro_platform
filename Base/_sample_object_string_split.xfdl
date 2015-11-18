@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_object_string_split" classname="sample_object_string_split" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Button id="Button00" taborder="0" text="split" onclick="Button00_onclick" left="1.56%" top="14" right="86.72%" height="50"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var objString = "abcd";
+	var objArr;
+	
+	objArr = objString.split("b");    // objArr = a,cd
+	trace("objString.split(\"b\"): " + objString.split("b"));
+	
+	objArr = objString.split("b", 1);    // objArr = a
+	trace("objString.split(\"b\", 1): " + objString.split("b", 1));
+	
+	objArr = objString.split(/b/g, 2);    // objArr = a,cd
+	trace("objString.split(/b/g, 2): " + objString.split(/b/g, 2));
+		
+	objArr = "abcd".split("b", 2);    // objArr = a,cd
+	trace("\"abcd\".split(\"b\", 2): " + "abcd".split("b", 2));
+	
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_virtualfile_nexacro" classname="_sample_virtualfile_nexacro" left="0" top="0" width="1024" height="768" titletext="VirtualFile">
+    <Layouts>
+      <Layout>
+        <Static id="Static04" taborder="0" text="Contents" left="16" top="178" height="60" style="font:bold 16 dotum;" width="120"/>
+        <TextArea id="TextArea00" taborder="2" left="16" top="230" height="512" lengthunit="utf16" width="720"/>
+        <GroupBox id="GroupBox00" text="File Information" taborder="8" left="16" top="64" height="120" width="720" style="font:bold 10 dotum;"/>
+        <Button id="btn_open_file" taborder="9" text="Open" left="600" top="99" height="32" onclick="btn_open_file_onclick" width="120"/>
+        <Static id="Static00" taborder="12" text="File Path" left="39" top="99" height="32" style="font:10 dotum;" width="120"/>
+        <Static id="Static01" taborder="13" left="112" top="99" height="32" width="480" style="background:burlywood;border:1 solid #808080ff ;"/>
+        <Static id="Static02" taborder="14" text="File Size" left="39" top="136" height="32" style="font:10 dotum;" width="120"/>
+        <Static id="Static03" taborder="15" left="112" top="136" height="32" width="480" style="background:burlywood;border:1 solid #808080ff ;"/>
+        <Div id="Div00" taborder="16" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <Combo id="cb_list" taborder="0" displaynulltext="More Sample" innerdataset="@ds_sample_url" codecolumn="URL" datacolumn="CATEGORY" onitemchanged="Div00_cb_list_onitemchanged" left="7" top="7" width="240" height="32"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="17" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="5" width="120" height="32" style="font:9 dotum;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <VirtualFile id="VirtualFile00" onsuccess="VirtualFile00_onsuccess" onerror="VirtualFile00_onerror"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+VirtualFile, FileDialog 객체를 사용한 파일 핸들링
+*/
+
+
+/* 파일 대화상자 객체의 생성과 onclose 이벤트 등록 */
+this.btn_open_file_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+    var fopendlg = this.objects["fopendlg"];
+
+    if (fopendlg == null)
+    {
+		var fopendlg = new FileDialog();
+		
+		fopendlg.addEventHandler("onclose", this.fopendlg_onclose, this);
+    }
+    
+	fopendlg.set_filter("All(*.*)|*.*|HTML File(*.html)|*.html|XML File(*.xml)|*.xml|");
+	fopendlg.set_filterindex(1);
+
+
+	/* 파일 다이얼로그 종류
+	FileDialog.LOAD : 하나의 파일을 읽기 위해
+	FileDialog.SAVE : 하나의 파일을 쓰기 위해
+	FileDialog.MULTILOAD : 하나 이상의 파일을 읽기 위해
+	FileDialog.SELFOLDER : 폴더를 선택
+	*/
+	if(!fopendlg.open("File Open", FileDialog.LOAD))
+	{
+		trace("File selection failed.");
+	}
+	
+}
+
+/* 파일 대화상자에서 선택한 파일을 VirtualFile 객체를 사용하여 오픈 */
+this.fopendlg_onclose = function(obj:FileDialog, e:nexacro.FileDialogEventInfo)
+{
+	trace(">> fopendlg_onclose");
+	
+	if(!this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead|nexacro.VirtualFile.openText))
+	{
+		trace("File open failed.");
+	}
+	else
+	{
+		trace("e.virtualfiles[0].fullpath : "+e.virtualfiles[0].fullpath);	
+	}
+
+}
+
+/* 파일 오픈이 실패하면 수행되는 이벤트 핸들러 */
+this.VirtualFile00_onerror = function(obj:VirtualFile,e:nexacro.VirtualFileErrorEventInfo)
+{
+	trace(">> VirtualFile00_onerror(): " + e.errormsg);
+	
+}
+
+/* 파일 오픈이 성공하면 수행되는 이벤트 핸들러 */
+this.VirtualFile00_onsuccess = function(obj:VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	var strReason = ">> VirtualFile00_onsuccess(): ";
+	
+	switch(e.reason)
+	{
+		case 1:		/* open */
+			strReason += "file open succeed.";
+
+			this.Static01.set_text(this.VirtualFile00.fullpath);
+			
+			if(!this.VirtualFile00.getFileSize())
+			{
+				trace("getFileSize() failed.");			
+			}
+
+			if(!this.VirtualFile00.read());
+			{
+				trace("read() failed.");
+			}
+			
+			this.VirtualFile00.seek(0, VirtualFile.seekBegin);
+			
+			if(!this.VirtualFile00.readLine())
+			{
+				trace("readline() failed.");
+			}
+			
+			this.VirtualFile00.close();
+			
+			break;
+			
+		case 2:		/* close */
+			strReason += "close succeed.";
+			break;
+			
+		case 3:		/* read */
+			strReason += "read succeed.";
+			
+			this.TextArea00.set_value(e.textdata);			
+			
+			break;
+			
+		case 4:		/* readLine */
+			strReason += "readLine succeed.";
+			
+			this.TextArea01.set_value(e.textdata);
+			
+			break;
+			
+		case 5:		/* seek */
+			strReason += "seek succeed.";		
+			break;
+			
+		case 6:		/* write */
+			strReason += "write succeed.";		
+			break;
+			
+		case 7:		/* remove */
+			strReason += "remove succeed.";		
+			break;
+			
+		case 8:		/* getFileList */
+			strReason += "getFileList succeed.";
+			break;
+			
+		case 9:		/* getFileSize */
+			strReason += "getFileSize succeed. (" + e.filesize + ")";	
+				
+			this.Static03.set_text(e.filesize + " Bytes");
+			
+			break;
+			
+		case 10:	/* isExist */
+			strReason += "isExist succeed.";
+			break;
+			
+		case 11:	/* createDirectory */
+			strReason += "createDirectory succeed.";
+			break;
+			
+		case 12:	/* deleteDirectory */
+			strReason += "deleteDirectory succeed.";
+			break;
+			
+		case 13:	/* renameDirectory */
+			strReason += "renameDirectory succeed.";
+			break;
+			
+		default:	/* Unknown */
+			strReason += "UNKNOWN";
+	
+	}
+	
+	trace(strReason);
+
+}
+
+
+/* 샘플 리스트로 이동 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}]]></Script>
+  </Form>
+</FDL>

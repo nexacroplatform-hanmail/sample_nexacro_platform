@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_calendar_nexacro" classname="sample_calendar_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form" onload="sample_calendar_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Calendar id="Calendar00" taborder="0" left="1.56%" top="16" right="83.79%" height="20"/>
+        <Button id="Button00" taborder="1" text="normal" onclick="Button00_onclick" left="18.75%" top="16" right="68.36%" height="24"/>
+        <Button id="Button01" taborder="2" text="monthonly" onclick="Button01_onclick" left="18.75%" top="48" right="68.36%" height="24"/>
+        <Button id="Button02" taborder="3" text="spin" onclick="Button02_onclick" left="18.75%" top="112" right="68.36%" height="24"/>
+        <Button id="Button03" taborder="4" text="dateformat" onclick="Button03_onclick" left="18.75%" top="80" right="68.36%" height="24"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[//user defined function
+this.fn_today = function()
+{
+	var objDate = new Date();
+    return this.fn_toString(objDate);
+}
+
+this.fn_toString = function(objDate)
+{
+    var sRtn =  objDate.getFullYear()
+             + (objDate.getMonth()+1).toString().padLeft(2, "0")
+             +  objDate.getDate().toString().padLeft(2, "0");               
+	return sRtn;
+}
+
+
+//event handler
+this.sample_calendar_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	//오늘 날자로 설정
+	this.Calendar00.set_expr("comp.parent.fn_today()");
+	
+	
+	//트레일링데이 설정
+	if(this.Calendar00)
+	{
+		this.Calendar00.style.set_usetrailingday(true);
+		this.Calendar00.style.set_trailingdaycolor("gray");
+
+	}
+	
+}
+
+//type 설정
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Calendar00.set_type("normal");
+}
+
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Calendar00.set_type("monthonly");
+}
+
+this.Button02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Calendar00.set_type("spin");
+}
+
+
+//dateformat, editformat 설정
+this.Button03_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Calendar00.set_dateformat("yyyy/MM/dd");
+	this.Calendar00.set_editformat("yyyy/MM/dd");
+}
+]]></Script>
+  </Form>
+</FDL>

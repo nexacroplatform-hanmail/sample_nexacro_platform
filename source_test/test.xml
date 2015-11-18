@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<nexacro>
+  <key id="uxs" xadl="file://D:/temp/project_nexacro14/INIS_HMPG/INIS_HMPG.xadl.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <settings commthreadcount="3">
+      <queue path="-_-" priority="1"/>
+      <stack path="-0-" priority="2">
+          <buffer>
+            <size bsize="1000000"/>
+          </buffer>
+      </stack>
+  </settings>
+  <common/>
+  <key id="uxs" xadl="file://D:/temp/project_nexacro14/INIS_HMPG/INIS_HMPG.xadl.quickview.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/temp/project_nexacro14/nexacro/nexacro.xadl.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/temp/project_nexacro14/test/test.xadl.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/temp/project_nexacro14/test/test.xadl.quickview.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/test_first/Base/test_first/test_first.xadl.quickview.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/test_first/Base/test_first/test_first.xadl.js" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/test_first/Base/test_first/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/build/test_user_component/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://D:\Download\nexacro\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/build/EcoLibrary/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/build/test_eco/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/build/nui/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/test_user_component/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://D:\Download\nexacro\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/XPSelfStudy_Beginner/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <common2/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/nexacroSelfStudy_Beginner/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\" left="0" top="0" width="762" height="925"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/test_grid/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\" left="392" top="0" width="602" height="849"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/sample_grid_nexacro/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/sample_nexacro_platform/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\" left="159" top="0" width="1028" height="830"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/nexacro/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/INIS_HMPG/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/Sample_TreeImage/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\" left="0" top="18" width="1028" height="822"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/HumanResource/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/Techdoc1/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\" left="246" top="14" width="1028" height="822"/>
+  <key id="uxs" xadl="file://D:/apache-tomcat-7.0.33-windows-x86/webapps/nexacro/build/WebIFN/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\"/>
+  <key id="uxs" xadl="file://C:/Users/tobezizon/Documents/nexacro/outputs/sample_nexacro_platform/start.json" componentpath="file://C:\Program Files\nexacro\14" ComponentJSPath="file://C:\Program Files\nexacro\14\nexacro14lib\component\" left="244" top="0" width="1028" height="830"/>
+</nexacro>

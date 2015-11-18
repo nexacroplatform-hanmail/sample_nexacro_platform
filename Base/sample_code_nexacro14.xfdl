@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_code_nexacro14" classname="nexacro_sample_code_new" left="0" top="0" width="1024" height="768" titletext="HOME">
+    <Layouts>
+      <Layout>
+        <Grid id="Grid_url" taborder="0" useinputpanel="false" left="16" top="88" height="124" binddataset="ds_sample_url" autosizingtype="none" autofittype="col" cellsizingtype="col" oncelldblclick="Grid00_oncelldblclick" width="600" extendsizetype="none">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="CATEGORY"/>
+                <Cell col="1" text="URL"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CATEGORY"/>
+                <Cell col="1" text="bind:URL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="1" text="Please double-click the wanted sample." onclick="Static00_onclick" left="16" top="24" height="32" style="font:bold 10 Verdana;" width="600"/>
+        <Static id="stt_version" taborder="2" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="64" width="120" height="32" style="font:9 Arial;" left="504"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Script type="xscript5.0"><![CDATA[
+this.Grid00_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{	
+	if(e.cell > -1)
+	{
+		var codeURL;
+		
+		codeURL = application.ds_sample_url.getColumn(e.row, "URL");	
+		
+		application.gvHistory = codeURL;
+		
+		this.go(codeURL);
+
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

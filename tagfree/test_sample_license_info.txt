@@ -1,0 +1,13 @@
+TagFree 라이선스키
+------------------
+
+- tobesoft support 테스트 예제 샘플
+jG96mrgNQc8TMl69qn4tTh2GSuwq2QscK3ET/DhZ6uIoE2JCpswPVmHadeesLJZ7FcyGrk25duoVc3rQ7/kyzEnjY4eNsTb3cJ7t//UV7GoYDt2OdGXE5/2tYqRmnYEbbqhJLjmF8o0t/RxnXByHVhMRp5Q5014b7UqUt2XKS+2miBS8pCAlvROnucwCCzvr/lfKBtRVwwLR1G//rh1Igw==
+
+- tobesoft support 테스트 예제 샘플
+wuJ524aSyjt0zurVspGVbsDlxKZzN8XYkAyRk4Q6HMwp9F/MbwU1QJayo9QdrumaHf8pL1Y7vH63Eds+ntdEsm2qmYgosOtb88sZ8K4zCgkgRDezQluxql3CvpXIWfFN70TYcd9YhqP0JTNiMpm6gAKX5Hw9s0bUicPI3XR3DOk=
+
+
+TagFree 환경 설정 파일
+----------------------
+http://tagfree.com/env.xml

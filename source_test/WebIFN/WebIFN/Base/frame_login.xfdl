@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="frame_login" classname="frame_login" left="0" top="0" width="1280" height="800" titletext="로그인화면" onload="frame_login_onload">
+    <Layouts>
+      <Layout>
+        <ImageViewer id="ImageViewer00" taborder="0" text="Login" left="398" top="364" width="106" height="72" style="font:bold 24 arial;"/>
+        <Static id="st_id" taborder="5" text="아이디" left="518" top="364" width="56" height="20"/>
+        <Static id="st_pass" taborder="6" text="비밀번호" left="518" top="388" width="56" height="20"/>
+        <Edit id="edt_id" taborder="1" left="574" top="364" width="140" height="20" style="accessibility:enable all 'st_id' '';"/>
+        <Edit id="edt_pass" taborder="2" left="574" top="388" width="140" height="20" readonly="false" style="accessibility:enable all 'st_pass' '';"/>
+        <CheckBox id="chk_idSave" taborder="3" text="아이디 저장" left="518" top="418" width="94" height="20"/>
+        <Button id="btn_login" taborder="4" text="로그인" left="726" top="364" width="64" height="44" onclick="btn_login_onclick"/>
+        <WebBrowser id="web_cookie" left="25" top="24" width="765" height="328" taborder="7" position="absolute 354 371 384 401" onloadcompleted="web_cookie_onloadcompleted"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[
+
+this.frame_login_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.web_cookie.set_url("http://172.10.11.144:8080/WebIF13/saveCookie.html");
+}
+
+this.btn_login_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if (this.chk_idSave.value){
+		this.setCookie("set",this.edt_id.value);
+	}else{
+		this.setCookie("del","");
+	}
+	
+	//application.av_vFrameSet.set_separatesize("0,72,*,24");
+	
+}
+
+this.web_cookie_onloadcompleted = function(obj:WebBrowser, e:nexacro.WebLoadCompEventInfo)
+{
+	this.getElement()._handle.getElementsByTagName("iframe")[0].contentWindow.setCallback(this, "webCallBack");
+	
+	this.setCookie("get","");
+}
+
+this.webCallBack = function(param)
+{
+//	alert("param= " + param);
+	
+	if (param.length == 0){
+		return false;
+	}
+	
+	var arrCookie = param.split("=");
+	
+	this.edt_id.set_value(arrCookie[1].substr(0,arrCookie[1].length-1));
+	this.chk_idSave.set_value(arrCookie[1].substr(arrCookie[1].length-1,1));
+	
+}
+
+this.setCookie = function(type,id)
+{
+	var doc = this.web_cookie.document ;		
+					
+	var objType = doc.getElementById("type");
+	var objTxt = doc.getElementById("cookieVal");	
+	var objBtn = doc.getElementById("setCookie");	
+	
+	
+	if(objTxt){
+		objType.value = type;
+		
+		if (type == "set"){
+			objTxt.value = this.edt_id.value+"1";
+		}else{
+			objTxt.value = "";
+		}
+		this.sleep(100);
+		objBtn.click();
+	}
+
+}
+]]></Script>
+  </Form>
+</FDL>

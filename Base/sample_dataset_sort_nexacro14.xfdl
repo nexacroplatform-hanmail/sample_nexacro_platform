@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_dataset_sort_nexacro14" classname="sample_dataset_sort_nexacro" left="0" top="0" width="1024" height="768" titletext="Dataset &gt; Sort">
+    <Layouts>
+      <Layout>
+        <Grid id="Grid00" taborder="0" binddataset="ds_sort" useinputpanel="false" autofittype="col" onheadclick="Grid00_onheadclick" left="16" top="96" height="266" width="600">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="Header 1"/>
+                <Cell col="1" text="Header 2"/>
+                <Cell col="2" text="Header 3"/>
+                <Cell col="3" text="Header 4"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COL1"/>
+                <Cell col="1" text="bind:COL2"/>
+                <Cell col="2" text="bind:COL3"/>
+                <Cell col="3" text="bind:COL4"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="2" text="When you click the header of the grid, sort function to work." left="16" top="64" height="32" style="font:bold 10 Verdana;" width="600" onclick="Static00_onclick"/>
+        <Div id="Div00" taborder="1" text="Div00" left="7" top="7" right="0.78%" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="3" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_sort" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="100" id="COL1"/>
+          <Column type="STRING" size="100" id="COL2"/>
+          <Column type="STRING" size="100" id="COL3"/>
+          <Column id="COL4" type="STRING" size="100"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">바</Col>
+            <Col id="COL3">Emergency</Col>
+            <Col id="COL4">###</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">3</Col>
+            <Col id="COL2">가</Col>
+            <Col id="COL3">buck</Col>
+            <Col id="COL4">Crow</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">5</Col>
+            <Col id="COL2">바</Col>
+            <Col id="COL3">Crow</Col>
+            <Col id="COL4">1</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">13</Col>
+            <Col id="COL2">가나</Col>
+            <Col id="COL3">Blast</Col>
+            <Col id="COL4">Board</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">13</Col>
+            <Col id="COL2">나다라</Col>
+            <Col id="COL3">Actress</Col>
+            <Col id="COL4">다</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">2</Col>
+            <Col id="COL2">아</Col>
+            <Col id="COL3">doughnut</Col>
+            <Col id="COL4">2</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">다라</Col>
+            <Col id="COL3">Emergency</Col>
+            <Col id="COL4">가</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">다라</Col>
+            <Col id="COL3">direction</Col>
+            <Col id="COL4">나</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">4</Col>
+            <Col id="COL2">사</Col>
+            <Col id="COL3">doughnut</Col>
+            <Col id="COL4">&amp;&amp;</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">25</Col>
+            <Col id="COL2">나</Col>
+            <Col id="COL3">Joker</Col>
+            <Col id="COL4">Actress</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Dataset: 정렬
+
+그리드에 바인딩한 데이터를 데이터셋의 keystring 속성을 사용하여
+정렬한다. 
+그리드의 헤더를 클릭하면 정렬이 수행된다.
+*/
+
+
+/* Sort that was used by clicking on the header of the grid */
+this.Grid00_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var objDs = this.objects[obj.binddataset];
+ 										
+	for (var i = 0; i < obj.getCellCount("head"); i++)
+	{		
+		var sHeadText = obj.getCellText(-1, i);
+        var nLen      = sHeadText.length - 1;
+		
+		/* If the clicked head cell */
+		if (i == e.cell)
+		{
+            var sColId = (obj.getCellProperty("body", e.col,"text")).toString().split(":");
+			
+			/* If the previous sort in ascending order, it will be sorted in descending order */
+			if (sHeadText.substr(nLen) == "▲") 
+			{
+				obj.setCellProperty( "head", i, "text", sHeadText.substr(0, nLen)+ "▼");
+				objDs.set_keystring("S:-" + sColId[1]);
+			}
+			/* If the previous sort in descending order, it will be sorted in ascending order */
+			else if (sHeadText.substr(nLen) == "▼") 
+			{
+				obj.setCellProperty( "head", i, "text", sHeadText.substr(0, nLen)+ "▲");
+				objDs.set_keystring("S:+" + sColId[1]);
+			}
+			/* If first sort, it will sort in ascending order */
+			else 
+			{
+				obj.setCellProperty( "head", i, "text", sHeadText+"▲");
+				objDs.set_keystring("S:+" + sColId[1]);
+			}
+		}
+		/* If it's not the clicked head cell */
+		else
+		{
+
+			/* Remove the arrow indication is displayed in the head cell which are arranged previously */
+			if (sHeadText.substr(nLen) == "▲" || sHeadText.substr(nLen) == "▼") 
+			{
+				obj.setCellProperty( "head", i, "text", sHeadText.substr(0, nLen));
+			}
+
+		}
+	}	
+}
+
+]]></Script>
+  </Form>
+</FDL>

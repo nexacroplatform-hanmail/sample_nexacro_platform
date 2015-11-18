@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_grid_format_nexacro" classname="sample_grid_format_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Button id="Button00" taborder="0" text="default" onclick="Button00_onclick" left="14.06%" top="20" height="18" width="80"/>
+        <Button id="Button01" taborder="1" text="format0" onclick="Button01_onclick" left="24.51%" top="20" height="18" width="80"/>
+        <Grid id="Grid00_format" taborder="2" binddataset="ds_format" useinputpanel="false" autofittype="col" left="1.56%" top="67" right="65.33%" height="120">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="COL1"/>
+                <Cell col="1" text="COL2"/>
+                <Cell col="2" text="COL3"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COL1"/>
+                <Cell col="1" text="bind:COL2"/>
+                <Cell col="2" text="bind:COL3"/>
+              </Band>
+            </Format>
+            <Format id="format0">
+              <Columns>
+                <Column size="96"/>
+                <Column size="103"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="COL1"/>
+                <Cell col="1" text="COL2"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COL1"/>
+                <Cell col="1" text="bind:COL2"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button02" taborder="4" text="Hidden" onclick="Button02_onclick" left="14.06%" top="43" height="18" width="80"/>
+        <Button id="Button04" taborder="6" text="ds_format" onclick="Button04_onclick" left="14.06%" top="218" height="18" width="80"/>
+        <Button id="Button05" taborder="7" text="ds_format1" onclick="Button05_onclick" left="24.51%" top="218" height="18" width="80"/>
+        <Grid id="Grid01" taborder="8" useinputpanel="false" left="1.56%" top="266" right="65.33%" height="120" autofittype="col">
+          <Formats/>
+        </Grid>
+        <Static id="Static07" taborder="9" text="Create Format(Dataset 이용)" usedecorate="true" cssclass="_SS_Title4" left="1.76%" top="196" right="74.8%" height="25"/>
+        <Static id="Static08" taborder="10" text="Format 변경" usedecorate="true" cssclass="_SS_Title4" left="1.76%" top="239" right="74.8%" height="25"/>
+        <Button id="Button06" taborder="11" text="Contents" onclick="Button06_onclick" left="24.51%" top="242" height="18" width="80"/>
+        <Static id="Static05" taborder="14" text="Predefine Format" usedecorate="true" cssclass="_SS_Title4" left="1.66%" top="16" right="85.94%" height="25"/>
+        <Static id="Static06" taborder="15" text="Cell 속성 변경" usedecorate="true" cssclass="_SS_Title4" left="1.66%" top="40" right="87.6%" height="25"/>
+        <Button id="Button03" taborder="16" text="Show" left="24.51%" top="43" height="18" onclick="Button03_onclick" width="80"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_format" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="COL1"/>
+          <Column type="STRING" size="255" id="COL2"/>
+          <Column type="STRING" size="255" id="COL3"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">남</Col>
+            <Col id="COL3">a</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">2</Col>
+            <Col id="COL2">여</Col>
+            <Col id="COL3">b</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">3</Col>
+            <Col id="COL2">남</Col>
+            <Col id="COL3">c</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_format1" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="COL1"/>
+          <Column type="STRING" size="255" id="COL2"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">남</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">2</Col>
+            <Col id="COL2">여</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">3</Col>
+            <Col id="COL2">남</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//set formatid of grid to default value
+	this.Grid00_format.set_formatid("default");
+}
+
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//set formatid of grid to format0 value
+	this.Grid00_format.set_formatid("format0");	
+}
+
+this.Button02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Grid00_format.setFormatColProperty(1, "size", 0);
+	//this.Grid00_format.setFormatRowProperty(1, "size", 0);
+}
+
+this.Button03_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Grid00_format.setFormatColProperty(1, "size", 80);
+	//this.Grid00_format.setFormatRowProperty(1, "size", 80);	
+}
+
+
+this.Button04_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//bind the dataset ds_format
+	this.Grid01.set_binddataset("ds_format");
+	
+	//create a new format by using the bound ds_format dataset
+	this.Grid01.createFormat();
+}
+
+this.Button05_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//bind the dataset ds_format1
+	this.Grid01.setBindDataset(this.ds_format1);
+	
+	//create a new format by using the bound ds_format1 dataset
+	this.Grid01.createFormat();
+}
+
+this.Button06_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//Grid contents
+	var sFormat = 
+		"<Formats>\n" +
+		"<Format id=\"default\">\n" +
+		"<Columns>\n" +
+		"  <Column size=\"80\" />\n" +
+		"  <Column size=\"80\" />\n" +
+		"  <Column size=\"80\" />\n" +
+		"  <Column size=\"80\" />\n" +
+		"</Columns>\n" +
+		"<Rows>\n" +
+		"    <Row size=\"24\" band=\"head\" fix=\"fixed\" />\n" +
+		"    <Row size=\"24\" />\n" +
+		"</Rows>\n" +
+		"<Band id=\"head\">\n" +
+		"    <Cell text=\"COL1\"/>\n" +
+		"    <Cell col=\"1\" text=\"COL2\"/>\n" +
+		"    <Cell col=\"2\" text=\"COL3\"/>\n" +
+		"    <Cell col=\"3\" text=\"COL4\"/>\n" +
+		"</Band>\n" +
+		"<Band id=\"body\">\n" +
+		"    <Cell text=\"bind:COL1\"/>\n" +
+		"    <Cell col=\"1\" text=\"bind:COL2\"/>\n" +
+		"    <Cell col=\"2\" text=\"bind:COL3\"/>\n" +
+		"    <Cell col=\"3\" text=\"bind:COL4\"/>\n" +		
+		"</Band>\n" +
+		"</Format>\n" +
+		"</Formats>";
+
+	//set the grid contents to formats property
+	this.Grid01.set_formats(sFormat);
+
+}]]></Script>
+  </Form>
+</FDL>

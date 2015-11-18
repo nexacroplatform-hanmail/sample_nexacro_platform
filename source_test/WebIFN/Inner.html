@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript" src="WebIF.js"></script>
+<script type="text/javascript">
+var xpCallBackObj;  //WebBrowser 로부터 결과를 전달받을 오브젝트 (XPLATFORM Form)
+var xpCallBackFn;
+
+	function setCallback(obj, name)
+	{
+    window.NEXACROHTML.Init();
+
+    
+/*
+		xpCallBackObj = obj;
+		xpCallBackFn = name;
+alert(	obj + ":" + 	name);
+//		console.log("xpCallBackObj >>> "+xpCallBackObj+"  xpCallBackFn >>> "+xpCallBackFn);
+*/
+	};
+	
+function submitContents() {
+
+
+//for(var prop in window) {
+//console.log(prop + ":" + window[prop];
+//}
+
+// 에디터의 내용이 textarea에 적용된다.
+      
+      // 에디터의 내용에 대한 값 검증은 이곳에서
+  var objElement = document.getElementById("inputText1");
+      
+  try {
+  
+  
+      window.NEXACROHTML.FireUserNotify(objElement.value);
+
+// 	  xpCallBackObj[xpCallBackFn](objElement.value);
+//	  console.log(objElement.value);
+ 
+      } catch(e) {
+    	  alert(e + "error");
+      }
+    };
+
+</script>
+</head>
+<BODY onload ="setCallback();">
+<H1>Web Contetnts2</H1>
+	<input type="text" id="inputText1" value="NEXACRO" ></input>
+	<input type="button" id="btnTest1" value="HTML5값전달" onClick="submitContents()"></input>
+</BODY>
+</html>

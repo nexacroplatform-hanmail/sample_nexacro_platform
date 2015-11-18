@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GlobalVariables>
+  <Variable id="gvServerID" initval="http://demo.nexacro.com/nexacroSelfStudy/nexacroSelfStudy_Beginner"/>
+  <Variable id="gvDomain" initval="ko"/>
+  <Dataset id="ds_sample_url">
+    <ColumnInfo>
+      <Column type="STRING" size="255" id="ID"/>
+      <Column type="STRING" size="255" id="CATEGORY"/>
+      <Column id="URL" type="STRING" size="256"/>
+    </ColumnInfo>
+    <Rows>
+      <Row>
+        <Col id="ID">1</Col>
+        <Col id="CATEGORY">Grid &gt; Cell &gt; display</Col>
+        <Col id="URL">Base::sample_grid_cell_display_nexacro14.xfdl</Col>
+      </Row>
+      <Row>
+        <Col id="ID">2</Col>
+        <Col id="CATEGORY">Grid &gt; Cell &gt; edit</Col>
+        <Col id="URL">Base::sample_grid_cell_edit_nexacro14.xfdl</Col>
+      </Row>
+      <Row>
+        <Col id="ID">4</Col>
+        <Col id="CATEGORY">Grid &gt; subsum</Col>
+        <Col id="URL">Base::sample_grid_subsum_nexacro14.xfdl</Col>
+      </Row>
+      <Row>
+        <Col id="ID">8</Col>
+        <Col id="CATEGORY">DOM</Col>
+        <Col id="URL">Base::sample_dom_nexacro14.xfdl</Col>
+      </Row>
+    </Rows>
+  </Dataset>
+  <Variable id="gvHistory"/>
+  <Variable id="gvHome" initval="Base::nexacro_sample_code.xfdl"/>
+  <Variable id="gvResult"/>
+  <Variable id="gvVersion" initval="14.0.0.703"/>
+  <Variable id="gvHomeName" initval="More Sample"/>
+  <Variable id="gvDebug" initval="true"/>
+</GlobalVariables>

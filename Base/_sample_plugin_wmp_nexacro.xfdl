@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_plugin_nexacro" classname="testRexpert" left="0" top="0" width="1024" height="768" titletext="Plugin &gt; Window Media Player" onload="sample_plugin_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_playstop" taborder="0" text="Play / Stop" onclick="btn_playstop_onclick" left="16" top="64" height="32" width="120"/>
+        <Button id="btn_fullscreen" taborder="1" text="Full screen" onclick="btn_fullscreen_onclick" left="140" top="64" height="32" width="120"/>
+        <Div id="Div00" taborder="2" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <Combo id="cb_list" taborder="0" displaynulltext="More Sample" innerdataset="@ds_sample_url" codecolumn="URL" datacolumn="CATEGORY" onitemchanged="Div00_cb_list_onitemchanged" left="7" top="7" width="240" height="32"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="3" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="5" width="120" height="32" style="font:9 dotum;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Dataset00" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="Song" type="STRING" size="256"/>
+          <Column id="URL" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="URL">cutie.mp4</Col>
+            <Col id="Song">Cute Song</Col>
+          </Row>
+          <Row>
+            <Col id="URL">C2C - Happy Ft. D.Martin_(1080p).mp4</Col>
+            <Col id="Song">C2C - Happy</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Plugin: WMP(윈도우 미디어 플레이어) 액티브X 컨트롤 사용
+
+플로그인 컴포넌트를 생성한 후 WMP 액티브X의 classid를 설정하여 WMP와 연결한다.
+플러그인의 setProperty 메소드를 사용하여 WMP의 URL 속성에 재생할 영상의 URL을
+설정한다.
+WMP의 상태는 getProperty 메소드로 WMP의 playState 속성값을 확인하여 체크한다.
+
+Windows Media Player information
+ - classid: 6BF52A52-394A-11D3-B153-00C04F79FAA6
+ - codebase: http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112
+*/
+
+
+var objPlugin;
+
+/* 플레이어의 상태 정보를 반환 */
+this.WMP_playState = function()
+{
+	var strPlayState;
+
+	if(this.Plugin00)
+	{			
+		/*
+		The playState property retrieves a value indicating the state of the Windows Media Player operation.
+		*/
+		switch( this.Plugin00.getProperty("playState") )
+		{
+			case 0:		/* Windows Media Player is in an undefined state. */
+				strPlayState = "Undefined";
+				break;
+			case 1:		/* Playback of the current media item is stopped. */
+				strPlayState = "Stopped";
+				break;
+			case 2:		/* Playback of the current media item is paused. When a media item is paused, resuming playback begins from the same location. */
+				strPlayState = "Paused";
+				break;
+			case 3:		/* Playing	The current media item is playing. */
+				strPlayState = "Playing";
+				break;
+			case 4:		/* The current media item is fast forwarding. */
+				strPlayState = "ScanForward";
+				break;
+			case 5:		/* The current media item is fast rewinding. */
+				strPlayState = "ScanReverse";
+				break;
+			case 6:		/* The current media item is getting additional data from the server. */
+				strPlayState = "Buffering";
+				break;
+			case 7:		/* Waiting	Connection is established, but the server is not sending data. Waiting for session to begin. */
+				strPlayState = "Waiting";
+				break;
+			case 8:		/* Media item has completed playback. */
+				strPlayState = "MediaEnded";
+				break;
+			case 9:		/* Preparing new media item. */
+				strPlayState = "Transitioning";
+				break;
+			case 10:	/* Ready to begin playing. */
+				strPlayState = "Ready";
+				break;
+			case 11:	/* Reconnecting to stream. */
+				strPlayState = "Reconnecting";
+				break;
+			default:	/* Unknown state. */
+				strPlayState = "Unknown state";
+		}
+		
+		return strPlayState;
+
+	}
+	
+}
+
+
+this.btn_playstop_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	/* 재생중이면 플레이어를 종료한다. */
+	if(this.Plugin00)
+	{			
+		this.Plugin00.callMethod("close");
+		 
+		/* Remove Object form Parent Form */
+		this.removeChild("Plugin00");
+		delete this.Plugin00;
+	
+		/* Destroy Object */
+		objPlugin.destroy(); 
+		objPlugin = null;	
+		
+		//trace("playState: " + this.WMP_playState());
+		
+	}
+	/* 재생중이 아니면 플러그인 컴포넌트를 생성한 후 재생한다. */
+	else
+	{
+		/* Create Object */
+		objPlugin = new Plugin();
+		objPlugin.init("Plugin00", "absolute", 10, 104, 800, 480, null, null);
+		
+		/* Add Object to Parent Form */
+		this.addChild("Plugin00", objPlugin); 
+	 
+		/* Insert Object to Parent Form */
+		this.insertChild(1, "Plugin00", objPlugin); 
+
+		/* classid of windows media player */
+		this.Plugin00.set_classid("{6BF52A52-394A-11D3-B153-00C04F79FAA6}");
+			
+		/* URL param for windows media player */
+		this.Plugin00.setProperty("URL", "http://59.10.169.74/temp/C2C - Happy Ft. D.Martin_(1080p).mp4");
+		
+		/* Show Object */
+		objPlugin.show();
+						
+		//trace("playState: " + this.WMP_playState());
+	
+	}
+	
+}
+
+/* 화면 모드를 전체 화면으로 설정한다. */
+this.btn_fullscreen_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.Plugin00)
+	{	
+		if( this.WMP_playState() == "Playing")
+			this.Plugin00.setProperty("fullScreen", true);
+		else
+			alert("영상을 재생중이 아닙니다.");
+	}
+	else
+	{
+		alert("영상을 재생중이 아닙니다.");
+	}
+	
+}
+
+/* WMP 컨트롤이 설치되어 있는지 확인한다. */
+this.sample_plugin_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var bResult;
+	
+	/* Create Object */
+	objPlugin = new Plugin();
+	objPlugin.init("Plugin00", "absolute", 10, 104, 800, 480, null, null);
+	//objPlugin.init("Plugin00", "absolute", 0, 50, 304, 540, null, null);
+	
+	/* Add Object to Parent Form */
+	this.addChild("Plugin00", objPlugin); 
+ 
+	/* Insert Object to Parent Form */
+	this.insertChild(1, "Plugin00", objPlugin); 
+
+	this.Plugin00.style.set_border("1px solid black");
+
+	/* classid of windows media player */
+	this.Plugin00.set_classid("{6BF52A52-394A-11D3-B153-00C04F79FAA6}");
+		
+	/* Show Object */
+	objPlugin.show();
+
+	/*
+	플러그인 로딩에 실패했으면 정상적으로 플러그인이 인스톨되어 있는지
+	확인하고 내려받을 activex의 codebase 경로를 설정한다.
+	*/
+	if(!this.Plugin00.isLoaded())
+	{
+		trace("Plugin load failed.");
+
+		if(!this.Plugin00.isInstalled())
+		{
+			trace("Plugin is not installed.");
+			
+			/* codebase 설정 */
+			this.Plugin00.set_codebase("http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112");
+			
+			if(this.Plugin00.install())
+			{
+				trace("Plugin installation succeed.");
+			}
+			else
+			{
+				trace("Plugin installation failed.");
+			}
+			
+		}		
+	}
+
+	/* Remove Object form Parent Form */
+	this.removeChild("Plugin00");
+	delete this.Plugin00;
+
+	/* Destroy Object */
+	objPlugin.destroy(); 
+	objPlugin = null;	
+				
+}
+
+
+/* 샘플 리스트로 이동 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}]]></Script>
+  </Form>
+</FDL>

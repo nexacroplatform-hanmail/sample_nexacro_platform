@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.4">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="webBrowser" classname="webBrowser" inheritanceid="" position="absolute 0 0 630 188" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <WebBrowser id="wb002" position="absolute 18 24 392 177" taborder="1" url="http://172.10.11.103:8080/1128/services/WebIFInner2.html" ontitlechange="wb002_ontitlechange" visible="true" style="border:1 solid #808080 ;" onusernotify="wb002_onusernotify"/>
+        <Button id="Button01" taborder="1" text="setHtmlText" onclick="Button01_onclick" position2="absolute l:418 w:203 t:72 h:39" positiontype="position2"/>
+        <Edit id="Edit00" taborder="1" value="XPLATFORM Text" position2="absolute l:418 w:203 t:25 h:28" positiontype="position2"/>
+      </Layout>
+    </Layouts>
+    <InitValue>
+      <Button id="Button01" text="setHtmlText"/>
+    </InitValue>
+    <Script type="xscript4.0"><![CDATA[var func;
+function Button01_onclick(obj:Button,  e:ClickEventInfo)
+{
+	var doc = wb002.document;
+	var objTxt = doc.getElementById("txt1");
+	
+	if (objTxt)
+		objTxt.value = Edit00.value;
+}
+
+function fn_xpFun1()
+{
+	alert("fn_xpFun1");
+	var doc = wb002.document;
+	var objTxt = doc.getElementById("txt1");
+	
+	if (objTxt)
+		 Edit00.value = objTxt.value;
+}
+
+function wb002_onusernotify(obj:WebBrowser, e:WebUserNotifyEventInfo)
+{
+	alert("userdata:"+e.userdata);
+	func = this[e.userdata];
+	if(func)
+		func();
+}
+]]></Script>
+  </Form>
+</FDL>

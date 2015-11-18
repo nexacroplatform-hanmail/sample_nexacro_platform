@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_menu_nexacro14" classname="sample_menu_nexacro" left="0" top="0" width="1024" height="768" titletext="Menu" onload="sample_menu_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Menu id="Menu00" taborder="0" left="16" top="64" height="32" width="640" onmenuclick="Menu00_onmenuclick" style="background:burlywood;font:10 Arial;"/>
+        <Div id="Div00" taborder="2" left="16" top="96" height="480" width="640" text="Please click the menu." style="font:10 Arial;">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Div id="Div01" taborder="3" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="4" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_menu" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="CAPTION"/>
+          <Column type="STRING" size="255" id="ID"/>
+          <Column type="STRING" size="255" id="LEVEL"/>
+          <Column id="HOTKEY" type="STRING" size="256"/>
+          <Column id="ENABLE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CAPTION">Menu</Col>
+            <Col id="LEVEL">0</Col>
+            <Col id="ID"/>
+            <Col id="HOTKEY">m</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">File</Col>
+            <Col id="ID">Menu &gt; File</Col>
+            <Col id="LEVEL">1</Col>
+            <Col id="HOTKEY">f</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">New</Col>
+            <Col id="ID">Manu &gt; File &gt; New</Col>
+            <Col id="LEVEL">2</Col>
+            <Col id="HOTKEY">n</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">Edit</Col>
+            <Col id="ID">Menu &gt; Edit</Col>
+            <Col id="LEVEL">1</Col>
+            <Col id="HOTKEY">e</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">View</Col>
+            <Col id="ID">Menu &gt; View</Col>
+            <Col id="LEVEL">1</Col>
+            <Col id="HOTKEY">v</Col>
+            <Col id="ENABLE">false</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">Sample</Col>
+            <Col id="LEVEL">0</Col>
+            <Col id="ID"/>
+            <Col id="HOTKEY">s</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">ProgressBar</Col>
+            <Col id="ID">Base::sample_progressbar_nexacro14.xfdl</Col>
+            <Col id="LEVEL">1</Col>
+            <Col id="HOTKEY">p</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">Grid</Col>
+            <Col id="ID">Base::sample_dataset_sort_nexacro14.xfdl</Col>
+            <Col id="LEVEL">1</Col>
+            <Col id="HOTKEY">g</Col>
+            <Col id="ENABLE">true</Col>
+          </Row>
+          <Row>
+            <Col id="CAPTION">Plugin</Col>
+            <Col id="ID">Base::sample_plugin_tagfree_nexacro14.xfdl</Col>
+            <Col id="LEVEL">1</Col>
+            <Col id="HOTKEY">i</Col>
+            <Col id="ENABLE">false</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Menu: 메뉴를 구성하는 방법
+
+idcolumn, levelcolumn, captioncolumn 속성을 설정하여 메뉴를 구성할 수 있다.
+메뉴를 구성하기 위해서 idcolumn, levelcolumn, captioncolumn은 반드시 설정해야 한다.
+*/
+
+
+/* 메뉴 구성 */
+this.sample_menu_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	/* binding menu information to menu component */
+	this.Menu00.setInnerDataset(this.ds_menu);
+	
+	/*
+	Dataset menu information is set in the properties of the menu component.
+	It's Required properties.
+	*/
+	this.Menu00.set_captioncolumn("CAPTION");
+	this.Menu00.set_idcolumn("ID");
+	this.Menu00.set_levelcolumn("LEVEL");
+	
+	/*
+	Dataset menu information is set in the properties of the menu component.
+	It's Option properties.
+	*/
+	this.Menu00.set_hotkeycolumn("HOTKEY");
+	this.Menu00.set_enablecolumn("ENABLE");
+	
+}
+
+/* 메뉴를 클릭했을 때 호출되는 이벤트 핸들러 */
+this.Menu00_onmenuclick = function(obj:Menu, e:nexacro.MenuClickEventInfo)
+{
+	if(e.id != "")
+	{
+		if( e.id.search(/.xfdl/) > -1 )
+		{
+			this.Div00.set_url(e.id);
+		}
+		else
+		{
+			this.Div00.set_url("");
+			this.Div00.set_text(e.id + " clicked.");
+		}
+	}
+}
+
+
+/* 샘플 리스트로 이동 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}]]></Script>
+  </Form>
+</FDL>

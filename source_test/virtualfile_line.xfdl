@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="_ext_windows" classname="_ext_windows" left="0" top="0" width="879" height="529" titletext="New Form" onload="_ext_windows_onload" onclose="_ext_windows_onclose">
+    <Layouts>
+      <Layout>
+        <Button id="bnt_VirtualFile" taborder="14" text="Virtual File" left="3.07%" top="21" right="70.19%" height="67" onclick="Button00_onclick"/>
+        <TextArea id="TextArea00" taborder="15" left="39.14%" top="24" right="18.54%" height="406"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <VirtualFile id="VirtualFile00" onsuccess="VirtualFile00_onsuccess"/>
+      <FileDialog id="FileDialog00" filter="All(*.*)|*.*|" filterindex="0" defaultextension="false" onclose="FileDialog00_onclose"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+var Extension = {};
+var objExtURL = "D:/_WORK_Project_V8/_ExtCommonApi_V13/_src/ExtCommonV13/release/ExtCommonV13.dll";
+ 
+this._ext_windows_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	nexacro._addExtensionModule(Extension, objExtURL);
+}
+
+this._ext_windows_onclose = function(obj:Form, e:nexacro.CloseEventInfo)
+{
+	nexacro._clearExtensionModule(objExtURL);
+}
+
+/****************************************************************************************************
+method		: _ext_readFile
+DESC			: 파일을 읽습니다.
+INPUT			: string directory path: 읽으려는 파일 경로. 
+
+				현재 파일 포멧
+				ANSI  : 정상.
+				UTF-8 : 정상.
+
+OUPUT			: string : 읽은 파일 데이터.
+****************************************************************************************************/
+this._ext_readFile_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var ret;
+	//ret = Extension._ext_readFile("D:/TEMP/ANSI_UTF8.txt");
+	ret = Extension._ext_readFile("D:/자기소개서_10000.txt");
+
+	trace("_ext_readFile :--- " +  ret);
+}
+
+this.indexText = 1;
+
+this.MemText = "";
+
+this.VirtualFile00_onsuccess = function(obj:VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	trace("@@@@@@ AsyncVFile onsuccess : " + e.reason);
+	switch (e.reason)
+	{
+		case 1:		// open
+			trace("@@@@@@ Open Read Success");
+			//this.VirtualFile00.read();
+			//var ret = this.VirtualFile00.read(1024);
+			//trace(" ===== : " + ret);
+			
+			
+			//alert(e.textdata);
+			this.VirtualFile00.readLine();
+			break;
+		case 2:		// close
+			trace("@@@@@@ close 성공!");	
+			break;							
+		case 3:		// read
+			
+			var ret = e.textdata;
+			
+			trace(" ===== : " + ret);
+			
+			if( ret == "" )
+			{
+				//trace("@@@@@@ read 성공!");	
+				this.VirtualFile00.close();	
+				break;
+			}
+			else
+			{
+			 trace(" Read :: " + this.VirtualFile00.read(1024));
+			}
+			//alert("File Read 완료!" +ret  );
+			//alert("File Read 완료! : \n" + e.textdata);
+			
+		case 4:		// readLine
+		
+			trace( "Line Index : "+ this.indexText );
+			trace(" data :: " + e.textdata)
+			
+			
+			if( e.textdata == "" )
+			{
+				trace("End");
+				trace(this.MemText );
+				this.TextArea00.set_value(this.MemText);
+				break;
+			}
+			else
+			{
+			//	trace(this.VirtualFile00.readLine());
+				this.indexText++;
+				this.VirtualFile00.readLine()
+				this.MemText += String.fromCharCode(13) + String.fromCharCode(10);
+				this.MemText += e.textdata;
+			}
+			break;
+			
+		case 5:		// seek
+			break;
+			
+		case 6:		// write
+			alert("File Write 완료! ");
+			this.VirtualFile00.close(); 
+			break;
+			
+		case 7:		// remove
+			alert("File Remove 완료! ");
+			break;
+			
+		case 8:		// getFileList
+			break;
+		case 9:		// getFileSize
+			break;
+			
+		case 10:	// isExist
+			if (e.fileisexist)	
+				alert("존재하는 파일입니다. : " + e.fileisexist);
+			else
+				alert("없는 파일입니다. : " +  e.fileisexist);
+			break;			
+	}  
+}
+
+
+
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	 var varRet = this.FileDialog00.open("FileOpen", FileDialog.LOAD);
+}
+
+this.FileDialog00_onclose = function(obj:FileDialog, e:nexacro.FileDialogEventInfo)
+{
+	//var rtn = this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead);
+	var rtn = this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead);
+}
+]]></Script>
+  </Form>
+</FDL>

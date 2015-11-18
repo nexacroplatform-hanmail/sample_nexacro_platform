@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_progressbar_nexacro14" classname="sample_progressbar_nexacro" left="0" top="0" width="1024" height="768" titletext="ProgressBar" onload="sample_progressbar_nexacro_onload" ontimer="sample_progressbar_nexacro_ontimer">
+    <Layouts>
+      <Layout>
+        <ProgressBar id="ProgressBar00" taborder="0" text="ProgressBar00" left="16" top="96" height="32" width="400"/>
+        <ProgressBar id="ProgressBar01" taborder="1" text="ProgressBar01" left="16" top="132" height="28" width="400"/>
+        <Button id="btn_start" taborder="2" text="START" onclick="btn_start_onclick" left="16" top="168" height="32" width="120" style="font:9 Arial;"/>
+        <Button id="btn_reset" taborder="3" text="RESET" onclick="btn_reset_onclick" left="140" top="168" height="32" width="120" style="font:9 Arial;"/>
+        <Div id="Div00" taborder="4" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="5" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[/*
+ProgressBar: 진행표시줄의 설정과 동작
+
+진행표시줄 컴포넌트를 설정하고 setTimer 메소드로 타이머를 설정하여
+특정 시간 간격마다 ontimer 이벤트를 발생시킨다.
+이벤트 발생시마다 호출되는 ontimer 이벤트에서는
+stepIt 메소드를 호출하여 진행표시줄을 step 속성에 설정한 값만큼 증가시킨다.
+*/
+
+
+/* 진행표시줄 컴포넌트와 타이머 설정 */
+this.btn_start_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	/* 진행표시줄의 초기값 설정 */
+	this.ProgressBar00.set_pos(0);
+	this.ProgressBar00.set_min(0);
+	this.ProgressBar00.set_max(100);
+	this.ProgressBar00.set_step(1);
+	
+	this.ProgressBar01.set_pos(0);
+	this.ProgressBar01.set_min(0);
+	this.ProgressBar01.set_max(100);
+	this.ProgressBar01.set_step(4);
+	this.ProgressBar01.style.set_direction("backward");
+	
+	/* 타이머 설정 */
+	this.setTimer(0, 50);
+	
+}
+
+/* ontimer 이벤트 핸들러 */
+this.sample_progressbar_nexacro_ontimer = function(obj:Form, e:nexacro.TimerEventInfo)
+{
+	if(e.timerid == 0)
+	{
+		/* 진행표시줄의 pos이 100%에 이르면 타이머 종료 */
+		if(this.ProgressBar00.pos == 100 && this.ProgressBar01.pos == 100)
+		{
+			this.killTimer(0);
+		}
+
+		/* 진행표시줄 증가 */
+		this.ProgressBar00.stepIt();
+		
+		this.ProgressBar01.stepIt();
+	}
+	
+}
+
+/* 진행표시줄 및 타이머 재설정 */
+this.btn_reset_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ProgressBar00.set_pos(0);
+	this.ProgressBar01.set_pos(0);
+	
+	this.killTimer(0);
+	
+}
+
+
+/* 샘플 리스트로 이동 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_webbrowser_nexacro" classname="sample_webbrowser_nexacro" left="0" top="0" width="1024" height="768" titletext="WebBrowser" onload="sample_webbrowser_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Edit id="Edit00" taborder="0" left="1.66%" top="17" right="59.38%" height="20"/>
+        <Button id="btn_go" taborder="1" text="Go" left="41.41%" top="16" right="46.88%" height="21" onclick="btn_go_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[
+this.sample_webbrowser_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	// Create Object  
+	var objWebBrowser = new WebBrowser();  
+	objWebBrowser.init("WebBrowser00", "absolute", 30, 120, 800, 600, null, null);
+	//objWebBrowser.init("WebBrowser00", "absolute", null, null, 300, "400px", "80%", 300);
+	  
+	//var objWebBrowser = new WebBrowser("WebBrowser00", "absolute", 30, 120, 196, 46, null, null);
+	//var objWebBrowser = new WebBrowser("WebBrowser00", "absolute", null, null, 300, "400px", "80%", 300);
+
+	// Add Object to Parent Form  
+	this.addChild("WebBrowser00", objWebBrowser); 
+	 
+	// Insert Object to Parent Form  
+	this.insertChild(1, "WebBrowser00", objWebBrowser); 
+	 
+	// Show Object  
+	objWebBrowser.show(); 
+	
+	/*
+	// Remove Object form Parent Form  
+	this.removeChild("WebBrowser00"); 
+	 
+	// Destroy Object  
+	objWebBrowser.destroy(); 
+	objWebBrowser = null;
+	*/
+	
+	objWebBrowser.set_url("http://www.nexacro.co.kr");
+	
+}
+
+this.btn_go_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sUrl = this.Edit00.value;
+	var i=0;
+	
+	
+	while(this.all[i] !== undefined)
+	{	
+		if(this.all[i].id == "WebBrowser00")
+		{
+			this.all[i].set_url(sUrl);
+		}
+		
+		i++;
+	}
+	
+
+}
+]]></Script>
+  </Form>
+</FDL>

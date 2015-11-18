@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="TestForm_2_Transaction" classname="TestForm_2_Transaction" left="0" top="0" width="1024" height="768" titletext="New Form" onload="TestForm_2_Transaction_onload">
+    <Layouts>
+      <Layout>
+        <Button id="Button00" taborder="1" text="Button00" left="676" top="32" width="120" height="50" onclick="Button00_onclick"/>
+        <Grid id="Grid00" taborder="2" useinputpanel="false" left="24" top="104" width="775" height="174" binddataset="Dataset00" cellsizingtype="col" cellmovingtype="col" onmousemove="Grid00_onmousemove" oncellclick="Grid00_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row band="body" size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell col="0" disptype="normal" text="Column0"/>
+                <Cell col="1" disptype="normal" text="Column1"/>
+                <Cell col="2" disptype="normal" text="Column2"/>
+                <Cell col="3" disptype="normal" text="Column3"/>
+                <Cell col="4" disptype="normal" text="Column4"/>
+                <Cell col="5" disptype="normal" text="Column5"/>
+                <Cell col="6" disptype="normal" text="Column6"/>
+                <Cell col="7" disptype="normal" text="Column7"/>
+                <Cell col="8" disptype="normal" text="Column8"/>
+                <Cell col="9" disptype="normal" text="Column9"/>
+                <Cell col="10" disptype="normal" text="Column10"/>
+                <Cell col="11" disptype="normal" text="Column11"/>
+                <Cell col="12" disptype="normal" text="Column12"/>
+                <Cell col="13" disptype="normal" text="Column13"/>
+                <Cell col="14" disptype="normal" text="Column14"/>
+                <Cell col="15" disptype="normal" text="Column15"/>
+                <Cell col="16" disptype="normal" text="Column16"/>
+                <Cell col="17" disptype="normal" text="Column17"/>
+                <Cell col="18" disptype="normal" text="Column18"/>
+                <Cell col="19" disptype="normal" text="Column19"/>
+              </Band>
+              <Band id="body">
+                <Cell col="0" disptype="normal" text="bind:Column0"/>
+                <Cell col="1" disptype="normal" text="bind:Column1"/>
+                <Cell col="2" disptype="normal" text="bind:Column2"/>
+                <Cell col="3" disptype="normal" text="bind:Column3"/>
+                <Cell col="4" disptype="normal" text="bind:Column4"/>
+                <Cell col="5" disptype="normal" text="bind:Column5"/>
+                <Cell col="6" disptype="normal" text="bind:Column6"/>
+                <Cell col="7" disptype="normal" text="bind:Column7"/>
+                <Cell col="8" disptype="normal" text="bind:Column8"/>
+                <Cell col="9" disptype="normal" text="bind:Column9"/>
+                <Cell col="10" disptype="normal" text="bind:Column10"/>
+                <Cell col="11" disptype="normal" text="bind:Column11"/>
+                <Cell col="12" disptype="normal" text="bind:Column12"/>
+                <Cell col="13" disptype="normal" text="bind:Column13"/>
+                <Cell col="14" disptype="normal" text="bind:Column14"/>
+                <Cell col="15" disptype="normal" text="bind:Column15"/>
+                <Cell col="16" disptype="normal" text="bind:Column16"/>
+                <Cell col="17" disptype="normal" text="bind:Column17"/>
+                <Cell col="18" disptype="normal" text="bind:Column18"/>
+                <Cell col="19" disptype="normal" text="bind:Column19"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="Dataset00" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="Column0" type="string" size="255"/>
+          <Column id="Column1" type="string" size="255"/>
+          <Column id="Column2" type="string" size="255"/>
+          <Column id="Column3" type="string" size="255"/>
+          <Column id="Column4" type="string" size="255"/>
+          <Column id="Column5" type="string" size="255"/>
+          <Column id="Column6" type="string" size="255"/>
+          <Column id="Column7" type="string" size="255"/>
+          <Column id="Column8" type="string" size="255"/>
+          <Column id="Column9" type="string" size="255"/>
+          <Column id="Column10" type="string" size="255"/>
+          <Column id="Column11" type="string" size="255"/>
+          <Column id="Column12" type="string" size="255"/>
+          <Column id="Column13" type="string" size="255"/>
+          <Column id="Column14" type="string" size="255"/>
+          <Column id="Column15" type="string" size="255"/>
+          <Column id="Column16" type="string" size="255"/>
+          <Column id="Column17" type="string" size="255"/>
+          <Column id="Column18" type="string" size="255"/>
+          <Column id="Column19" type="string" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="Dataset01" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+          <Column id="Column2" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="Column1">3</Col>
+            <Col id="Column0">a</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">2</Col>
+            <Col id="Column0">a</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">8</Col>
+            <Col id="Column0">a</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">7</Col>
+            <Col id="Column0">b</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">4</Col>
+            <Col id="Column0">b</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">1</Col>
+            <Col id="Column0">b</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">5</Col>
+            <Col id="Column0">c</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">6</Col>
+            <Col id="Column0">c</Col>
+          </Row>
+          <Row>
+            <Col id="Column1">9</Col>
+            <Col id="Column0">c</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[this.Button00_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+	var strSvcId 		= "select";
+	var strController 	= "SVC2::dataset_noresult.jsp";
+	var strOutputDs 	= "this.Dataset00=output";
+	var strParam 		= "";
+	var strFnCallback 	= "callBackFnCommon";
+    var blnAsync        = false;
+	this.transaction(strSvcId,strController,"",strOutputDs,strParam,strFnCallback);
+}
+
+this.callBackFnCommon = function(serviceID, errCD, errMSG)
+{ 
+	if(errCD < 0)   
+	{   
+		this.alert(serviceID + "==" + errCD + "==" + errMSG);  
+         
+	}else{          
+		if(serviceID == "select"){
+			trace("조회 성공");
+		} 
+	}     
+}  ]]></Script>
+  </Form>
+</FDL>

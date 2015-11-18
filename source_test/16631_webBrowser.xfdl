@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="webBrowser" classname="webBrowser" inheritanceid="" position="absolute" titletext="New Form" left="0" top="0" width="630" height="188">
+    <Layouts>
+      <Layout>
+        <WebBrowser id="wb002" position="absolute" taborder="1" url="http://127.0.0.1:8080/nexacro/projects/sample_nexacro_platform/TEST/WebIFInner2.html" ontitlechange="wb002_ontitlechange" visible="true" style="border:1 solid #808080 ;" onusernotify="wb002_onusernotify" left="18" top="24" width="374" height="153"/>
+        <Button id="Button01" taborder="1" text="setHtmlText" onclick="Button01_onclick" position="absolute" left="418" width="203" top="72" height="39"/>
+        <Edit id="Edit00" taborder="1" value="XPLATFORM Text" position="absolute" left="418" width="203" top="25" height="28"/>
+      </Layout>
+    </Layouts>
+    <InitValue>
+      <Button id="Button01" text="setHtmlText"/>
+    </InitValue>
+    <Script type="xscript4.0"><![CDATA[var func;
+function fn_xpFun1()
+{
+	alert("fn_xpFun1");
+	var doc = this.wb002.document;
+	var objTxt = doc.getElementById("txt1");
+	
+	if (objTxt)
+		 this.Edit00.value = objTxt.value;
+}
+
+function wb002_onusernotify(obj:WebBrowser, e:WebUserNotifyEventInfo)
+{
+	alert("userdata:"+e.userdata);
+	func = this[e.userdata];
+	if(func)
+		func();
+}
+
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var doc = this.wb002.document;
+	trace("doc:" + doc);
+	var objTxt = doc.getElementById("txt1");
+	
+	if (objTxt)
+		objTxt.value = this.Edit00.value;	
+}
+]]></Script>
+  </Form>
+</FDL>

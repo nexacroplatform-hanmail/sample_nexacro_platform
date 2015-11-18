@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_combo_nexacro" classname="sample_combo_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form" onload="sample_combo_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Combo id="Combo00" taborder="0" text="Combo00" left="0.78%" top="48" right="81.05%" height="20"/>
+        <Button id="Button00" taborder="1" text="search" onclick="Button00_onclick" left="0.78%" top="136" right="86.33%" height="24"/>
+        <Button id="Button01" taborder="2" text="filter" onclick="Button01_onclick" left="0.78%" top="168" right="86.33%" height="24"/>
+        <Button id="Button02" taborder="3" text="dropdown" onclick="Button02_onclick" left="0.78%" top="200" right="86.33%" height="24"/>
+        <Static id="Static00" taborder="4" text="please select search method" left="0.78%" top="102" right="77.54%" height="26"/>
+        <Static id="Static01" taborder="5" text="dropdown" left="13.28%" top="16" right="71.68%" height="30" style="color:red;font:bold 10 Dotum;"/>
+        <Static id="Static02" taborder="6" text="Search mode:" left="0.88%" top="16" right="87.01%" height="29" style="font:bold 10 Dotum;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_combo" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="CODE"/>
+          <Column type="STRING" size="255" id="VALUE"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">M</Col>
+            <Col id="VALUE">male</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">W</Col>
+            <Col id="VALUE">female</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">B</Col>
+            <Col id="VALUE">boy</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">G</Col>
+            <Col id="VALUE">girl</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">T</Col>
+            <Col id="VALUE">transgender</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">T</Col>
+            <Col id="VALUE">transformer</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+this.sample_combo_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//binding innerdataset of combo component
+	this.Combo00.set_codecolumn("CODE");
+	this.Combo00.set_datacolumn("VALUE");
+	
+	this.Combo00.setInnerDataset(this.ds_combo);
+	
+	//displaying default value
+	//this.Combo00.set_index(0);
+	this.Combo00.set_value("G");	
+
+
+	//readonly
+	this.Combo00.set_readonly(true);
+		
+}
+
+
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("search");
+	
+	this.Combo00.set_readonly(false);	
+	this.Combo00.set_type("search");
+}
+
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("filter");
+	
+	this.Combo00.set_readonly(false);
+	this.Combo00.set_type("filter");
+}
+
+
+this.Button02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("dropdown");
+	
+	this.Combo00.set_readonly(false);
+	this.Combo00.set_type("dropdown");	
+}
+]]></Script>
+  </Form>
+</FDL>

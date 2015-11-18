@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript" src="WebIF.js"></script>
+<script type="text/javascript">
+var xpCallBackObj;  //WebBrowser 로부터 결과를 전달받을 오브젝트 (XPLATFORM Form)
+var xpCallBackFn;
+
+	function setCallback(obj, name)
+	{
+    window.NEXACROHTML.Init();
+
+    
+/*
+		xpCallBackObj = obj;
+		xpCallBackFn = name;
+alert(	obj + ":" + 	name);
+//		console.log("xpCallBackObj >>> "+xpCallBackObj+"  xpCallBackFn >>> "+xpCallBackFn);
+*/
+    timetest();
+	};
+	
+function submitContents() {
+
+
+//for(var prop in window) {
+//console.log(prop + ":" + window[prop];
+//}
+
+// 에디터의 내용이 textarea에 적용된다.
+      
+      // 에디터의 내용에 대한 값 검증은 이곳에서
+  var objElement = document.getElementById("inputText1");
+      
+  try {
+  
+  
+      //window.NEXACROHTML.FireUserNotify(objElement.value);
+window.NEXACROHTML.FireUserNotify("aa");
+// 	  xpCallBackObj[xpCallBackFn](objElement.value);
+//	  console.log(objElement.value);
+ 
+      } catch(e) {
+    	  alert(e + "error");
+      }
+    };
+
+    var timeid;
+    function timetest(){
+    	timeid = setInterval("call()",3000);
+    	
+    }
+    function call(){
+    	clearInterval(timeid);
+    	submitContents();
+    }
+</script>
+
+<script type="text/javascript"> 
+window.popup = function(url, set){ 
+   /* 
+   * window.popup for easy window.open 
+   * @version beta for kin 
+   * @author stylee@gmail.com 
+   * @param string url 
+   * @param object options 
+   * @return object window 
+   */ 
+     return (window.popup = (function(open, undefined){ 
+        var $left = screen.width/2 
+          , $top = screen.height/2 
+          ; 
+            return function(url, set){ 
+               var args = [url, set.name || '']; 
+               var option = []; 
+               if(set){ 
+                set.width && 
+                option.push('width='+set.width); 
+                set.height && 
+                option.push('height='+set.height); 
+            set.top && 
+                option.push('top='+( 
+            set.top=='center' ? 
+            set.height ? 
+            $top-(set.height/2) : 
+            0 : 
+            set.top 
+            )); 
+            set.left && 
+            option.push('left='+( 
+            set.left=='center' ? 
+            set.width ? 
+            $left-(set.width/2) : 
+            0 : 
+            set.left 
+            )); 
+            option.push('scrollbars='+(set.scroll ? '1' : '0')); 
+                    args.push(option.join(', ')); 
+           } 
+               return enable(open.apply(this, args)); 
+            }; 
+             
+            function enable(popup){ 
+               if(popup==null) 
+               alert('차단된 팝업창을 허용하십시오.'); 
+               return popup; 
+            } 
+     })(window.open)).apply(this, arguments); 
+}; 
+</script> 
+</head>
+<BODY onload ="setCallback();">
+<H1>Web Contetnts2</H1>
+	<input type="text" id="inputText1" value="NEXACRO" ></input>
+	<input type="button" id="btnTest1" value="HTML5값전달" onClick="submitContents()"></input>
+	adfasdfasdfsdf
+	<img src="http://miplatform.co.kr/Miplatform/NewHome/images/top/main_top_logo.gif" onclick="window.popup('http://naver.com', {width:400, height:300});">adfasd
+	<br>
+	<br>
+	<a href='Inner3.html'>이동</a>
+</BODY>
+</html>

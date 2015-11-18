@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_maskedit_nexacro14" classname="sample_maskedit_nexacro" left="0" top="0" width="1024" height="768" titletext="MaskEdit" onload="sample_maskedit_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <MaskEdit id="MaskEdit00" taborder="0" left="16" top="96" height="24" width="240" style="background:burlywood;align:right middle;font:9 Arial;" type="string"/>
+        <Button id="btn_mask_string" taborder="1" text="string" onclick="btn_mask_string_onclick" left="16" top="136" height="32" width="120" style="font:9 Arial;"/>
+        <Button id="btn_mask_number" taborder="2" text="number" onclick="btn_mask_number_onclick" left="16" top="174" height="32" width="120" style="font:9 Arial;"/>
+        <Static id="Static00" taborder="3" text="Mask type:" left="16" top="64" height="32" style="font:10 Verdana;" width="120"/>
+        <Static id="Static01" taborder="4" text="number" left="96" top="64" height="32" style="color:red;font:10 Verdana;" width="120"/>
+        <Static id="Static02" taborder="5" text="AAAAAA - #####" left="144" top="136" height="32" width="120" style="font:9 Verdana;"/>
+        <Static id="Static03" taborder="6" text="-#,###.####" left="144" top="174" height="32" width="120" style="font:9 Verdana;"/>
+        <Div id="Div00" taborder="7" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="8" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[/*
+MaskEdit: 정해놓은 규격에 맞게 입력 형식을 제한
+
+MaskEdit의 mask 속성을 설정하여 사용자가 특정 형식으로 입력하게 한다.
+type, limitbymask 속성의 설정에 따라 사용자의 입력을 제한할 수 있다.
+*/
+
+
+this.btn_mask_string_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("string");
+	
+	this.MaskEdit00.set_mask("AAAAAA - #####");
+	this.MaskEdit00.set_type("string");
+	this.MaskEdit00.setFocus();
+
+	this.btn_mask_string.style.set_font("9 gulim bold");
+	this.btn_mask_number.style.set_font("9 gulim");			
+		
+}
+
+this.btn_mask_number_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("number");
+
+	this.MaskEdit00.set_mask("-#,###.####");
+	this.MaskEdit00.set_type("number");	
+	this.MaskEdit00.set_limitbymask("both");
+	this.MaskEdit00.setFocus();
+
+	this.btn_mask_string.style.set_font("9 gulim");
+	this.btn_mask_number.style.set_font("9 gulim bold");				
+}
+
+this.sample_maskedit_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.btn_mask_string_onclick();
+}
+]]></Script>
+  </Form>
+</FDL>

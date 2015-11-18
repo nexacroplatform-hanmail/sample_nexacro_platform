@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="tagfree" classname="tagfree" left="0" top="0" width="1024" height="843" titletext="Plugin &gt; tagfree" onload="tagfree_onload">
+    <Layouts>
+      <Layout>
+        <Button id="btn_get_sample" taborder="1" text="예제 값 가져오기" left="544" top="64" height="32" onclick="btn_get_sample_onclick" width="120"/>
+        <TextArea id="textarea_html" taborder="2" left="679" top="120" height="105" width="240"/>
+        <TextArea id="textarea_mime" taborder="3" left="679" top="247" height="105" width="240"/>
+        <TextArea id="textarea_selected_html" taborder="4" left="679" top="381" height="105" width="240"/>
+        <TextArea id="textarea_selected_contents" taborder="5" left="679" top="647" height="105" width="240"/>
+        <TextArea id="textarea_contents" taborder="6" left="679" top="515" height="105" width="240"/>
+        <Button id="btn_set_sample" taborder="8" text="예제 값 설정" left="420" top="64" height="32" onclick="btn_set_sample_onclick" width="120"/>
+        <Static id="Static00" taborder="9" text="Html Source" left="679" top="96" height="32" width="160" style="font:bold 10 dotum;"/>
+        <Static id="Static01" taborder="10" text="MIME Value" left="679" top="224" height="32" width="160" style="font:bold 10 dotum;"/>
+        <Static id="Static02" taborder="11" text="Selected Area HTML" left="679" top="354" height="32" width="160" style="font:bold 10 dotum;"/>
+        <Static id="Static03" taborder="12" text="Selected Contents" left="679" top="620" height="32" width="160" style="font:bold 10 dotum;"/>
+        <Static id="TextValue" taborder="13" text="Contents" left="679" top="488" height="32" width="160" style="font:bold 10 dotum;"/>
+        <Button id="btn_init_tagfree" taborder="14" text="초기화" left="296" top="64" height="32" onclick="btn_init_tagfree_onclick" width="120"/>
+        <Div id="Div00" taborder="15" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <Combo id="cb_list" taborder="0" displaynulltext="More Sample" innerdataset="@ds_sample_url" codecolumn="URL" datacolumn="CATEGORY" onitemchanged="Div00_cb_list_onitemchanged" left="7" top="7" width="240" height="32"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static04" taborder="16" text="TagFree" left="16" top="64" height="32" width="120" style="font:bold 14 dotum;"/>
+        <Static id="stt_version" taborder="17" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="5" width="120" height="32" style="font:9 dotum;"/>
+        <Plugin id="TAGFREE01" left="16" top="104" height="477" classid="{22F4AF92-2322-472F-8F74-EF9F7D7B70D8}" taborder="18" OnLoadComplete="TAGFREE0_OnLoadComplete" width="650" windowed="true"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[/*
+Plugin: tagfree 에디터
+
+플러그인 컴포넌트 생성한 후 classid 속성에 tagfree classid 값을 입력한다.
+플러그인의 setProprty 메소드를 사용하여 태그프리의 InitFilePath에
+환경 설정 파일(env.xml)의 URL을 설정한다.
+callMethod 메소드를 사용하여 태그프리의 SetLicenseKey 메소드를 수행하여
+라이선스키를 설정하고, CreateFrame 메소드를 수행하여 태그프리 편집기를 로드한다.
+플러그인의 getProperty 메소드를 사용하여 편집기 정보를 받아올 수 있다.
+
+tagfree information
+ - classid: {78F19946-7F18-4FB3-9F18-9339747D5441}
+			{22F4AF92-2322-472F-8F74-EF9F7D7B70D8}
+*/
+
+
+/* 태그프리 초기화 */
+this.btn_init_tagfree_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+ 	this.TAGFREE01.setProperty("InitFilePath","http://www.xplatform.co.kr:8080/Next_JSP/XFShowcase/UI/Install/Download/TagFree/env.xml");
+	this.TAGFREE01.callMethod("SetLicenseKey", "jG96mrgNQc8TMl69qn4tTh2GSuwq2QscK3ET/DhZ6uIoE2JCpswPVmHadeesLJZ7FcyGrk25duoVc3rQ7/kyzEnjY4eNsTb3cJ7t//UV7GoYDt2OdGXE5/2tYqRmnYEbbqhJLjmF8o0t/RxnXByHVhMRp5Q5014b7UqUt2XKS+2miBS8pCAlvROnucwCCzvr/lfKBtRVwwLR1G//rh1Igw=="); 	
+	this.TAGFREE01.callMethod("CreateFrame");
+	
+}
+
+/* 태그프리 편집기에 예제 설정하기 */
+this.btn_set_sample_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var aa = "";
+	aa = aa + '<HEAD>';
+	aa = aa + '<META content="text/html; charset=utf-8" http-equiv=Content-Type>';
+	aa = aa + '<META name=GENERATOR content="TAGFREE Active Designer v3.0">';
+	aa = aa + '</HEAD>';
+	aa = aa + '<BODY>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="FONT-SIZE: 12pt"><STRONG><U>공지사항 글 작성 테스트입니다.</U></STRONG></SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="FONT-SIZE: 12pt"><SPAN style="FONT-SIZE: 10pt">아래는 폰트 테스트입니다.</SPAN></SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="FONT-SIZE: 12pt"><SPAN style="FONT-SIZE: 10pt">굴림, <SPAN style="FONT-FAMILY: 궁서">궁서, <FONT face=돋움>돋움, </FONT><FONT face="맑은 고딕">맑은고딕, </FONT><FONT face=바탕>바탕, </FONT><FONT face=새굴림>새굴림</FONT>&nbsp;</SPAN></SPAN></SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="FONT-SIZE: 8pt">8pt</SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="FONT-SIZE: 9pt">9pt</SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="FONT-SIZE: 10pt">10pt</SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="COLOR: #ff0000; FONT-SIZE: 10pt">빨강, <SPAN style="COLOR: #0000ff">파랑, <SPAN style="COLOR: #00ff00">녹색</SPAN></SPAN></SPAN></P>';
+	aa = aa + '<P style="FONT-FAMILY: gulim; FONT-SIZE: 9pt"><SPAN style="COLOR: #ff0000; FONT-SIZE: 10pt"><SPAN style="COLOR: #0000ff"><SPAN style="BACKGROUND-COLOR: #ff0000; COLOR: #00ff00">바탕빨강</SPAN></SPAN></SPAN></P>';
+	aa = aa + '</BODY>';
+	aa = aa + '</HTML>';
+	
+	this.TAGFREE01.setProperty("HtmlValue",aa);
+	
+}
+
+/* 태그프리 편집기의 예제 값 가져오기 */
+this.btn_get_sample_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.textarea_html.set_value(this.TAGFREE01.getProperty("HtmlValue"));
+	this.textarea_mime.set_value(this.TAGFREE01.getProperty("MIMEValue"));
+	this.textarea_selected_html.set_value(this.TAGFREE01.getProperty("SelectedHtmlValue"));	
+	this.textarea_contents.set_value(this.TAGFREE01.getProperty("TextValue"));
+	this.textarea_selected_contents.set_value(this.TAGFREE01.getProperty("SelectedTextValue"));
+	
+}
+
+
+/* 샘플 리스트로 이동 */
+this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
+	
+}]]></Script>
+  </Form>
+</FDL>

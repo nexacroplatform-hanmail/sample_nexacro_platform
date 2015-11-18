@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_edit_nexacro" classname="sample_edit_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form" onload="sample_edit_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Edit id="Edit00" taborder="0" left="1.56%" top="16" right="84.77%" height="20"/>
+        <Edit id="Edit01" taborder="1" left="1.56%" top="56" right="84.77%" height="20"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[
+this.sample_edit_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+		this.Edit00.set_autoskip(true);
+		this.Edit00.set_maxlength(10);
+		//this.Edit00.set_lengthunit("utf16");	
+
+		this.Edit01.set_autoskip(true);
+		this.Edit01.set_maxlength(10);
+		//this.Edit01.set_lengthunit("utf16");
+	
+}
+]]></Script>
+  </Form>
+</FDL>

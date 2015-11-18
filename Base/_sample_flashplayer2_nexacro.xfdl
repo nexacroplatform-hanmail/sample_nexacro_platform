@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="test_flashplayer" classname="test_flashplayer" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Button id="Button00" taborder="0" text="실행" onclick="Button00_onclick" left="1.56%" top="54" right="86.82%" height="26"/>
+        <FlashPlayer id="FlashPlayer00" framenum="0" alignmode="center" left="1.56%" top="88" right="21.97%" height="401" taborder="2"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[/*
+Flash: 플래쉬 플레이어 액티브X 사용
+
+플래쉬 플레이어 컴포넌트를 생성한 후 플래쉬 플레이어의 classid를 설정하고
+movie 속성에 플래쉬 파일(swf)의 URL을 설정한다.
+
+Flash player information
+ - classid: d27cdb6e-ae6d-11cf-96b8-444553540000
+ - codebase: "http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0"
+*/
+
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+
+	// Create Object 
+	/*
+	var objFlashPlayer = new FlashPlayer();  
+	objFlashPlayer.init("FlashPlayer00", "absolute", 5, 40, 360, 240, null, null);
+
+	// Add Object to Parent Form  
+	this.addChild("FlashPlayer00", objFlashPlayer); 
+	 
+	// Insert Object to Parent Form  
+	this.insertChild(1, "FlashPlayer00", objFlashPlayer); 
+	*/
+	this.FlashPlayer00.set_movie("http://miplatform.co.kr/Miplatform/NewHome/flash/main.swf");
+	 
+	// Show Object
+	this.FlashPlayer00.show();
+	 
+	
+	// Remove Object form Parent Form 
+	/*
+	this.removeChild("FlashPlayer00"); 
+	 
+	// Destroy Object  
+	objFlashPlayer.destroy(); 
+	objFlashPlayer = null;
+	*/
+	
+}
+]]></Script>
+  </Form>
+</FDL>

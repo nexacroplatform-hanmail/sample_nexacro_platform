@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="webBrowser" classname="webBrowser" inheritanceid="" position="absolute" titletext="New Form" left="0" top="0" width="832" height="555">
+    <Layouts>
+      <Layout>
+        <WebBrowser id="wb002" position="absolute" taborder="1" url="http://172.10.11.144:8080/WebIFN/Inner.html" ontitlechange="wb002_ontitlechange" visible="true" style="border:1 solid #808080 ;" left="16" top="72" width="645" height="458" onloadcompleted="wb002_onloadcompleted" onusernotify="wb002_onusernotify"/>
+        <Button id="Button01" taborder="1" text="setHtmlText" position="absolute" left="232" width="203" top="16" height="39" onclick="Button01_onclick"/>
+        <Edit id="Edit00" taborder="1" value="XPLATFORM Text" position="absolute" left="16" width="203" top="20" height="28"/>
+      </Layout>
+    </Layouts>
+    <InitValue>
+      <Button id="Button01" text="setHtmlText"/>
+    </InitValue>
+    <Script type="xscript4.0"><![CDATA[this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var doc = this.wb002.document ;						
+	var objTxt = doc.getElementById("inputText1");  
+	var objBtn = doc.getElementById("btnTest1");
+	
+	if(objTxt){
+		objTxt.value = this.Edit00.value;
+	//	this.sleep(100);
+		objBtn.click();
+	}
+}
+
+this.wb002_onkillfocus = function(obj:WebBrowser, e:nexacro.KillFocusEventInfo)
+{
+	trace("@@@@@@@@@@@@@@   WebBrowser_onkillfocus @@@@@@@@@@@@@@@@@@");
+}
+
+this.wb002_onloadcompleted = function(obj:WebBrowser, e:nexacro.WebLoadCompEventInfo)
+{
+//	this.getElement()._handle.getElementsByTagName("iframe")[0].contentWindow.setCallback(this, "fn_callBack");
+}
+
+this.fn_callBack = function(param)
+{
+	this.Edit00.set_value(param);
+}
+
+
+
+this.wb002_onusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{
+alert("TOBE:" + e.userdata);
+}]]></Script>
+  </Form>
+</FDL>

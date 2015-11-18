@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="VirtualFile_method_read" classname="vf_method" inheritanceid="" titletext="VirtualFile Method read" position="absolute" left="0" top="0" width="310" height="450">
+    <Objects>
+      <VirtualFile id="VirtualFile00" onerror="VirtualFile_onerror" onsuccess="VirtualFile_onsuccess"/>
+      <FileDialog id="FileDialog00" filter="All(*.*)|*.*|" filterindex="0" defaultextension="false" onclose="FileDialog_onclose"/>
+    </Objects>
+    <Layouts>
+      <Layout>
+        <Static id="Static00" text="VirtualFile Method read(nLength)" position="absolute" style="color:blueviolet;" left="9" top="31" width="293" height="48" onclick="Static00_onclick"/>
+        <Button id="Button02" taborder="6" text="clear" onclick="Button02_onclick" position="absolute" left="245" top="213" width="57" height="26"/>
+        <TextArea id="TextArea_result" taborder="7" position="absolute" left="8" top="247" width="296" height="199"/>
+        <Edit id="Edit00" taborder="8" position="absolute" left="69" top="177" width="49" height="29"/>
+        <Static id="Static01" text="length" position="absolute" left="11" top="179" width="50" height="27"/>
+        <Button id="Button00" taborder="10" text="read(length)" position="absolute" onclick="Button00_onclick" left="129" top="174" width="91" height="34"/>
+        <Static id="Static03" text="FileName" position="absolute" left="10" top="100" width="71" height="32"/>
+        <Button id="Button03" taborder="14" text="file" position="absolute" onclick="Button03_onclick" left="262" top="136" width="40" height="34"/>
+        <Button id="Button04" taborder="15" text="open()" position="absolute" style="font:Verdana,8,bold; " onclick="Button04_onclick" left="37" top="136" width="99" height="34"/>
+        <Button id="Button05" taborder="16" text="close()" position="absolute" style="font:Verdana,8,bold; " onclick="Button05_onclick" left="149" top="136" width="99" height="34"/>
+        <Edit id="Edit01" taborder="17" value="%SD_CARD%aa.txt" text="%SD_CARD%aa.txt" position="absolute" style="background:#f4a46091; " left="162" top="67" width="140" height="27"/>
+        <Edit id="Edit02" taborder="18" value="%USERAPP%VirtualFile/aa.txt" text="%USERAPP%VirtualFile/aa.txt" position="absolute" style="background:#f4a46091; " left="13" top="67" width="140" height="27"/>
+        <Button id="Button01" taborder="19" text="read()" position="absolute" onclick="Button01_onclick" left="223" top="174" width="79" height="34"/>
+        <Edit id="Edit03" taborder="20" value="C:\\aa.txt" left="84" top="102" width="218" height="30"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript4.0"><![CDATA[//=========================================Event================================================
+
+//결과 초기화
+this.Button02_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+	this.TextArea_result.set_value("");
+}
+
+//FileDialog.asyncOpen() Mehtod 호출
+this.Button03_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+	var r_FileDialog = this.FileDialog00.open("FileOpen", FileDialog.LOAD, "%USERAPP%", "text.txt");	
+	this.TextArea_result.set_value(this.TextArea_result.value + "FileDialog.asyncOpen : " + r_FileDialog + "\n");
+}
+
+//VirtualFile.open() Method 호출
+this.Button04_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+	//var r_VirtualFile = VirtualFile00.open(Edit03.value, VirtualFile.openRead);
+	var r_VirtualFile = this.VirtualFile00.open(this.Edit03.value, VirtualFile.openRead);
+
+	
+	this.TextArea_result.set_value(this.TextArea_result.value + "open(Edit03.value, VirtualFile.openRead) ::" + r_VirtualFile + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "filename : " + this.VirtualFile00.filename + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "fullpath : " + this.VirtualFile00.fullpath + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "path : " + this.VirtualFile00.path + "\n");	
+}
+
+//VirtualFile.read(nLength) Mehtod 호출
+this.Button00_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+//	if (r_FileDialog == "false" || r_FileDialog == null  )
+//	{
+//		var rf_read = VirtualFile.read(Edit00.value);
+//		TextArea_result.value += "read( " + Edit00.value + ") :: " + rf_read + "\n");
+		
+//		alert("File이 선택되지 않았습니다.");
+//		return);
+//	}
+	
+	var r_read = this.VirtualFile00.read(this.Edit00.value);
+	this.TextArea_result.set_value(this.TextArea_result.value + "read( " + this.Edit00.value + ") :: " + r_read + "\n");
+}
+
+//VirtualFile.read() Mehtod 호출
+this.Button01_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+	var r_read = this.VirtualFile00.read();
+	this.TextArea_result.set_value(this.TextArea_result.value + "read() :: " + r_read + "\n");	
+}
+
+//VirtualFile.close() Method 호출
+this.Button05_onclick = function(obj:Button,  e:TOBE.ClickEventInfo)
+{
+	this.VirtualFile00.close();	
+	this.TextArea_result.set_value(this.TextArea_result.value + "VirtualFile.close()\n");	
+}
+
+//=====================================Event=======================================
+this.VirtualFile_onsuccess = function(obj:VirtualFile, e:TOBE.VirtualFileEventInfo)
+{
+	this.TextArea_result.set_value(this.TextArea_result.value + "receive success event !!!\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "eventid : " + e.eventid + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "reason : " + e.reason + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "textdata : " + e.textdata + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "binarydata : " + e.binarydata + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "fileattributelist : " + e.fileattributelist + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "filesize : " + e.filesize + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "fileisexist : " + e.fileisexist + "\n");
+	
+}
+
+this.VirtualFile_onerror = function(obj:VirtualFile, e:TOBE.VirtualFileErrorEventInfo)
+{
+	this.TextArea_result.set_value(this.TextArea_result.value + "receive error event !!!\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "eventid : " + e.eventid + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "errorcode : " + e.statuscode + "\n");
+	this.TextArea_result.set_value(this.TextArea_result.value + "errormsg : " + e.errormsg + "\n\n");
+}
+
+this.FileDialog_onclose = function(obj:FileDialog, e:TOBE.FileDialogEventInfo)
+{
+	this.Edit03.set_value("");
+	this.TextArea_result.set_value(this.TextArea_result.value + "FileDialog_onclose()\n");
+	
+	for (var i=0;i<e.virtualfiles.length;i++)
+	{
+		this.TextArea_result.set_value(this.TextArea_result.value + "\n" + " +e.virtualfiles["+i+"].filename : "+e.virtualfiles[i].filename);
+		this.TextArea_result.set_value(this.TextArea_result.value + "\n" + " +e.virtualfiles["+i+"].fullpath : "+e.virtualfiles[i].fullpath);
+		this.TextArea_result.set_value(this.TextArea_result.value + "\n" + " +e.virtualfiles["+i+"].path : "+e.virtualfiles[i].path);
+		this.Edit03.set_value(e.virtualfiles[i].fullpath);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

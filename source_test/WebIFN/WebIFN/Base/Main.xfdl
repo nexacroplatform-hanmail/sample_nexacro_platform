@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="Main" classname="Main" left="0" top="0" width="1024" height="768" titletext="New Form" onload="Main_onload">
+    <Layouts>
+      <Layout>
+        <Div id="Div00" taborder="0" left="31" top="23" width="900" height="528" style="border:1 solid red ;"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.0"><![CDATA[
+this.Main_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.Div00.set_url("Base::test123.xfdl");
+}
+
+this.divChange = function(sURL)
+{
+	this.Div00.set_url("");
+	this.Div00.set_url(sURL);
+}]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_dom_nexacro14" classname="sample_dom_nexacro" left="0" top="0" width="1024" height="768" titletext="DOM" onload="sample_dom_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Div id="Div00" taborder="0" text="Div00" left="7" top="7" right="6" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static04" taborder="7" text="XML Document" left="16" top="66" width="200" height="60" style="font:16 Verdana;"/>
+        <TextArea id="TextArea00" taborder="8" left="16" top="118" width="720" height="216" style="background:#ffffffff;" wordwrap="english"/>
+        <Grid id="Grid00" taborder="9" useinputpanel="false" left="16" top="388" height="236" width="720" style="background:#ffffffff;border:1 solid #838383ff,1 solid #c9c6c3ff,1 solid #c9c6c3ff,1 solid #c9c6c3ff;" treeusecheckbox="false" treeinitstatus="expand,null">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="560"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <Cell/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static05" taborder="10" text="DOM Information" left="16" top="336" width="200" height="60" style="font:16 Verdana;"/>
+        <Button id="btn_parse_dom" taborder="14" text="Parsing" onclick="btn_parse_dom_onclick" left="604" top="80" width="120" height="32" style="font:9 Arial;"/>
+        <Static id="stt_version" taborder="15" text="Version" top="15" height="32" position="absolute" right="21" width="160" style="align:right middle;font:9 Verdana;" expr="expr:&quot;Version: &quot; + application.gvVersion"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_element">
+        <ColumnInfo>
+          <Column id="element_id" type="INT" size="8"/>
+          <Column id="level" type="INT" size="8"/>
+          <Column id="element_name" type="STRING" size="256"/>
+          <Column id="element_type" type="INT" size="8"/>
+          <Column id="childnodes" type="INT" size="8"/>
+          <Column id="attributes" type="INT" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_attribute">
+        <ColumnInfo>
+          <Column id="attr_id" type="INT" size="8"/>
+          <Column id="attr_name" type="STRING" size="256"/>
+          <Column id="attr_value" type="STRING" size="256"/>
+          <Column id="element_id" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+DOM:
+
+XML, HTML 파일을 DOM 파서를 사용해 분석한 후 그리드에 트리 형식으로 표현한다.
+*/
+
+
+var bDebug = false;
+
+/* 샘플 XML 문서 */
+var sXML = "<?xml version='1.0' encoding='utf-8'?>\n\
+<TypeDefinition version='1.2'>\n\
+  <Modules>\n\
+    <Module url='Grid.json'/>\n\
+  </Modules>\n\
+  <Components>\n\
+    <Component type='JavaScript' id='Combo' classname='nexacro.Combo'/>\n\
+  </Components>\n\
+  <Services>\n\
+    <Service prefixid='Base' type='form' url='./Base/' version='0' communicationversion='0'/>\n\
+    <Service prefixid='SvcJsp' type='JSP' url='http://demo.nexacro.com/nexacroSelfStudy/nexacroSelfStudy_JSP/' version='0' communicationversion='0'/>\n\
+  </Services>\n\
+</TypeDefinition>";
+
+
+this.sample_dom_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.TextArea00.set_value(sXML);
+}
+
+
+/* DOM 노드 타입 */
+this.GetNodeType = function(nNodeType:number)
+{
+	var sNodeType="";
+	
+	if(nNodeType)
+	{
+		switch(nNodeType)
+		{
+			case 1:
+				sNodeType = "XmlElement";
+				break;
+			case 2:
+				sNodeType = "XmlAttribute";
+				break;			
+			case 3:
+				sNodeType = "XmlText";
+				break;			
+			case 4:
+				sNodeType = "XmlCDATASection";
+				break;			
+			case 5:
+				sNodeType = "EntityReference";
+				break;			
+			case 6:
+				sNodeType = "Entity";
+				break;			
+			case 7:
+				sNodeType = "ProcessingInstruction";
+				break;			
+			case 8:
+				sNodeType = "XmlComment";
+				break;			
+			case 9:
+				sNodeType = "XmlDocument";
+				break;			
+			case 10:
+				sNodeType = "XmlDocumentType";
+				break;			
+			case 11:
+				sNodeType = "DocumentFragment";
+				break;			
+			case 12:
+				sNodeType = "Notation";
+				break;			
+			default:
+				sNodeType = "Unknown";
+		}
+		
+		return sNodeType;
+	}
+
+}
+
+
+var nDepth = -1;
+
+/* DOM 트리 스캐닝 */
+this.ScanDomDoc = function(objXmlElement:XmlElement)
+{	
+	var objNode = objXmlElement;
+	
+	/* ScanDomDoc을 호출할 때마다 depth를 1씩 증가 */
+	nDepth++;
+	
+	/* element 이름(태그 이름) 추출 */
+	for(var i=0; i < objNode.length; i++)
+	{
+		if(bDebug)
+		{
+			trace("objNode[" + i + "].nodeName = " + objNode[i].nodeName);
+			trace("objNode[" + i + "].nodeType = " + this.GetNodeType(objNode[i].nodeType));
+		}
+		
+		if(objNode[i].data !== null && objNode[i].data !== undefined)
+			trace("objNode[" + i + "].data = " + objNode[i].data);
+
+		/* element 정보를 데이터셋에 저장 */
+		if(this.ds_element.addRow() > -1)
+		{
+			this.ds_element.setColumn(this.ds_element.rowposition, "element_id", this.ds_element.rowposition);
+			this.ds_element.setColumn(this.ds_element.rowposition, "level", nDepth);
+			this.ds_element.setColumn(this.ds_element.rowposition, "element_name", objNode[i].nodeName);
+			this.ds_element.setColumn(this.ds_element.rowposition, "element_type", objNode[i].nodeType);
+		}
+			
+		
+		/* element의 속성(attribute)이 있으면 추출 */
+		if((this.GetNodeType(objNode[i].nodeType) == "XmlElement") && objNode[i].hasAttributes())
+		{			
+			var objXmlNamedNodeMap = objNode[i].attributes;
+			
+			if(bDebug)
+			{
+				trace("objNode[" + i + "].attributes = " + objXmlNamedNodeMap);
+				trace("objNode[" + i + "].attributes.length = " + objXmlNamedNodeMap.length);
+			}
+
+			/* attribute 개수를 데이터셋에 저장 */
+			this.ds_element.setColumn(this.ds_element.rowposition, "attributes", objXmlNamedNodeMap.length);
+
+			for(var j=0; j < objXmlNamedNodeMap.length; j++)
+			{
+				if(bDebug)
+				{			
+					trace("Attribute[" + j + "]: " + objXmlNamedNodeMap.item(j).nodeName + " = " + objNode[i].getAttribute(objXmlNamedNodeMap.item(j).nodeName) );
+				}
+				
+				/* attribute 정보를 데이터셋에 저장 */
+				if(this.ds_attribute.addRow() > -1)
+				{
+					this.ds_attribute.setColumn(this.ds_attribute.rowposition, "attr_id", this.ds_attribute.rowposition);
+					this.ds_attribute.setColumn(this.ds_attribute.rowposition, "attr_name", objXmlNamedNodeMap.item(j).nodeName);
+					this.ds_attribute.setColumn(this.ds_attribute.rowposition, "attr_value", objNode[i].getAttribute(objXmlNamedNodeMap.item(j).nodeName) );
+					this.ds_attribute.setColumn(this.ds_attribute.rowposition, "element_id", this.ds_element.rowposition);
+				}
+			
+			}			
+
+		}
+		else
+		{
+			/* attribute 개수를 데이터셋에 저장 */
+			this.ds_element.setColumn(this.ds_element.rowposition, "attributes", 0);
+			
+			if(bDebug)
+			{	
+				trace("No attribute");
+			}
+		}
+		
+		
+		/* 엘리먼트의 자식 엘리먼트가 있는지 확인하고 있으면 ScanDomDoc 호출 */
+		if(objNode[i].hasChildNodes())
+		{	
+		
+			/* 자식 노드가 있으면 그 숫자를 데이터셋에 저장 */
+			this.ds_element.setColumn(this.ds_element.rowposition, "childnodes", objNode[i].childNodes.length);
+
+			if(bDebug)
+			{	
+			
+				trace("objNode[" + i + "].childNodes.length = " + objNode[i].childNodes.length);				
+				trace("--------------------------------------------------------------");	
+			}
+			
+			/* 현재 엘리먼트의 자식 엘리먼트 정보를 추출하기 위한 재귀 호출 */
+			this.ScanDomDoc(objNode[i].childNodes);
+			
+		}
+		else
+		{
+			/* 자식 노드가 있으면 그 숫자를 데이터셋에 저장 */
+			this.ds_element.setColumn(this.ds_element.rowposition, "childnodes", 0);
+			
+			if(bDebug)
+			{	
+				trace("--------------------------------------------------------------");
+			}
+		}
+			
+	}
+	
+	nDepth--;	
+
+}
+
+this.btn_parse_dom_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var objDomDoc;	
+	var DomParser00 = new DomParser;
+	
+	objDomDoc = DomParser00.parseFromString(this.TextArea00.value);
+
+	if(objDomDoc !== null)
+	{
+		if(bDebug)
+		{	
+			trace("==============================================================");
+			trace(" XML document information");
+			trace("--------------------------------------------------------------");
+			trace("objDomDoc = " + objDomDoc);
+			trace("objDomDoc.docType = " + objDomDoc.docType);
+			trace("objDomDoc.nodeName = " + objDomDoc.nodeName);
+			trace("objDomDoc.nodeType = " + this.GetNodeType(objDomDoc.nodeType));
+			trace("objDomDoc.nodeValue = " + objDomDoc.nodeValue);	
+			
+			trace("objDomDoc.childNodes = " + objDomDoc.childNodes);
+			trace("objDomDoc.childNodes.nodeName = " + objDomDoc.childNodes.nodeName);
+			trace("objDomDoc.childNodes.length = " + objDomDoc.childNodes.length);
+
+			trace("objDomDoc.documentElement = " + objDomDoc.documentElement);
+			trace("objDomDoc.documentElement.nodeName = " + objDomDoc.documentElement.nodeName);
+
+			trace("objDomDoc.firstChild = " + objDomDoc.firstChild);
+			trace("objDomDoc.firstChild.nodeName = " + objDomDoc.firstChild.nodeName);
+			
+			trace("objDomDoc.lastChild = " + objDomDoc.lastChild);
+			trace("objDomDoc.lastChild.nodeName = " + objDomDoc.lastChild.nodeName);
+			trace("==============================================================");
+		}
+		
+		if(objDomDoc.childNodes !== undefined)
+		{
+			this.ScanDomDoc(objDomDoc.childNodes);
+		}
+		
+		if(bDebug)
+		{	
+			trace("=======================");
+			trace("ds_element");
+			trace("=======================");
+			trace(this.ds_element.saveXML());
+
+			trace("=======================");
+			trace("ds_attribute");
+			trace("=======================");
+			trace(this.ds_attribute.saveXML());
+		}
+		
+		this.DisplayDomTree();
+				
+	}
+	else
+	{
+		trace("XML parsing failed.");
+	}
+	
+		
+}
+
+/* 그리드에서의 DOM 트리 표현 */
+this.DisplayDomTree = function()
+{
+	var ds_dom = new Dataset;
+	
+	ds_dom.addColumn("id", "INT", 8);
+	ds_dom.addColumn("type", "INT", 1);			/* 0: Element, 1: Attribute, 2:Value */
+	ds_dom.addColumn("name", "STRING", 256);
+	ds_dom.addColumn("level", "INT", 8);		/* tree depth */
+	ds_dom.addColumn("value", "STRING", 256);	/* attribute의 값 */
+	ds_dom.addColumn("ref_id", "INT", 8);		/* type이 attribute일 경우에 해당되는 element의 id 값 */
+	
+	/* 데이터셋 설정 */
+	for(var i=0; i<this.ds_element.rowcount; i++)
+	{
+		if(ds_dom.addRow() > -1)
+		{	
+			ds_dom.setColumn(ds_dom.rowposition, "type", "0");	/* element */
+			ds_dom.setColumn(ds_dom.rowposition, "name", this.ds_element.getColumn(i, "element_name"));
+			ds_dom.setColumn(ds_dom.rowposition, "level", this.ds_element.getColumn(i, "level"));
+			ds_dom.setColumn(ds_dom.rowposition, "ref_id", "");
+						
+			if(this.ds_element.getColumn(i, "attributes"))
+			{
+				//this.ds_attribute.filter("element_id == " + this.ds_element.getColumn(i, "element_id"));
+				this.ds_attribute.set_filterstr("element_id == " + this.ds_element.getColumn(i, "element_id"));
+				
+				for(var j=0; j<this.ds_attribute.rowcount; j++)
+				{
+					if(ds_dom.addRow() > -1)
+					{	
+						ds_dom.setColumn(ds_dom.rowposition, "type", "1");	/* attribute */
+						ds_dom.setColumn(ds_dom.rowposition, "name", this.ds_attribute.getColumn(j, "attr_name"));
+						ds_dom.setColumn(ds_dom.rowposition, "level", this.ds_element.getColumn(i, "level")+1);						
+						ds_dom.setColumn(ds_dom.rowposition, "ref_id", this.ds_element.getColumn(i, "element_id"));
+
+						if( this.ds_attribute.getColumn(j, "attr_value") )
+						{
+							if(ds_dom.addRow() > -1)
+							{
+								ds_dom.setColumn(ds_dom.rowposition, "type", "2");	/* Value */
+								ds_dom.setColumn(ds_dom.rowposition, "name", this.ds_attribute.getColumn(j, "attr_value"));
+								ds_dom.setColumn(ds_dom.rowposition, "level", this.ds_element.getColumn(i, "level")+2);
+								ds_dom.setColumn(ds_dom.rowposition, "ref_id", this.ds_element.getColumn(i, "element_id"));
+							}
+						}
+					}
+				}	
+			}
+			
+		}
+	
+	}
+	
+	/* 그리드 설정 */
+	this.Grid00.set_binddataset(ds_dom);
+	this.Grid00.set_treeuseline(true);
+	
+	this.Grid00.setCellProperty("body", 0, "displaytype", "tree");
+	this.Grid00.setCellProperty("body", 0, "edittype", "tree");
+	this.Grid00.setCellProperty("body", 0, "text", "bind:name");	
+	this.Grid00.setCellProperty("body", 0, "treelevel", "bind:level");
+	this.Grid00.setCellProperty("body", 0, "treestartlevel", 0);
+	this.Grid00.setCellProperty("body", 0, "background", "EXPR(dataset.getColumn(currow, 'level') == 0 ? 'chocolate' : (dataset.getColumn(currow, 'type') == 0 ? 'burlywood' : (dataset.getColumn(currow, 'type') == 1 ? 'white' : 'lightgrey')))");
+
+}
+]]></Script>
+  </Form>
+</FDL>

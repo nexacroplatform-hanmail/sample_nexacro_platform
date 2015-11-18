@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="test2" classname="test2" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Button id="Button01" taborder="0" text="Button01" onclick="Button01_onclick" left="10" top="12" width="161" height="76"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <VirtualFile id="VirtualFile00" onsuccess="VirtualFile00_onsuccess" onerror="VirtualFile00_onerror"/>
+      <FileDialog id="FileDialog00" filter="All(*.*)|*.*|" filterindex="0" defaultextension="false" onclose="FileDialog00_onclose"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var varRet = this.FileDialog00.open("FileOpen", FileDialog.LOAD);
+}
+
+this.FileDialog00_onclose = function(obj:FileDialog, e:nexacro.FileDialogEventInfo)
+{
+	//var rtn = this.VirtualFile00.open(e.virtualfiles[0].fullpath , VirtualFile.openText);	
+	var rtn = this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead);
+}
+
+this.VirtualFile00_onsuccess = function(obj:VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	trace("@@@@@@ AsyncVFile onsuccess : " + e.reason);
+	switch (e.reason)
+	{
+		case 1:		// open
+			trace("@@@@@@ Open Read Success");
+			this.VirtualFile00.read();
+			break;
+		case 2:		// close
+			trace("@@@@@@ close 성공!");	
+			break;							
+		case 3:		// read
+			alert("File Read 완료! : \n" + e.textdata);
+			trace("@@@@@@ read 성공!");	
+			this.VirtualFile00.close();	
+			break;
+		case 4:		// readLine
+			break;
+			
+		case 5:		// seek
+			break;
+			
+		case 6:		// write
+			alert("File Write 완료! ");
+			this.VirtualFile00.close(); 
+			break;
+			
+		case 7:		// remove
+			alert("File Remove 완료! ");
+			break;
+			
+		case 8:		// getFileList
+			break;
+		case 9:		// getFileSize
+			break;
+			
+		case 10:	// isExist
+			if (e.fileisexist)	
+				alert("존재하는 파일입니다. : " + e.fileisexist);
+			else
+				alert("없는 파일입니다. : " +  e.fileisexist);
+			break;			
+	}  
+}
+
+this.VirtualFile00_onerror = function(obj:VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+	trace(e.errormsg);
+}]]></Script>
+  </Form>
+</FDL>

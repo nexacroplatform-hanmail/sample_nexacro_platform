@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="fileuploaddownload" classname="fileuploaddownload" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <FileUpload id="FileUpload00" taborder="0" retry="0" index="0" left="16" top="41" width="350" height="100" onload="FileUpload00_onload" innerdataset="@ds_File" onitemchanged="FileUpload00_onitemchanged" style="buttontext:Select;"/>
+        <Button id="Button01" taborder="2" left="632" top="156" width="109" height="32" onclick="btn_upload" style="border:1 solid #0a6fbaff ;color:#f24a00ff;font:bold 9 Verdana;shadow:outer 1,1 1 #0000004a;" text="File upload"/>
+        <Grid id="grd_FileList" taborder="5" binddataset="ds_File" scrollbars="autovert" useinputpanel="false" autofittype="col" left="11" top="156" width="613" height="168" style="border:1 solid #c1dbe8ff ;cursor:hand;" class="=" onheadclick="grd_FileList_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="24"/>
+                <Column size="46"/>
+                <Column size="132"/>
+                <Column size="69"/>
+                <Column size="177"/>
+                <Column size="122"/>
+              </Columns>
+              <Rows>
+                <Row size="22" band="head"/>
+                <Row size="20"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkbox" edittype="checkbox" style="background2: ;"/>
+                <Cell col="1" style="background2: ;color:#315271ff;color2:#315271ff;font:Dotum,8;selectcolor:#315271ff;selectfont:Dotum,8;" text="Seq"/>
+                <Cell col="2" style="background2: ;color:#315271ff;color2:#315271ff;font:Dotum,8;selectcolor:#315271ff;selectfont:Dotum,8;" text="File name"/>
+                <Cell col="3" style="background2: ;color:#315271ff;color2:#315271ff;font:Dotum,8;selectcolor:#315271ff;selectfont:Dotum,8;" text="File size"/>
+                <Cell col="4" style="background2: ;color:#315271ff;color2:#315271ff;font:Dotum,8;selectcolor:#315271ff;selectfont:Dotum,8;" text="File path"/>
+                <Cell col="5" style="background2: ;color:#315271ff;color2:#315271ff;font:Dotum,8;selectcolor:#315271ff;selectfont:Dotum,8;" text="File type"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkbox" edittype="checkbox" style="background:#ffffffff;background2:#ffffffff;font: ;selectbackground:#ffffffff;" text="bind:CHK"/>
+                <Cell col="1" style="align:left;background:#ffffffff;background2:#ffffffff;color:#315271ff;color2:#315271ff;font: ;selectbackground:#ffffffff;selectcolor:#315271ff;selectfont:8 Dotum;" text="bind:NUM"/>
+                <Cell col="2" style="align:left;background:#ffffffff;background2:#ffffffff;color:#315271ff;color2:#315271ff;font: ;selectbackground:#ffffffff;selectcolor:#315271ff;selectfont:8 Dotum;" text="bind:FILE_NAME"/>
+                <Cell col="3" style="align:right;background:#ffffffff;background2:#ffffffff;color:#315271ff;color2:#315271ff;font: ;selectbackground:#ffffffff;selectcolor:#315271ff;selectfont:8 Dotum;" text="bind:FILE_SIZE"/>
+                <Cell col="4" style="align:right;background:#ffffffff;background2:#ffffffff;color:#315271ff;color2:#315271ff;font: ;selectbackground:#ffffffff;selectcolor:#315271ff;selectfont:8 Dotum;" text="bind:FILE_PATH"/>
+                <Cell col="5" style="align:right;background:#ffffffff;background2:#ffffffff;color:#315271ff;color2:#315271ff;font: ;selectbackground:#ffffffff;selectcolor:#315271ff;selectfont:8 Dotum;" text="bind:FILE_TYPE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button02" taborder="6" text="File add" left="375" top="40" width="71" height="23" onclick="btn_add" style="border:1 solid #0a6fbaff ;color:#f24a00ff;font:bold 9 Verdana;shadow:outer 1,1 1 #0000004a;"/>
+        <Button id="Button00" taborder="7" text="File download" onclick="btn_download" left="632" top="196" width="109" height="32" style="border:1 solid #0a6fbaff ;color:#f24a00ff;font:bold 9 Verdana;shadow:outer 1,1 1 #0000004a;"/>
+        <Button id="Button03" taborder="9" text="File delete" onclick="btn_delete" left="633" top="236" width="109" height="32" style="border:1 solid #0a6fbaff ;color:#f24a00ff;font:bold 9 Verdana;shadow:outer 1,1 1 #0000004a;"/>
+        <Static id="Static05" taborder="10" text="File Upload/Download" cssclass="sta_WF_subtitP" left="15" top="15" width="283" height="15"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_File" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="NUM" type="INT" size="16"/>
+          <Column id="CHK" type="STRING" size="256"/>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="FILE_SIZE" type="STRING" size="256"/>
+          <Column id="FILE_PATH" type="STRING" size="256"/>
+          <Column id="FILE_TYPE" type="STRING" size="256"/>
+          <Column id="FILE_SAVENM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[//test
+    /*
+	Functionality : File add
+*/
+this.btn_add = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.FileUpload00.appendItem();
+
+}
+
+/*
+	Functionality : File download
+*/
+this.btn_download = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+
+	for(var i = 0; i<this.ds_File.getRowCount(); i++){
+		if(this.ds_File.getColumn(i,"CHK")==1){
+			var strFileName = this.ds_File.getColumn(i, "FILE_SAVENM");
+			var strOriFileName = this.ds_File.getColumn(i, "FILE_NAME");
+			this.FileDownload00.downloadurl = "TestSvc::filedownload.jsp?file="+strOriFileName;
+			this.FileDownload00.show();
+			var bSucc = this.FileDownload00.download();
+		}
+	}	
+}       
+
+/*    
+	Functionality : File upload
+*/
+this.btn_upload = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var strUrl = "TestSvc::fileupload.jsp?PATH=file";	
+	var bSucc = this.FileUpload00.upload(strUrl);
+}
+
+    
+
+/*
+	Functionality : Adding file for uploading(Maximum 1)
+*/
+this.FileUpload00_onitemchanged = function(obj:FileUpload,  e:nexacro.FileUploadItemChangeEventInfo)
+{
+	//var vFile_up;
+	var sFilePath;
+	var sFileName;
+	//var nFileSize; 
+	var row_idx;
+	
+	sFilePath = obj.value;  
+	trace("sFilePath = " + sFilePath);
+	
+	if(sFilePath == null || sFilePath == "" ){
+	
+		var idx = this.FileUpload00.index;
+		this.ds_File.deleteRow(idx);
+		if(idx !=0){
+			this.FileUpload00.deleteItem(idx);
+		}
+		this.ds_File.setColumn(idx, "NUM", nexacro.toNumber(idx)+1);
+		return;
+	}
+	var dirExpt = sFilePath.lastIndexOf("\\")+1;	
+	
+	sFileName = sFilePath.substr(dirExpt);
+
+	if(this.ds_File.getRowCount() == this.FileUpload00.index){
+		this.ds_File.addRow();
+	}
+	var idx = this.FileUpload00.index;  
+	
+
+	this.ds_File.setColumn(idx, "FILE_PATH", sFilePath);
+	this.ds_File.setColumn(idx, "FILE_NAME", sFileName);
+	this.ds_File.setColumn(idx, "NUM", nexacro.toNumber(idx)+1);
+	this.ds_File.setColumn(idx, "CHK",1);
+
+	trace("[" + nexacro.toNumber(idx+1) +"]");
+	trace("FILE_PATH: " + sFilePath);
+	trace("FILE_NAME: " + sFileName);
+
+}
+
+
+/*
+	Functionality : File upload success
+*/ 
+this.FileUpload00_onload = function(obj:FileUpload,  e:nexacro.FileUploadLoadEventInfo)
+{
+	if( e.datasets == null ){
+		trace("Upload error");
+	}else{
+		trace("Upload success");
+
+		// After file uploading sucess , saving file name into DataSet after receiving from output Dataset
+
+		this.ds_uploadresult.copyData(e.datasets[0]);
+		
+		for(var i=0; i<this.ds_uploadresult.rowcount; i++){
+			this.ds_File.setColumn(i,"FILE_PATH",this.ds_uploadresult.getColumn(i,"filePath"));
+			this.ds_File.setColumn(i,"FILE_SAVENM",this.ds_uploadresult.getColumn(i,"fileReName"));
+			this.ds_File.setColumn(i,"FILE_SIZE",this.ds_uploadresult.getColumn(i,"fileSize"));
+			this.ds_File.setColumn(i,"FILE_TYPE",this.ds_uploadresult.getColumn(i,"fileType"));
+		}
+	}
+}
+
+
+/*
+	Functionality : File deletion
+*/ 
+this.btn_delete = function(obj:Button,  e:nexacro.ClickEventInfo)
+{ 
+
+	for(var i = this.ds_File.getRowCount(); i>=0; i--)
+	{
+		if(this.ds_File.getColumn(i,"CHK") == 1){
+			this.ds_File.deleteRow(i);
+			this.FileUpload00.deleteItem(i); 
+
+		}
+	}
+	//var idx = this.FileUpload00.index;
+	for(var i =0;i<this.ds_File.getRowCount(); i++){
+		this.ds_File.setColumn(i, "NUM", i+1);
+	}
+
+	
+}
+
+
+
+this.grd_FileList_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 0){
+		if(obj.getCellProperty("head",0,'text') ==1){
+			obj.setCellProperty("head",0,'text',0)
+			for(var i=0;i<this.ds_File.getRowCount();i++){  
+				this.ds_File.setColumn(i,"CHK",0)
+			}
+		}else{
+			obj.setCellProperty("head",0,'text',1)
+			for(var i=0;i<this.ds_File.getRowCount();i++){
+				this.ds_File.setColumn(i,"CHK",1)
+			}
+		}
+	}  
+}
+
+]]></Script>
+  </Form>
+</FDL>

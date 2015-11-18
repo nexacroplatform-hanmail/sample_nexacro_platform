@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_listbox_nexacro" classname="sample_listbox_nexacro" left="0" top="0" width="1024" height="768" titletext="ListBox" onload="sample_listbox_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <ListBox id="ListBox00" taborder="0" left="0.88%" top="54" right="80.76%" height="100"/>
+        <Button id="Button00" taborder="2" text="multi select" left="20.31%" top="54" right="66.8%" height="24" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="3" text="single select" left="20.31%" top="84" right="66.8%" height="24" onclick="Button01_onclick"/>
+        <Static id="Static00" taborder="4" text="Selection mode:" left="0.88%" top="16" right="85.45%" height="29" style="font:bold 10 Dotum;"/>
+        <Static id="Static01" taborder="5" text="single" left="14.84%" top="16" right="70.12%" height="30" style="color:red;font:bold 10 Dotum;"/>
+        <Button id="Button02" taborder="6" text="selected number" onclick="Button02_onclick" left="0.88%" top="168" right="86.23%" height="24"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_sex" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="CODE"/>
+          <Column type="STRING" size="255" id="VALUE"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">M</Col>
+            <Col id="VALUE">Male</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">W</Col>
+            <Col id="VALUE">Female</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">B</Col>
+            <Col id="VALUE">Boy</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">G</Col>
+            <Col id="VALUE">Girl</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">T</Col>
+            <Col id="VALUE">Transgender</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">T</Col>
+            <Col id="VALUE">Transformer</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+this.sample_listbox_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.ListBox00.set_codecolumn("CODE");
+	this.ListBox00.set_datacolumn("VALUE");
+	this.ListBox00.setInnerDataset(this.ds_sex);
+	
+}
+
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("multi");
+	
+	this.ListBox00.set_multiselect(true);
+	
+}
+
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static01.set_text("single");	
+
+	this.ListBox00.set_multiselect(false);
+}
+
+this.Button02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nSCnt = this.ListBox00.getSelectedCount();
+	var sMsg = "Selected record is\n";
+	
+	for(var i=0; i<this.ListBox00.getCount(); i++)
+	{
+		if(this.ListBox00.getSelect(i) == true)
+		{
+			sMsg += "Row index: " + i + "\n";
+		}
+	}
+	
+	sMsg += "Number of selected row: " + nSCnt;
+
+	trace(sMsg);
+	
+}
+]]></Script>
+  </Form>
+</FDL>

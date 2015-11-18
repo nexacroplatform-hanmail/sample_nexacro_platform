@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_grid_supress_nexacro" classname="sample_grid_supress_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form">
+    <Layouts>
+      <Layout>
+        <Grid id="Grid00" taborder="1" useinputpanel="false" autofittype="col" left="1.56%" top="16" right="72.07%" height="243" suppresslevel="sameskip" binddataset="ds_suppress">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row band="body" size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell col="0" disptype="normal" text="COL1"/>
+                <Cell col="1" disptype="normal" text="COL2"/>
+                <Cell col="2" disptype="normal" text="COL3"/>
+                <Cell col="3" disptype="normal" text="COL4"/>
+              </Band>
+              <Band id="body">
+                <Cell col="0" disptype="normal" text="bind:COL1"/>
+                <Cell col="1" disptype="normal" text="bind:COL2"/>
+                <Cell col="2" disptype="normal" text="bind:COL3"/>
+                <Cell col="3" disptype="normal" text="bind:COL4"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button00" taborder="3" text="set suppress" onclick="Button00_onclick" left="2.34%" top="272" right="85.94%" height="27"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_suppress" preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true">
+        <ColumnInfo>
+          <Column type="STRING" size="255" id="COL1"/>
+          <Column type="STRING" size="256" id="COL2"/>
+          <Column type="STRING" size="255" id="COL3"/>
+          <Column type="INT" size="255" id="COL4"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">라면류</Col>
+            <Col id="COL2">심양</Col>
+            <Col id="COL3">맛있을라면</Col>
+            <Col id="COL4">1</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">빙과류</Col>
+            <Col id="COL2">방그레</Col>
+            <Col id="COL3">죠스바</Col>
+            <Col id="COL4">9</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">라면류</Col>
+            <Col id="COL2">심양</Col>
+            <Col id="COL3">심양라면</Col>
+            <Col id="COL4">2</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">라면류</Col>
+            <Col id="COL2">농섬</Col>
+            <Col id="COL3">센라면</Col>
+            <Col id="COL4">3</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">라면류</Col>
+            <Col id="COL2">농섬</Col>
+            <Col id="COL3">언성탕면</Col>
+            <Col id="COL4">4</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">빙과류</Col>
+            <Col id="COL2">방그레</Col>
+            <Col id="COL3">투깨더</Col>
+            <Col id="COL4">5</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">빙과류</Col>
+            <Col id="COL2">방그레</Col>
+            <Col id="COL3">바바빅</Col>
+            <Col id="COL4">6</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">빙과류</Col>
+            <Col id="COL2">로데</Col>
+            <Col id="COL3">메롱바</Col>
+            <Col id="COL4">7</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">빙과류</Col>
+            <Col id="COL2">로데</Col>
+            <Col id="COL3">스크롤바</Col>
+            <Col id="COL4">8</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Grid00.set_suppresslevel("allskip");
+	
+	this.Grid00.setCellProperty("body", 0, "suppressalign", "middle");
+	this.Grid00.setCellProperty("body", 1, "suppressalign", "middle");
+
+	this.Grid00.setCellProperty("body", 0, "suppress", "1");
+	this.Grid00.setCellProperty("body", 1, "suppress", "2");
+	
+}
+
+]]></Script>
+  </Form>
+</FDL>

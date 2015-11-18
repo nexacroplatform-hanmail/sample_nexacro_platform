@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_grid_select_nexacro14" classname="sample_grid_select_nexacro" left="0" top="0" width="1024" height="768" titletext="Grid &gt; select">
+    <Layouts>
+      <Layout>
+        <Grid id="Grid00" taborder="4" binddataset="ds" useinputpanel="false" autofittype="col" left="16" top="96" height="122" width="320">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="COL1"/>
+                <Cell col="1" text="COL2"/>
+                <Cell col="2" text="COL3"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:COL1"/>
+                <Cell col="1" text="bind:COL2"/>
+                <Cell col="2" text="bind:COL3"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="Static00" taborder="5" text="row selection mode(default)" left="72" top="64" height="32" style="color:red;font:10 Verdana;" width="240"/>
+        <Static id="Static01" taborder="6" text="Status:" left="16" top="64" height="32" width="64" style="font:9 Verdana;"/>
+        <Static id="Static02" taborder="11" text="Please select the selection mode" left="16" top="242" height="26" style="font:9 Verdana;" width="240"/>
+        <Button id="btn_cell" taborder="12" text="cell" onclick="btn_cell_onclick" left="265" top="272" height="32" width="120" style="font:9 Arial;"/>
+        <Button id="btn_area" taborder="13" text="area" onclick="btn_area_onclick" left="389" top="272" height="32" width="120" style="font:9 Arial;"/>
+        <Button id="btn_manual_multirow" taborder="14" text="manual multirow" onclick="btn_manual_multirow_onclick" left="140" top="272" height="32" style="font:9 Arial;" width="120"/>
+        <Button id="btn_multirow" taborder="15" text="multirow" onclick="btn_multirow_onclick" left="16" top="272" height="32" width="120" style="font:9 Arial;"/>
+        <Div id="Div01" taborder="16" text="Div00" left="6" top="7" right="7" height="49">
+          <Layouts>
+            <Layout width="1008" height="49">
+              <ImageViewer id="ImageViewer00" taborder="0" image="URL('Image::img_imgviewer_N.png')" stretch="fit" left="8" top="5" width="140" height="35" style="border:1 none #6b6b6bff ;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stt_version" taborder="17" expr="expr:&quot;Version: &quot; + application.gvVersion" text="Version" top="15" right="21" width="160" height="32" style="align:right middle;font:9 Verdana;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset preload="true" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" id="ds">
+        <ColumnInfo>
+          <Column type="STRING" size="256" id="COL1"/>
+          <Column type="STRING" size="256" id="COL2"/>
+          <Column type="STRING" size="256" id="COL3"/>
+          <Column type="STRING" size="256" id="COL4"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="COL1">1</Col>
+            <Col id="COL2">2</Col>
+            <Col id="COL3">A</Col>
+            <Col id="COL4">B</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">3</Col>
+            <Col id="COL2">4</Col>
+            <Col id="COL3">C</Col>
+            <Col id="COL4">D</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">5</Col>
+            <Col id="COL2">6</Col>
+            <Col id="COL3">E</Col>
+            <Col id="COL4">F</Col>
+          </Row>
+          <Row>
+            <Col id="COL1">가</Col>
+            <Col id="COL2">나</Col>
+            <Col id="COL3">다</Col>
+            <Col id="COL4">라</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+Grid: 다중, 영역 선택과 선택 영역 정보 얻기
+
+그리드의 selecttype 속성을 설정하면 사용자는 마우스로
+셀을 여러가지 방식으로 선택할 수 있다.
+*/
+
+/* 샘플 리스트로 이동 */
+this.Div00_btn_home_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.go(application.gvHome);
+}
+
+
+/* multiple row selection */
+this.btn_multirow_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static00.set_text("multirow selection");
+	
+	/* set the selecttype property to the value of multirow */
+	this.Grid00.set_selecttype("multirow");
+
+	/* returns the selected dataset row as an array */
+	var arrRow = this.Grid00.getSelectedDatasetRows();
+	var nScnt = arrRow.length;
+	var sMsg  = "Selected Record is\n";
+
+	for (var i = 0; i < nScnt; i++)
+	{
+		sMsg += "Row : "+ arrRow[i] +"\n";
+	}
+	sMsg += "The number of selected row : " + nScnt;
+	
+	
+	this.btn_multirow.style.set_font("9 gulim bold");
+	this.btn_manual_multirow.style.set_font("9 gulim");
+	this.btn_cell.style.set_font("9 gulim");
+	this.btn_area.style.set_font("9 gulim");
+		
+	trace(sMsg);
+}
+
+/* manually selection using selectRow method */
+this.btn_manual_multirow_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static00.set_text("manually mulrirow selection");
+	
+	/* set the selecttype property to the value of row */
+	this.Grid00.set_selecttype("multirow");
+
+ 	/* select or cancel the specified row */
+ 	this.Grid00.selectRow(0, false);
+ 	this.Grid00.selectRow(1, true);
+ 	this.Grid00.selectRow(2, true);	
+ 	this.Grid00.selectRow(3, false);
+
+	this.btn_multirow.style.set_font("9 gulim");
+	this.btn_manual_multirow.style.set_font("9 gulim bold");
+	this.btn_cell.style.set_font("9 gulim");
+	this.btn_area.style.set_font("9 gulim"); 	
+ 	
+}
+
+/* cell selection */
+this.btn_cell_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static00.set_text("cell selection");
+	
+	/* set the selecttype property to the value of cell */
+	this.Grid00.set_selecttype("cell");
+
+	this.btn_multirow.style.set_font("9 gulim");
+	this.btn_manual_multirow.style.set_font("9 gulim");
+	this.btn_cell.style.set_font("9 gulim bold");
+	this.btn_area.style.set_font("9 gulim"); 	
+}
+
+/* area selection */
+this.btn_area_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Static00.set_text("area selection");
+	
+	/* set the selecttype property to the value of area */
+	this.Grid00.set_selecttype("area");
+
+	var sMsg = "";
+
+	/* selected start column and row */
+	sMsg =  "Start = " + "Column : " + this.Grid00.selectstartcol 
+	                   + ", Row : " + this.Grid00.selectstartrow;
+	sMsg += "\n";
+	
+	/* selected end column and row */
+	sMsg += "End   = " + "Column : " + this.Grid00.selectendcol 
+	                   + ", Row : " + this.Grid00.selectendrow;
+
+	this.btn_multirow.style.set_font("9 gulim");
+	this.btn_manual_multirow.style.set_font("9 gulim");
+	this.btn_cell.style.set_font("9 gulim");
+	this.btn_area.style.set_font("9 gulim bold"); 	
+	
+	trace(sMsg);
+}
+]]></Script>
+  </Form>
+</FDL>

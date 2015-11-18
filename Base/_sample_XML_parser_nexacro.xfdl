@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="sample_dom_nexacro" classname="fileopen" left="0" top="0" width="1024" height="768" titletext="New Form" onload="sample_dom_nexacro_onload">
+    <Layouts>
+      <Layout>
+        <Button id="Button00" taborder="0" text="File Open" left="46.09%" top="28" right="42.19%" height="32" onclick="Button00_onclick"/>
+        <TextArea id="TextArea00" taborder="1" left="1.76%" top="68" right="29.79%" height="192"/>
+        <Button id="Button01" taborder="2" text="ScanHTML" left="58.5%" top="28" right="29.79%" height="32" onclick="Button01_onclick"/>
+        <TextArea id="TextArea01" taborder="3" left="1.86%" top="400" right="29.69%" height="320" readonly="true"/>
+        <Static id="Static00" taborder="4" text="HTML Source" left="1.46%" top="16" right="71.09%" height="60" style="font:bold 16 dotum;"/>
+        <Static id="Static01" taborder="5" text="Result" left="1.56%" top="348" right="71%" height="60" style="font:bold 16 dotum;"/>
+        <Button id="Button02" taborder="6" text="ParseThesaurus" left="57.03%" top="318" right="31.25%" height="32" onclick="Button02_onclick"/>
+        <Static id="Static02" taborder="7" text="Keyword" left="1.46%" top="304" right="71.09%" height="60" style="font:bold 16 dotum;"/>
+        <Edit id="Edit00" taborder="8" left="10.55%" top="318" right="43.75%" height="32" onchanged="Edit00_onchanged" ontextchange="Edit00_ontextchange"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <VirtualFile id="VirtualFile00" onsuccess="VirtualFile00_onsuccess" onerror="VirtualFile00_onerror"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/*
+html문서를 가져오는 방법으로..
+XMLHttpRequest
+_startCommunication
+*/
+
+//for debug
+const DISABLE = 0;
+const ENABLE = 1;
+var bDevMode = DISABLE;
+
+//temporary variables
+var tempHTML = "<html>  	<FDL version='1.5'> 		<Form id='fileopen' classname='fileopen' left='0' top='0' width='1024' height='768' titletext='New Form'> 			<Layouts> 				<Layout> 					<Button id='Button00' taborder='0' text='file open' left='1.56%' top='16' right='86.72%' height='32' onclick='Button00_onclick'/>  					<TextArea id='TextArea00' taborder='1' left='1.86%' top='64' right='29.69%' height='192'/>  					<Button id='Button01' taborder='2' text='ParseHTML' left='1.56%' top='272' right='86.72%' height='32' onclick='Button01_onclick'/> 				</Layout> 			</Layouts> 			<Objects> 				<VirtualFile id='VirtualFile00' onsuccess='VirtualFile00_onsuccess' onerror='VirtualFile00_onerror'/> 			</Objects> 		</Form> 	</FDL> 	<FDL> 		fdl test 	</FDL> 	<H1> 		collaborator 	</H1> 	<h2> 		Synonyms <span>for collaborator</span> 	</h2> 	<div class='synonym-description'> 		<em class='txt'>noun</em> 		<strong class='ttl'>person who works with another</strong> 	</div> 	<div style='margin-left: 0px;' class='relevancy-list'> 		<ul> 			<li> 				<a style='background-color: rgb(252, 187, 69); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/assistant' class='common-word' data-id='2' data-category='{&quot;name&quot;: &quot;relevant-3&quot;, &quot;color&quot;: &quot;#fcbb45&quot;}' data-complexity='1' data-length='1'> 					<span class='text'>assistant</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 			<li> 				<a style='background-color: rgb(252, 187, 69); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/associate' class='common-word' data-id='3' data-category='{&quot;name&quot;: &quot;relevant-3&quot;, &quot;color&quot;: &quot;#fcbb45&quot;}' data-complexity='1' data-length='1'> 					<span class='text'>associate</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 			<li> 				<a style='background-color: rgb(252, 187, 69); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/co-worker' data-id='9' data-category='{&quot;name&quot;: &quot;relevant-3&quot;, &quot;color&quot;: &quot;#fcbb45&quot;}' data-complexity='3' data-length='1'> 					<span class='text'>co-worker</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 		</ul> 		 		<ul> 			<li> 				<a style='background-color: rgb(252, 187, 69); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/colleague' class='common-word' data-id='1' data-category='{&quot;name&quot;: &quot;relevant-3&quot;, &quot;color&quot;: &quot;#fcbb45&quot;}' data-complexity='2' data-length='1'> 					<span class='text'>colleague</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 			<li> 				<a style='background-color: rgb(251, 212, 142); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/confederate' data-id='8' data-category='{&quot;name&quot;: &quot;relevant-2&quot;, &quot;color&quot;: &quot;#fbd48e&quot;}' data-complexity='2' data-length='2'> 					<span class='text'>confederate</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 			<li> 				<a style='background-color: rgb(251, 212, 142); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/helper' data-id='6' data-category='{&quot;name&quot;: &quot;relevant-2&quot;, &quot;color&quot;: &quot;#fbd48e&quot;}' data-complexity='2' data-length='1'> 					<span class='text'>helper</span> 					<span class='star inactive'>star</span> 				</a> 			</li>		 		</ul> 			 		<ul> 			<li> 				<a style='background-color: rgb(251, 212, 142); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/partner' class='common-word' data-id='4' data-category='{&quot;name&quot;: &quot;relevant-2&quot;, &quot;color&quot;: &quot;#fbd48e&quot;}' data-complexity='1' data-length='1'> 					<span class='text'>partner</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 			<li> 				<a style='background-color: rgb(251, 212, 142); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/quisling' data-id='7' data-category='{&quot;name&quot;: &quot;relevant-2&quot;, &quot;color&quot;: &quot;#fbd48e&quot;}' data-complexity='2' data-length='1'> 					<span class='text'>quisling</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			 			<li> 				<a style='background-color: rgb(251, 212, 142); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/teammate' class='common-word' data-id='5' data-category='{&quot;name&quot;: &quot;relevant-2&quot;, &quot;color&quot;: &quot;#fbd48e&quot;}' data-complexity='2' data-length='1'> 					<span class='text'>teammate</span> 					<span class='star inactive'>star</span> 				</a> 			</li>	 		</ul> 		 		<ul> 			<li> 				<a style='background-color: rgb(252, 232, 196); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/fellow%20traveller' data-id='10' data-category='{&quot;name&quot;: &quot;relevant-1&quot;, &quot;color&quot;: &quot;#fce8c4&quot;}' data-complexity='3' data-length='3'> 					<span class='text'>fellow traveller</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			<li> 				<a style='background-color: rgb(252, 232, 196); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/running%20dog' data-id='11' data-category='{&quot;name&quot;: &quot;relevant-1&quot;, &quot;color&quot;: &quot;#fce8c4&quot;}' data-complexity='3' data-length='2'> 					<span class='text'>running dog</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 			<li> 				<a style='background-color: rgb(252, 232, 196); font-weight: 400; color: rgb(51, 51, 51);' href='http://www.thesaurus.com/browse/team%20player' data-id='12' data-category='{&quot;name&quot;: &quot;relevant-1&quot;, &quot;color&quot;: &quot;#fce8c4&quot;}' data-complexity='3' data-length='2'> 					<span class='text'>team player</span> 					<span class='star inactive'>star</span> 				</a> 			</li> 		</ul> 		 		<ul> 		</ul> 	</div>	 	 </html>";
+var tempKeyword = "collaborator";
+
+var gvResult = "";
+
+//==============================================================================
+// 컴포넌트 이벤트 핸들러
+//==============================================================================
+this.sample_dom_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.TextArea00.set_value(tempHTML);
+	this.Edit00.set_value(tempKeyword);
+}
+
+this.Edit00_ontextchange = function(obj:Edit,  e:nexacro.TextChangeEventInfo)
+{
+	this.TextArea01.set_value("");
+	this.TextArea01.deleteText();
+	this.TextArea01.setCaretPos();
+}
+
+
+
+//==============================================================================
+// Thesaurus 사전 파싱
+//==============================================================================
+
+this.Button02_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var objDomDoc;
+	var DomParser00 = new DomParser;
+		
+	var strHTML = this.TextArea00.value;
+	var strKeyword = this.Edit00.value;
+
+	var searchChecker = false;
+	
+	if(this.TextArea01.value !== undefined)
+	{
+		this.TextArea01.set_value("");
+		this.TextArea01.deleteText();
+		this.TextArea01.setCaretPos();
+	}
+
+	if(strKeyword !== "" && strKeyword !== undefined)
+	{
+		objDomDoc = DomParser00.parseFromString(strHTML);
+
+		if(objDomDoc !== null)
+		{
+			gvResult += "[Search Keyword]: \n"
+
+			//html 문서에서 서치 키워드 검색
+			var objFindNode = objDomDoc.getElementsByTagName("H1");
+
+			for (var i = 0; i < objFindNode.length; i++)
+			{		
+				if(objFindNode[i].childNodes[0].data.trim().toLowerCase() === strKeyword)
+				{
+					gvResult += objFindNode[i].childNodes[0].data.trim().toLowerCase();
+					gvResult += "\n\n";
+					searchChecker = true;			
+				}
+			}
+			
+			//html 문서에서 찾고자 하는 단어를 찾으면
+			if(searchChecker)
+			{
+				//html 파싱하여 결과 추출
+				this.parseDicThesaurus(objDomDoc, strKeyword);
+				
+				//TextArea 컴포넌트에 검색 결과 출력
+				this.TextArea01.set_value(gvResult);			
+			}
+			else
+			{
+				alert("단어를 찾을 수 없습니다.");
+			}
+
+		}
+		else
+		{
+			alert("Holy shit! XML document parsing failed.");
+		}
+
+
+	}//end of if(strKeyword !== "" && strKeyword !== undefined)
+	
+	else
+		alert("단어를 입력해 주십시오.");
+	
+
+}
+
+this.parseDicThesaurus = function(objDomDoc:XmlDocument, strKeyword:String)
+{
+	//synonyms 설명 검색
+	var objFindNode = objDomDoc.getElementsByTagName("div");
+
+	for (var i = 0; i < objFindNode.length; i++)
+	{		
+		if(objFindNode[i].hasAttributes())
+		{
+			var objXmlNamedNodeMap = objFindNode[i].attributes;
+			
+			for(var j=0; j < objXmlNamedNodeMap.length; j++)
+			{	
+				//div 엘리먼트에서 class 어트리뷰트 값이 synonym-description 이면
+				if(objXmlNamedNodeMap.item(j).nodeName === "class" && objFindNode[i].getAttribute(objXmlNamedNodeMap.item(j).nodeName) === "synonym-description")
+				{
+					gvResult += "[" + objFindNode[i].getAttribute(objXmlNamedNodeMap.item(j).nodeName) + "]: ";
+					
+					
+					var objFindNodeDesc = objFindNode[i].childNodes;					
+
+					for (var k = 0; k < objFindNodeDesc.length; k++)
+					{	
+						//품사 검색
+						if(objFindNodeDesc[k].nodeName === "em")
+						{
+							if(objFindNodeDesc[k].hasAttributes())
+							{
+								objFindNodeDescNamedNodeMap = objFindNodeDesc[k].attributes;
+								
+								for(var m=0; m < objFindNodeDescNamedNodeMap.length; m++)
+								{
+									if( (objFindNodeDescNamedNodeMap.item(m).nodeName === "class") && (objFindNodeDesc[k].getAttribute(objFindNodeDescNamedNodeMap.item(m).nodeName) === "txt") )
+									{										
+										gvResult += "\n - Part of speech: " + objFindNodeDesc[k].childNodes[0].data;
+									}
+								}//end of for(var m=0; objFindNodeDescNamedNodeMap.length; m++)				
+								
+							}//eof of if(objFindNodeDesc[k].hasAttributes())
+
+						}//end of if(objFindNodeDesc[k].nodeName === "em")
+
+						//뜻 풀이 검색
+						if(objFindNodeDesc[k].nodeName === "strong")
+						{
+							if(objFindNodeDesc[k].hasAttributes())
+							{
+								objFindNodeDescNamedNodeMap = objFindNodeDesc[k].attributes;
+						
+								for(var m=0; m < objFindNodeDescNamedNodeMap.length; m++)
+								{
+									if( (objFindNodeDescNamedNodeMap.item(m).nodeName === "class") && (objFindNodeDesc[k].getAttribute(objFindNodeDescNamedNodeMap.item(m).nodeName) === "ttl") )
+									{										
+										gvResult += "\n - Description: " + objFindNodeDesc[k].childNodes[0].data;
+									}
+									
+								}//end of for(var m=0; objFindNodeDescNamedNodeMap.length; m++)
+								
+							}
+							
+						}
+		
+						
+					}//end of for (var k = 0; k < objFindNodeDesc.length; k++)
+										
+				}
+				
+			}//end of for(var j=0; j < objXmlNamedNodeMap.length; j++)	
+		}
+
+	}//end of for (var i = 0; i < objFindNode.length; i++)
+
+
+}//end of this.parseDicThesaurus = function(objDomDoc:XmlDocument, strKeyword:String)
+
+
+
+//==============================================================================
+// 사용자 정의 함수
+//==============================================================================
+
+//DOM 트리 스캐닝
+this.scanDomDoc = function(objXmlElement:XmlElement)
+{	
+	var objNode = objXmlElement;
+	
+	//엘리먼트 이름과 태그명 출력
+	for(var i=0; i < objNode.length; i++)
+	{
+		//nodeName과 tagName은 같다.
+		trace("objNode[" + i + "].nodeName = " + objNode[i].nodeName);
+		trace("objNode[" + i + "].nodeType = " + this.retNodeType(objNode[i].nodeType));		
+		//trace("objNode[" + i + "].tagName = " + objNode[i].tagName);
+		if(objNode[i].data !== null && objNode[i].data !== undefined)
+			trace("objNode[" + i + "].data = " + objNode[i].data);
+				
+		
+		//엘리먼트의 속성(attribute)이 있으면 출력
+		if(objNode[i].hasAttributes())
+		{			
+			var objXmlNamedNodeMap = objNode[i].attributes;
+			
+			//trace("objNode[" + i + "].attributes = " + objXmlNamedNodeMap);
+			//trace("objNode[" + i + "].attributes.length = " + objXmlNamedNodeMap.length);
+
+			for(var j=0; j < objXmlNamedNodeMap.length; j++)
+			{
+				//trace("objXmlNamedNodeMap.item(" + j + ") = " + objXmlNamedNodeMap.item(j));
+				trace("Attribute[" + j + "]: " + objXmlNamedNodeMap.item(j).nodeName + " = " + objNode[i].getAttribute(objXmlNamedNodeMap.item(j).nodeName) );
+				
+			}
+			
+		}
+		else
+			trace("No attribute");
+		
+		//엘리먼트의 자식 엘리먼트가 있는지 확인하고 있으면 출력
+		if(objNode[i].hasChildNodes())
+		{			
+			trace("--------------------------------------------------------------");	
+			
+			//엘리먼트 처리
+			this.scanDomDoc(objNode[i].childNodes);
+			
+		}
+		else
+			trace("--------------------------------------------------------------");	
+			
+	}
+
+}
+
+//DOM 노드 타입
+this.retNodeType = function(numNodeType:number)
+{
+	var strNodeType="";
+	
+	if(numNodeType)
+	{
+		switch(numNodeType)
+		{
+			case 1:
+				strNodeType = "XmlElement";
+				break;
+			case 2:
+				strNodeType = "XmlAttribute";
+				break;			
+			case 3:
+				strNodeType = "XmlText";
+				break;			
+			case 4:
+				strNodeType = "XmlCDATASection";
+				break;			
+			case 5:
+				strNodeType = "EntityReference";
+				break;			
+			case 6:
+				strNodeType = "Entity";
+				break;			
+			case 7:
+				strNodeType = "ProcessingInstruction";
+				break;			
+			case 8:
+				strNodeType = "XmlComment";
+				break;			
+			case 9:
+				strNodeType = "XmlDocument";
+				break;			
+			case 10:
+				strNodeType = "XmlDocumentType";
+				break;			
+			case 11:
+				strNodeType = "DocumentFragment";
+				break;			
+			case 12:
+				strNodeType = "Notation";
+				break;			
+			default:
+				strNodeType = "Unknown";
+		}
+		
+		return strNodeType;
+	}
+
+}
+
+
+
+//==============================================================================
+// DOM 트리 탐색 테스트
+//==============================================================================
+this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var objDomDoc;	//XmlDocument object
+	var DomParser00 = new DomParser;
+		
+	var strHTML = this.TextArea00.value;
+
+	//objDomDoc = DomParser00.parseFromString(strHTML, "text/html");
+	objDomDoc = DomParser00.parseFromString(strHTML);
+
+	if(objDomDoc !== null)
+	{
+		trace("==============================================================");
+		trace(" XML document information");
+		trace("--------------------------------------------------------------");
+		trace("objDomDoc = " + objDomDoc);
+		trace("objDomDoc.docType = " + objDomDoc.docType);
+		trace("objDomDoc.nodeName = " + objDomDoc.nodeName);
+		trace("objDomDoc.nodeType = " + this.retNodeType(objDomDoc.nodeType));
+		trace("objDomDoc.nodeValue = " + objDomDoc.nodeValue);	
+		
+		trace("objDomDoc.childNodes = " + objDomDoc.childNodes);
+		trace("objDomDoc.childNodes.nodeName = " + objDomDoc.childNodes.nodeName);
+		trace("objDomDoc.childNodes.length = " + objDomDoc.childNodes.length);
+
+		trace("objDomDoc.documentElement = " + objDomDoc.documentElement);
+		trace("objDomDoc.documentElement.nodeName = " + objDomDoc.documentElement.nodeName);
+
+		trace("objDomDoc.firstChild = " + objDomDoc.firstChild);
+		trace("objDomDoc.firstChild.nodeName = " + objDomDoc.firstChild.nodeName);
+		
+		trace("objDomDoc.lastChild = " + objDomDoc.lastChild);
+		trace("objDomDoc.lastChild.nodeName = " + objDomDoc.lastChild.nodeName);
+		trace("==============================================================");
+	}
+	else
+	{
+		trace("Holy shit! XML document parsing failed.");
+	}
+	
+	
+	if(objDomDoc.childNodes !== undefined)
+		this.scanDomDoc(objDomDoc.childNodes);
+
+}
+
+
+
+//==============================================================================
+// HTML 파일을 오픈하는 방식
+//==============================================================================
+this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	// Create Object
+    var fopendlg = this.objects["fopendlg"];
+    if (fopendlg == null){
+		// Create Object
+		var fopendlg = new FileDialog();
+		fopendlg.addEventHandler("onclose", this.fileDialogRead_onclose, this);
+    }
+	fopendlg.set_filter("All(*.*)|*.*|HTML File(*.html)|*.html|XML File(*.xml)|*.xml|");
+	fopendlg.set_filterindex(1);
+	//fopendlg.addEventHandler("onclose", this.fileDialog_onclose, this);
+
+	//폴더 선택 
+	/*
+	FileDialog.LOAD : 하나의 파일을 읽기 위해
+	FileDialog.SAVE : 하나의 파일을 쓰기 위해
+	FileDialog.MULTILOAD : 하나 이상의 파일을 읽기 위해
+	FileDialog.SELFOLDER : 폴더를 선택
+	*/
+	var rtn = fopendlg.open("FileOpen", FileDialog.LOAD);
+	trace("rtn->" + rtn);
+}
+
+this.fileDialogRead_onclose = function(obj:FileDialog, e:nexacro.FileDialogEventInfo)
+{
+	trace(">> fileDialogRead_onclose");
+	trace("e.virtualfiles[0].fullpath : "+e.virtualfiles[0].fullpath);
+	this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead);	
+	//this.VirtualFile00.open(e.virtualfiles[0].fullpath, nexacro.VirtualFile.openRead|nexacro.VirtualFile.openText);
+	var sLine = this.VirtualFile00.readLine();
+	trace("sLine "+sLine);	
+
+}
+
+this.VirtualFile00_onerror = function(obj:VirtualFile,e:nexacro.VirtualFileErrorEventInfo)
+{
+	trace(">> VirtualFile00_onerror");
+	trace(e.errormsg);
+}
+
+this.VirtualFile00_onsuccess = function(obj:VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	trace(">> VirtualFile00_onsuccess");
+	trace(e.reason + "[" + e.filesize + "]");
+}
+]]></Script>
+  </Form>
+</FDL>
