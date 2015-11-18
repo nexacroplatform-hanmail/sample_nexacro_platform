@@ -67,7 +67,7 @@ this.sample_progressbar_nexacro_ontimer = function(obj:Form, e:nexacro.TimerEven
 	
 }
 
-/* progressbar or 타이머 재설정 */
+/* 진행표시줄 및 타이머 재설정 */
 this.btn_reset_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 {
 	this.ProgressBar00.set_pos(0);
