@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="1.5">
   <TypeDefinition url="..\default_typedef.xml"/>
-  <Form id="sample_dataset_sort_nexacro14" classname="sample_dataset_sort_nexacro" left="0" top="0" width="1024" height="768" titletext="Dataset &gt; Sort">
+  <Form id="sample_dataset_sort_nexacro14" classname="sample_dataset_sort_nexacro" left="0" top="0" width="1024" height="768" titletext="Dataset &gt; Sort" onload="sample_dataset_sort_nexacro14_onload">
     <Layouts>
       <Layout>
         <Grid id="Grid00" taborder="0" binddataset="ds_sort" useinputpanel="false" autofittype="col" onheadclick="Grid00_onheadclick" left="16" top="96" height="266" width="600">
@@ -172,6 +172,13 @@ this.Grid00_onheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
 	}	
 }
 
+
+this.sample_dataset_sort_nexacro14_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//this.ds_sort.set_keystring("G:+column1-column2");
+	this.ds_sort.set_keystring("G:COL1,-COL2");
+
+}
 ]]></Script>
   </Form>
 </FDL>

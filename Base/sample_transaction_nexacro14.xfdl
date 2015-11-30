@@ -180,13 +180,6 @@ this.comType_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
 	}
 	
 }
-
-
-/* 샘플 리스트 */
-this.Div00_cb_list_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
-{	
-	this.go(application.ds_sample_url.getColumn(e.postindex, "URL"));
-	
-}]]></Script>
+]]></Script>
   </Form>
 </FDL>

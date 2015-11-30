@@ -37,8 +37,8 @@ this.btn_mask_string_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 	this.MaskEdit00.set_type("string");
 	this.MaskEdit00.setFocus();
 
-	this.btn_mask_string.style.set_font("9 gulim bold");
-	this.btn_mask_number.style.set_font("9 gulim");			
+	this.btn_mask_string.style.set_font("9 Arial bold");
+	this.btn_mask_number.style.set_font("9 Arial");			
 		
 }
 
@@ -51,8 +51,8 @@ this.btn_mask_number_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 	this.MaskEdit00.set_limitbymask("both");
 	this.MaskEdit00.setFocus();
 
-	this.btn_mask_string.style.set_font("9 gulim");
-	this.btn_mask_number.style.set_font("9 gulim bold");				
+	this.btn_mask_string.style.set_font("9 Arial");
+	this.btn_mask_number.style.set_font("9 Arial bold");				
 }
 
 this.sample_maskedit_nexacro_onload = function(obj:Form, e:nexacro.LoadEventInfo)

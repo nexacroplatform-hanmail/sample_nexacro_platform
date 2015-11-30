@@ -4,36 +4,35 @@
   <Form id="sample_dataset_filter_nexacro" classname="sample_dataset_filter_nexacro" left="0" top="0" width="1024" height="768" titletext="New Form" oninit="sample_dataset_filter_nexacro_oninit" onload="sample_dataset_filter_nexacro_onload">
     <Layouts>
       <Layout>
-        <Button id="Button01" taborder="1" text="2.filterstr setting" onclick="Button01_onclick" cssclass="_SS_Title4" left="1.56%" top="234" right="84.77%" height="25"/>
-        <Button id="Button04" taborder="4" text="4. filter distinct" onclick="Button04_onclick" cssclass="_SS_Title4" left="1.56%" top="290" right="84.77%" height="25"/>
-        <Grid id="Grid00" taborder="5" autoenter="select" useinputpanel="false" autofittype="col" left="1.56%" top="98" right="70.21%" height="98">
+        <Button id="Button01" taborder="1" text="filterstr setting" onclick="Button01_onclick" left="1.56%" top="234" right="84.77%" height="25"/>
+        <Button id="Button04" taborder="4" text="filter distinct" onclick="Button04_onclick" left="1.56%" top="290" right="84.77%" height="25"/>
+        <Grid id="Grid00" taborder="5" autoenter="select" useinputpanel="false" autofittype="col" left="1.56%" top="98" right="70.21%" height="98" binddataset="ds">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="80"/>
-                <Column size="80"/>
-                <Column size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
+                <Col size="80"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
+                <Row band="head" size="24"/>
+                <Row band="body" size="24"/>
               </Rows>
               <Band id="head">
-                <Cell text="COL1"/>
-                <Cell col="1" text="COL2"/>
-                <Cell col="2" text="COL3"/>
+                <Cell col="0" disptype="normal" text="COL1"/>
+                <Cell col="1" disptype="normal" text="COL2"/>
+                <Cell col="2" disptype="normal" text="COL3"/>
               </Band>
               <Band id="body">
-                <Cell edittype="normal" text="bind:COL1"/>
-                <Cell col="1" edittype="normal" text="bind:COL2"/>
-                <Cell col="2" edittype="normal" text="bind:COL3"/>
+                <Cell col="0" disptype="normal" text="bind:COL1"/>
+                <Cell col="1" disptype="normal" text="bind:COL2"/>
+                <Cell col="2" disptype="normal" text="bind:COL3"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="Button00" taborder="7" text="1.dataset binding" left="1.56%" top="204" right="84.77%" height="25" onclick="Button00_onclick" style="align:center middle;"/>
-        <Button id="Button03" taborder="8" text="5.filter initializing" left="1.56%" top="318" right="84.77%" height="25" onclick="Button03_onclick"/>
-        <Button id="Button02" taborder="9" text="3.filter execution" left="1.56%" top="262" right="84.77%" height="25" onclick="Button02_onclick"/>
+        <Button id="Button03" taborder="8" text="filter initializing" left="1.56%" top="318" right="84.77%" height="25" onclick="Button03_onclick"/>
+        <Button id="Button02" taborder="9" text="filter execution" left="1.56%" top="262" right="84.77%" height="25" onclick="Button02_onclick"/>
         <Static id="Static00" taborder="10" left="1.56%" top="59" right="38.57%" height="29"/>
         <Button id="btn_home" taborder="11" text="Home" onclick="btn_home_onclick" left="1.17%" top="16" right="92.97%" height="30" style="image:URL('Img::btn_MDI_HomeN.png');"/>
       </Layout>
@@ -129,15 +128,6 @@ this.getRowTypeName = function(rowType)
 
 }
 
-this.Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
-{
-	//binding dataset
-	this.Grid00.setBindDataset(this.ds);	
-		
-	this.Static00.set_text("setBindDataset(this.ds)");
-	trace("dataset binding > loadfiltermode: " + this.ds.loadfiltermode);
-}
-
 
 this.Button01_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 {
@@ -194,12 +184,6 @@ this.Button05_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 {
 	//initializing filter
 	this.ds_distinct.set_filterstr("");
-}
-
-
-this.btn_home_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
-{
-	this.go(application.gvHome);
 }
 ]]></Script>
   </Form>
