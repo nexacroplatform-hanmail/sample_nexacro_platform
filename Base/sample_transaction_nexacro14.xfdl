@@ -109,18 +109,18 @@
     <Script type="xscript5.0"><![CDATA[/*
 Transaction: 트랜잭션 수행
 
-transaction 메소드를 수행하여 서비스(Svc::Service_Default.jsp)를 요청하고,
-서비스의 결과를 데이터셋으로 받은 후 콜백(fn_callback) 함수를 호출하여
-서비스를 처리하는데 소요된 시간을 보여준다.
+The transaction method executes the service (Svc::Service_Default.jsp) 
+and then obtains the result in the form of a dataset. 
+A callback function (fn_callback) will follow to display the duration spent processing the service.
 */
 
 
 var sStartTime;
 
-/* transaction 메소드가 호출할 서비스 URL */
+/* Service URL to be called by the transaction method */
 var serviceURL = "Svc::Service_Default.jsp";
 
-/* 트랜잭션 수행 */
+/* Executing the transaction method */
 this.btn_inquiry_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 {
 	this.ds_data.clearData();
@@ -131,15 +131,15 @@ this.btn_inquiry_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
 	this.mk_time.set_value(0);
 	this.mk_cnt.set_value(0);
 	
-	/* transaction 메소드 호출을 위한 인수(argument) 설정 */
+	/* Setting arguments for calling the transaction method */
 	var arg = "row_cnt=" + this.rdCount.value + " type=" + this.comType.value +  " compress=" + this.ckCompress.value;
 
-	/* transaction 메소드 호출 */
+	/* Calling the transaction method */
 	this.transaction("select", serviceURL, "", "ds_data=output", arg, "fn_callback"); 
 	
 }
 
-/* 트랜잭션이 끝난 후 호출되는 콜백함수 */
+/* Callback function that is called after the transaction */
 this.fn_callback = function(serviceID, errCD, errMSG)
 { 
 	if(errCD < 0)  
@@ -149,7 +149,7 @@ this.fn_callback = function(serviceID, errCD, errMSG)
 	}else{          
 		var objDate = new Date();
 		
-		/* transaction 메소드 호출 결과에 대한 수행 시간 및 행의 개수 설정 */
+		/* Displaying the duration spent executing the transaction method and also displaying the number of rows */
 		this.mk_time.set_value(Math.floor((objDate.getTime()-sStartTime)/1000,1) );
 		this.mk_cnt.set_value(this.ds_data.rowcount);
 	}
@@ -157,8 +157,8 @@ this.fn_callback = function(serviceID, errCD, errMSG)
 }   
 
 /*
-transaction 메소드 호출을 위한 초기값 설정
-XML 형식 사용, 압축 옵션 비활성화
+Setting a default for calling the transaction method
+Using the XML format and inactivating the compression option
 */
 this.form01_onload = function(obj:Form, e:nexacro.LoadEventInfo)
 {
@@ -167,7 +167,7 @@ this.form01_onload = function(obj:Form, e:nexacro.LoadEventInfo)
 
 }
 
-/* 데이터 형식을 SSV로 선택했을 경우 압축 옵션 활성화 */
+/* The compression option becomes active if SSV is selected as a data format. */
 this.comType_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
 {
 	if(e.postvalue == 'SSV')
