@@ -229,7 +229,7 @@ this.Grid03_onselectchanged = function(obj:Grid, e:nexacro.GridSelectEventInfo)
 	sMsg += "End   = " + "Column : " + this.Grid03.selectendcol 
 	                   + ", Row : " + this.Grid03.selectendrow;
 	
-	trace(sMsg);	
+	trace(sMsg);
 }]]></Script>
   </Form>
 </FDL>
