@@ -107,7 +107,7 @@
       </Dataset>
     </Objects>
     <Script type="xscript5.0"><![CDATA[/*
-Transaction: 트랜잭션 수행
+Transaction: executing the transaction method
 
 The transaction method executes the service (Svc::Service_Default.jsp) 
 and then obtains the result in the form of a dataset. 
